@@ -67,6 +67,7 @@ public class Character {
         return charactersource;
     }
     public void  jump(){
+        //Y deki konumu degıstırıdk
         artıs +=10;
         setCharacterdsty(characterdsty + artıs);
         setCharacterdsty(characterdsty -=artıs);
