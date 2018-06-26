@@ -26,16 +26,19 @@ public class GameCanvas extends BaseCanvas {
 
     public void setup() {
         Log.i(TAG, "setup");
+
         logo = Utils.loadImage(root,"gamelab-istanbul_logo.png");
         logow = logo.getWidth();
         logoh = logo.getHeight();
     }
+
     public void update() {
         Log.i(TAG, "update");
     }
 
     public void draw(Canvas canvas) {
         Log.i(TAG, "draw");
+
         logox = (getWidth() - logow) / 2;
         logoy = (getHeight() - logoh) / 2;
         canvas.drawBitmap(logo, logox, logoy, null);

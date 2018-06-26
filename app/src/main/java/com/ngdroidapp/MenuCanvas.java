@@ -5,10 +5,6 @@ import android.graphics.Canvas;
 import istanbul.gamelab.ngdroid.base.BaseCanvas;
 import istanbul.gamelab.ngdroid.util.Log;
 
-/**
- * Created by noyan on 27.06.2016.
- * Nitra Games Ltd.
- */
 
 public class MenuCanvas extends BaseCanvas {
 
@@ -21,6 +17,8 @@ public class MenuCanvas extends BaseCanvas {
     }
 
     public void update() {
+
+
         GameCanvas mc = new GameCanvas(root);
         root.canvasManager.setCurrentCanvas(mc);
     }

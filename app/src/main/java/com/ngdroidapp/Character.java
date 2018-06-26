@@ -6,4 +6,5 @@ public class Character {
     }
 
     public void  jump(){}
+    public void  power(){}
 }

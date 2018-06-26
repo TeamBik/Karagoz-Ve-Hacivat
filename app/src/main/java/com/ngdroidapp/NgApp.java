@@ -8,11 +8,6 @@ import istanbul.gamelab.ngdroid.base.BaseApp;
 import istanbul.gamelab.ngdroid.util.Log;
 
 
-/**
- * Created by noyan on 24.06.2016.
- * Nitra Games Ltd.
- */
-
 public class NgApp extends BaseApp {
 
     public NgApp(BaseActivity nitraBaseActivity, AppManager appManager) {
