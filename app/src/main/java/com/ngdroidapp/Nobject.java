@@ -3,7 +3,7 @@ package com.ngdroidapp;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
-class NobjectCanvas {
+class Nobject {
     private Bitmap Nobject;
     //Source ve destination tanımlaması
     private Rect Nobjectsource, Nobjectdestination;
