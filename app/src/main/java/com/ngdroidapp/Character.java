@@ -16,19 +16,18 @@ public class Character {
     private boolean livecontrol;
     //Karakterin eğilme durumunu kontrol eder
     private boolean downcontrol;
-    private int startedlocation;
-    private double artıs;
+    //karakterin ivmesini belirler
+    private double charAcceleration;
+    //Sin eğrisi için gerekli derece(Parabolik bir ivme için kullanıyoruz)
     private int derece;
-
 
     //Yapıcı Fonksiyon
     public Character() {
         jumpcontrol = false;
         livecontrol = true;
         downcontrol = false;
-        startedlocation=0;
-        artıs=10;
-        derece=0;
+        charAcceleration = 10;
+        derece = 0;
     }
     //Karakterin y düzlemindeki konumunu set eder.
     public void setCharacterdsty(int characterdsthy){
@@ -52,7 +51,6 @@ public class Character {
         this.charactersrcy = charactersrcy;
         this.charactersrcw = charactersrcw;
         this.charactersrch = charactersrch;
-
     }
     //Karakterin Destination bilgilerini set eder.
     public void setCharacterdestination(int characterdstx, int characterdsty, int characterdstw, int characterdsth){
@@ -60,7 +58,6 @@ public class Character {
         this.characterdsty = characterdsty;
         this.characterdstw = characterdstw;
         this.characterdsth = characterdsth;
-        this.startedlocation=characterdsty;
     }
     //Karakterin Destination bilgilerini get eder.
     public Rect getCharacterdestination() {
@@ -72,17 +69,19 @@ public class Character {
         charactersource.set(charactersrcx, charactersrcy, charactersrcx + charactersrcw, charactersrcy + charactersrch);
         return charactersource;
     }
-    public void  jump(){
 
-        derece+=3;
-            if (derece <= 90) {
-                artıs += Math.sin(Math.toRadians(derece)/180) * 500;
+    public Bitmap getCharacter() {
+        return character;
+    }
 
-            }
-            else if (derece <= 180) {
-                artıs -= Math.sin(Math.toRadians(derece)/180) * 500;
-            }
-
+    public void jump(){
+        derece += 3;
+        if (derece <= 90) {
+            charAcceleration += Math.sin(Math.toRadians(derece)/180) * 500;
+        }else if (derece <= 180) {
+            charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 500;
+        }
+        characterdsty += charAcceleration;
   }
     public void  power(){}
 
