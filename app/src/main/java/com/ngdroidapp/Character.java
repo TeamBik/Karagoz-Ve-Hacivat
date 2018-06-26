@@ -16,15 +16,16 @@ public class Character {
     private boolean livecontrol;
     //Karakterin eğilme durumunu kontrol eder
     private boolean downcontrol;
-
-    private int startedlocation = characterdsty;
-    private int artıs= 0;
+    private int startedlocation;
+    private int artıs;
 
     //Yapıcı Fonksiyon
     public Character() {
         jumpcontrol = false;
         livecontrol = true;
         downcontrol = false;
+        startedlocation=0;
+        artıs=0;
     }
     //Karakterin y düzlemindeki konumunu set eder.
     public void setCharacterdsty(int characterdsthy){
@@ -48,6 +49,7 @@ public class Character {
         this.charactersrcy = charactersrcy;
         this.charactersrcw = charactersrcw;
         this.charactersrch = charactersrch;
+
     }
     //Karakterin Destination bilgilerini set eder.
     public void setCharacterdestination(int characterdstx, int characterdsty, int characterdstw, int characterdsth){
@@ -55,6 +57,7 @@ public class Character {
         this.characterdsty = characterdsty;
         this.characterdstw = characterdstw;
         this.characterdsth = characterdsth;
+        this.startedlocation=characterdsty;
     }
     //Karakterin Destination bilgilerini get eder.
     public Rect getCharacterdestination() {
@@ -67,10 +70,9 @@ public class Character {
         return charactersource;
     }
     public void  jump(){
-        //Y deki konumu degıstırıdk
         artıs +=10;
         setCharacterdsty(characterdsty + artıs);
-        setCharacterdsty(characterdsty -=artıs);
+        setCharacterdsty(characterdsty - artıs);
     }
     public void  power(){}
 }
