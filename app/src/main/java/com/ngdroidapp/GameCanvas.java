@@ -36,7 +36,7 @@ public class GameCanvas extends BaseCanvas {
 
     public void draw(Canvas canvas) {
 
-        nobject.setNobjectsource(0,0,3180,2160);
+        nobject.setNobjectsource(0,0,3840,2160);
         nobject.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(nobject.getNobject(), nobject.getNobjectsource(), nobject.getNobjectdestination(), null);
 
