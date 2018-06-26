@@ -22,6 +22,47 @@ public class Character extends Nobject{
         charAcceleration=10;
         derece=0;
     }
+
+    public boolean isJumpcontrol() {
+        return jumpcontrol;
+    }
+
+    public void setJumpcontrol(boolean jumpcontrol) {
+        this.jumpcontrol = jumpcontrol;
+    }
+
+    public boolean isLivecontrol() {
+        return livecontrol;
+    }
+
+    public void setLivecontrol(boolean livecontrol) {
+        this.livecontrol = livecontrol;
+    }
+
+    public boolean isDowncontrol() {
+        return downcontrol;
+    }
+
+    public void setDowncontrol(boolean downcontrol) {
+        this.downcontrol = downcontrol;
+    }
+
+    public double getCharAcceleration() {
+        return charAcceleration;
+    }
+
+    public void setCharAcceleration(double charAcceleration) {
+        this.charAcceleration = charAcceleration;
+    }
+
+    public int getDerece() {
+        return derece;
+    }
+
+    public void setDerece(int derece) {
+        this.derece = derece;
+    }
+
     public void jump(){
         if(livecontrol&&!downcontrol){
         derece+=3;
