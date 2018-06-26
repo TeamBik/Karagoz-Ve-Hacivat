@@ -3,7 +3,7 @@ package com.ngdroidapp;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
-public class Character {
+public class Character extends Nobject{
     private Bitmap character;
     private Rect charactersource, characterdestination;
     //Karakterin genişlik ve yüksekliği
