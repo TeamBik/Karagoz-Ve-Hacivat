@@ -17,7 +17,9 @@ public class Character {
     //Karakterin eğilme durumunu kontrol eder
     private boolean downcontrol;
     private int startedlocation;
-    private int artıs;
+    private double artıs;
+    private int derece;
+
 
     //Yapıcı Fonksiyon
     public Character() {
@@ -25,7 +27,8 @@ public class Character {
         livecontrol = true;
         downcontrol = false;
         startedlocation=0;
-        artıs=0;
+        artıs=10;
+        derece=0;
     }
     //Karakterin y düzlemindeki konumunu set eder.
     public void setCharacterdsty(int characterdsthy){
@@ -70,9 +73,21 @@ public class Character {
         return charactersource;
     }
     public void  jump(){
-        artıs +=10;
-        setCharacterdsty(characterdsty + artıs);
-        setCharacterdsty(characterdsty - artıs);
+
+
+        for(double derece=0;derece<=90;derece+=3) {
+            if (derece <= 90) {
+                artıs += Math.sin(Math.toRadians(derece)/180) * 500;
+
+            }
+            else if (derece <= 180) {
+                artıs -= Math.sin(Math.toRadians(derece)/180) * 500;
+            }
+
+        }
+
+
+
     }
     public void  power(){}
 }

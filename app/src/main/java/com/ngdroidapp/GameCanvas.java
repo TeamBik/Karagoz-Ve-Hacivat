@@ -19,12 +19,19 @@ public class GameCanvas extends BaseCanvas {
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
     }
-
+    double artıs = 10;
     public void setup() {
+
+
+
 
     }
 
     public void update(){
+
+
+
+
     }
 
     public void draw(Canvas canvas) {
