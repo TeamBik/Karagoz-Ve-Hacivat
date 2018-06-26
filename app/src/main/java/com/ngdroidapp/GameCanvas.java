@@ -14,17 +14,12 @@ import istanbul.gamelab.ngdroid.util.Utils;
 public class GameCanvas extends BaseCanvas {
     Nobject nobject;
 
-    double artıs = 10;
     public void setup() {
     nobject = new Nobject();
       nobject.setNobject(Utils.loadImage(root, "arkaplan.png"));
     }
     public GameCanvas(NgApp ngApp) {
-
         super(ngApp);
-
-
-
     }
 
     public void update(){
