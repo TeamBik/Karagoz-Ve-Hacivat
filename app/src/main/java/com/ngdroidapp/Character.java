@@ -17,6 +17,9 @@ public class Character {
     //Karakterin eğilme durumunu kontrol eder
     private boolean downcontrol;
 
+    private int startedlocation = characterdsty;
+    private int artıs= 0;
+
     //Yapıcı Fonksiyon
     public Character() {
         jumpcontrol = false;
@@ -63,6 +66,10 @@ public class Character {
         charactersource.set(charactersrcx, charactersrcy, charactersrcx + charactersrcw, charactersrcy + charactersrch);
         return charactersource;
     }
-    public void  jump(){}
+    public void  jump(){
+        artıs +=10;
+        setCharacterdsty(characterdsty + artıs);
+        setCharacterdsty(characterdsty -=artıs);
+    }
     public void  power(){}
 }
