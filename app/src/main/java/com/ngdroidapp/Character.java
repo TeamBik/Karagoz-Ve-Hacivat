@@ -16,7 +16,7 @@ public class Character {
     private boolean livecontrol;
     //Karakterin eğilme durumunu kontrol eder
     private boolean downcontrol;
-    private int startedlocation;
+
     private double artıs;
     private int derece;
 
@@ -26,7 +26,7 @@ public class Character {
         jumpcontrol = false;
         livecontrol = true;
         downcontrol = false;
-        startedlocation=0;
+
         artıs=10;
         derece=0;
     }
@@ -60,7 +60,6 @@ public class Character {
         this.characterdsty = characterdsty;
         this.characterdstw = characterdstw;
         this.characterdsth = characterdsth;
-        this.startedlocation=characterdsty;
     }
     //Karakterin Destination bilgilerini get eder.
     public Rect getCharacterdestination() {
