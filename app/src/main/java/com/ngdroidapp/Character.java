@@ -10,11 +10,11 @@ public class Character extends Nobject{
     private boolean livecontrol;
     //Karakterin eğilme durumunu kontrol eder
     private boolean downcontrol;
+    //Karakterin dikey doğrultudaki ivmesi
     private double charAcceleration;
+    //Sinüs dalgası için kullanılacak derece charAcceleration yönünü belirleyecek
     private int derece;
 
-
-    //Yapıcı Fonksiyon
     public Character() {
         jumpcontrol = false;
         livecontrol = true;
@@ -22,7 +22,8 @@ public class Character extends Nobject{
         charAcceleration=10;
         derece=0;
     }
-    public void  jump(){
+    public void jump(){
+        if(livecontrol&&!downcontrol){
         derece+=3;
             if (derece <= 90) {
                 charAcceleration += Math.sin(Math.toRadians(derece)/180) * 500;
@@ -31,6 +32,7 @@ public class Character extends Nobject{
                 charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 500;
             }
             setNobjectdsty(getNobjectdsty()+(int)charAcceleration);
-  }
+        }
+    }
     public void  power(){}
 }
