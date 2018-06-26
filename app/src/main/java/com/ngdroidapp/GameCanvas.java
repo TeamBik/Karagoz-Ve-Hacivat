@@ -12,11 +12,21 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 
 public class GameCanvas extends BaseCanvas {
+
+    Character karagoz,hacivat;
+
+
     Nobject nobject;
 
     public void setup() {
-    nobject = new Nobject();
-      nobject.setNobject(Utils.loadImage(root, "arkaplan.png"));
+        karagoz = new Character();
+        hacivat = new Character();
+        nobject = new Nobject();
+
+        nobject.setNobject(Utils.loadImage(root, "arkaplan.png"));
+        karagoz.setNobject(Utils.loadImage(root,"karagoz.png"));
+        hacivat.setNobject(Utils.loadImage(root,"hacivat.png"));
+
     }
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
@@ -35,6 +45,13 @@ public class GameCanvas extends BaseCanvas {
         nobject.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(nobject.getNobject(), nobject.getNobjectsource(), nobject.getNobjectdestination(), null);
 
+        karagoz.setNobjectsource(0,0,2215,4892);
+        karagoz.setNobjectdestination(getWidth() - karagoz.getNobjectdstw(),getHeight()-karagoz.getNobjectdsth(),250,550);
+        canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
+
+        hacivat.setNobjectsource(0,0,1957,5110);
+        hacivat.setNobjectdestination(0,getHeight() - hacivat.getNobjectdsth(),250,550);
+        canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
     }
 
     public void keyPressed(int key) {
