@@ -74,8 +74,7 @@ public class Character {
     }
     public void  jump(){
 
-
-        for(double derece=0;derece<=90;derece+=3) {
+        derece+=3;
             if (derece <= 90) {
                 artıs += Math.sin(Math.toRadians(derece)/180) * 500;
 
@@ -84,10 +83,7 @@ public class Character {
                 artıs -= Math.sin(Math.toRadians(derece)/180) * 500;
             }
 
-        }
-
-
-
-    }
+  }
     public void  power(){}
+
 }
