@@ -10,8 +10,7 @@ public class Character extends Nobject{
     private boolean livecontrol;
     //Karakterin eğilme durumunu kontrol eder
     private boolean downcontrol;
-    private int startedlocation;
-    private double artıs;
+    private double charAcceleration;
     private int derece;
 
 
@@ -20,25 +19,18 @@ public class Character extends Nobject{
         jumpcontrol = false;
         livecontrol = true;
         downcontrol = false;
-        startedlocation=0;
-        artıs=10;
+        charAcceleration=10;
         derece=0;
     }
-
-
-
     public void  jump(){
-
         derece+=3;
             if (derece <= 90) {
-                artıs += Math.sin(Math.toRadians(derece)/180) * 500;
-
+                charAcceleration += Math.sin(Math.toRadians(derece)/180) * 500;
             }
             else if (derece <= 180) {
-                artıs -= Math.sin(Math.toRadians(derece)/180) * 500;
+                charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 500;
             }
-
+            setNobjectdsty(getNobjectdsty()+(int)charAcceleration);
   }
     public void  power(){}
-
 }

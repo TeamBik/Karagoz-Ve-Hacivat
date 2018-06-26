@@ -13,8 +13,8 @@ public class Animations
         //Character Sınıfından karakterin X ve Y'sinin çekilmesi
     this.character = character;
     Character c=new Character();
-    characterX=c.getCharacterdstx();
-    characterY=c.getCharacterdsty();
+    characterX=c.getNobjectdstx();
+    characterY=c.getNobjectdsty();
 
 }
 
