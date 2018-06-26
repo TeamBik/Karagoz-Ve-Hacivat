@@ -8,20 +8,20 @@ import istanbul.gamelab.ngdroid.util.Log;
 import istanbul.gamelab.ngdroid.util.Utils;
 
 
-/**
- * Created by noyan on 24.06.2016.
- * Nitra Games Ltd.
- */
+
 
 
 public class GameCanvas extends BaseCanvas {
+    Nobject nobject;
 
-    public GameCanvas(NgApp ngApp) {
-        super(ngApp);
-    }
     double artıs = 10;
     public void setup() {
+    nobject = new Nobject();
+      nobject.setNobject(Utils.loadImage(root, "arkaplan.png"));
+    }
+    public GameCanvas(NgApp ngApp) {
 
+        super(ngApp);
 
 
 
@@ -35,6 +35,10 @@ public class GameCanvas extends BaseCanvas {
     }
 
     public void draw(Canvas canvas) {
+
+        nobject.setNobjectsource(0,0,3180,2160);
+        nobject.setNobjectdestination(0,0,getWidth(),getHeight());
+        canvas.drawBitmap(nobject.getNobject(), nobject.getNobjectsource(), nobject.getNobjectdestination(), null);
 
     }
 
