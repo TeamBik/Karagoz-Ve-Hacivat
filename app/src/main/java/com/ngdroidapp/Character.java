@@ -16,15 +16,18 @@ public class Character {
     private boolean livecontrol;
     //Karakterin eğilme durumunu kontrol eder
     private boolean downcontrol;
-
-    private int startedlocation = characterdsty;
-    private int artıs= 0;
+    //karakterin ivmesini belirler
+    private double charAcceleration;
+    //Sin eğrisi için gerekli derece(Parabolik bir ivme için kullanıyoruz)
+    private int derece;
 
     //Yapıcı Fonksiyon
     public Character() {
         jumpcontrol = false;
         livecontrol = true;
         downcontrol = false;
+        charAcceleration = 10;
+        derece = 0;
     }
     //Karakterin y düzlemindeki konumunu set eder.
     public void setCharacterdsty(int characterdsthy){
@@ -66,11 +69,20 @@ public class Character {
         charactersource.set(charactersrcx, charactersrcy, charactersrcx + charactersrcw, charactersrcy + charactersrch);
         return charactersource;
     }
-    public void  jump(){
-        //Y deki konumu degıstırıdk
-        artıs +=10;
-        setCharacterdsty(characterdsty + artıs);
-        setCharacterdsty(characterdsty -=artıs);
+
+    public Bitmap getCharacter() {
+        return character;
     }
+
+    public void jump(){
+        derece += 3;
+        if (derece <= 90) {
+            charAcceleration += Math.sin(Math.toRadians(derece)/180) * 500;
+        }else if (derece <= 180) {
+            charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 500;
+        }
+        characterdsty += charAcceleration;
+  }
     public void  power(){}
+
 }

@@ -16,32 +16,26 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 public class GameCanvas extends BaseCanvas {
 
-    private Bitmap logo;
-    private int logox, logoy, logow, logoh;
-
-
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
     }
-
+    double artıs = 10;
     public void setup() {
-        Log.i(TAG, "setup");
 
-        logo = Utils.loadImage(root,"gamelab-istanbul_logo.png");
-        logow = logo.getWidth();
-        logoh = logo.getHeight();
+
+
+
     }
 
-    public void update() {
-        Log.i(TAG, "update");
+    public void update(){
+
+
+
+
     }
 
     public void draw(Canvas canvas) {
-        Log.i(TAG, "draw");
 
-        logox = (getWidth() - logow) / 2;
-        logoy = (getHeight() - logoh) / 2;
-        canvas.drawBitmap(logo, logox, logoy, null);
     }
 
     public void keyPressed(int key) {
