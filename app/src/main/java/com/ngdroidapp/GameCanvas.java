@@ -19,7 +19,6 @@ public class GameCanvas extends BaseCanvas {
     private int touchdownx, touchdowny;
 
     public void setup() {
-        karagoz = new Character();
         arkaplan = new Nobject();
         obje1 = new Nobject();
         backbutton = new Nobject();
@@ -27,6 +26,7 @@ public class GameCanvas extends BaseCanvas {
         animKaragoz = new Animations(karagoz,hacivat);
         animHacivat = new Animations(hacivat,karagoz);
         setupHacivat();
+        setupKaragoz();
         obje1.setNobject(Utils.loadImage(root,"orange.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root,"karagoz.png"));
@@ -35,10 +35,19 @@ public class GameCanvas extends BaseCanvas {
         restart.setNobject(Utils.loadImage(root,"restart.png"));
 
     }
+    public void setupKaragoz(){
+        hacivat = new Character();
+        hacivat.setNobjectdsty(getHeight()-karagoz.getNobjectdsth());
+        hacivat.setNobjectdstx(getWidth() - karagoz.getNobjectdstw()-400);
+        hacivat.setNobjectdstw(150);
+        hacivat.setNobjectdsth(330);
+    }
     public void setupHacivat(){
         hacivat = new Character();
         hacivat.setNobjectdsty(getHeight() - 330);
-
+        hacivat.setNobjectdstx(300);
+        hacivat.setNobjectdstw(150);
+        hacivat.setNobjectdsth(330);
         hacivat.setJumpcontrol(true);
     }
     public GameCanvas(NgApp ngApp) {
@@ -47,18 +56,17 @@ public class GameCanvas extends BaseCanvas {
     }
 
     public void update(){
-       /* if(hacivat.isLivecontrol()){
+        if(hacivat.isLivecontrol()){
             AiPlayer(hacivat,animHacivat);
-
-        }*/
-        Log.i("Jump",hacivat.getNobjectdsty()+"");
-        if(hacivat.isJumpcontrol()){
-        hacivat.jump();
-        }else hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdsth());
-        Log.i("Jump",hacivat.getNobjectdsty()+"");
-        Log.i("CharAcleration",hacivat.getCharAcceleration()+"");
-        Log.i("Derece",hacivat.getDerece()+"");
-
+            Log.i("Hacivat","AiPlayerMethod");
+        }
+        if(!hacivat.isJumpcontrol()){
+            hacivat.setJumpcontrol(true);
+        }
+        if(hacivat.jump()){
+            hacivat.setJumpcontrol(false);
+            hacivat.setNobjectdsty(getHeight() - 330);
+        }
 
     }
     public void draw(Canvas canvas) {
@@ -88,8 +96,18 @@ public class GameCanvas extends BaseCanvas {
     }
     public void AiPlayerModeDefence(Character character){
             if(animHacivat.AIDefenceCollision()){
-                hacivat.setJumpcontrol(true);
+               if(!hacivat.isJumpcontrol()){
+                   hacivat.setJumpcontrol(true);
+               }
+               if(hacivat.jump()){
+                   hacivat.setJumpcontrol(false);
+                   hacivat.setNobjectdsty(getHeight() - 300);
+               }
+            }else{
+                hacivat.setJumpcontrol(false);
+
             }
+
     }
     public void AiPlayer(Character character,Animations animCharacter) {
         //if(karakterin canı 80 den büyük ise)

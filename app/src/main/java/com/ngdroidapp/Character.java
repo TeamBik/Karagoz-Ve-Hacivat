@@ -107,22 +107,24 @@ public class Character extends Nobject{
         this.derece = derece;
     }
 
-    public void jump(){
+    public boolean jump(){
         if(livecontrol&&!downcontrol&&jumpcontrol){
             derece+=6;
             if (derece <= 90) {
-                charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 500;
+                charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 650;
             }
             else if (derece <= 180) {
-                charAcceleration += Math.sin(Math.toRadians(derece)/180) * 500;
+                charAcceleration += Math.sin(Math.toRadians(derece)/180) * 650;
             }else{
                 jumpcontrol =false;
                 derece = 0;
-                charAcceleration=10;
+                charAcceleration=0;
+                return true;
             }
            setNobjectdsty(getNobjectdsty()+(int)charAcceleration);
 
         }
+        return false;
     }
     public void  power(){}
 }

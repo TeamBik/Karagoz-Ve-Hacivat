@@ -40,6 +40,13 @@ public class Animations {
             return false;
         }
     }
+    public boolean AIAttackCollision() {
+        if((character.getNobjectdstx() + 300) == objectX) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 
     public boolean ShoutAnımation() {
         if (!Collision(targetCharacter,object)){
