@@ -12,13 +12,14 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 
 public class GameCanvas extends BaseCanvas {
-
+    private boolean ShoutControl=false;
     Character karagoz, hacivat;
     Animations animKaragoz, animHacivat;
     Nobject arkaplan, obje1, backbutton, restart;
     private int touchdownx, touchdowny;
 
     public void setup() {
+        karagoz = new Character();
         arkaplan = new Nobject();
         obje1 = new Nobject();
         backbutton = new Nobject();
@@ -27,6 +28,7 @@ public class GameCanvas extends BaseCanvas {
         animHacivat = new Animations(hacivat,karagoz);
         setupHacivat();
         setupKaragoz();
+        //Resimlerin Tanınması
         obje1.setNobject(Utils.loadImage(root,"orange.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root,"karagoz.png"));
@@ -58,15 +60,22 @@ public class GameCanvas extends BaseCanvas {
     public void update(){
         if(hacivat.isLivecontrol()){
             AiPlayer(hacivat,animHacivat);
-            Log.i("Hacivat","AiPlayerMethod");
+
         }
-        if(!hacivat.isJumpcontrol()){
-            hacivat.setJumpcontrol(true);
+        hacivat.setShoutControl(true);
+        if(hacivat.isJumpcontrol()){
+        hacivat.jump();
+        }else
+        {hacivat.setNobjectdsty(getHeight() - 300);}
+
+        if(hacivat.isShoutControl())
+        {
+            animHacivat.ShoutAnımation();
+
         }
-        if(hacivat.jump()){
-            hacivat.setJumpcontrol(false);
-            hacivat.setNobjectdsty(getHeight() - 330);
-        }
+        if(animHacivat.ShoutAnımation())hacivat.setShoutControl(false);
+
+
 
     }
     public void draw(Canvas canvas) {
@@ -83,7 +92,7 @@ public class GameCanvas extends BaseCanvas {
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 
         obje1.setNobjectsource(0,0,757,720);
-        obje1.setNobjectdestination(hacivat.getNobjectdstx() + 75,hacivat.getNobjectdsty() - obje1.getNobjectdsth(),15,30);
+        obje1.setNobjectdestination(obje1.getNobjectdstx() ,obje1.getNobjectdsty()+100,25,30);
         canvas.drawBitmap(obje1.getNobject(),obje1.getNobjectsource(),obje1.getNobjectdestination(),null);
 
         backbutton.setNobjectsource(0,0,256,256);
@@ -125,9 +134,12 @@ public class GameCanvas extends BaseCanvas {
     }
 
     public boolean backPressed() {
-        System.exit(0);
-        return true;
+         System.exit(0);
+   return true;
+
     }
+
+
 
     public void surfaceChanged(int width, int height) {
 

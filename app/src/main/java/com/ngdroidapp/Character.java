@@ -13,6 +13,9 @@ public class Character extends Nobject{
     //Karakterin kaç kez ıskaladığını tutar
     private int misscount;
 
+    //Karakterin vuruş kontrolü
+    private boolean shoutcountrol;
+    //Karakterin zıplama kontrolü
     private boolean jumpcontrol;
     //Karakterin yaşayıp yaşamadığını kontrol etmek için oluşturuldu
     private boolean livecontrol;
@@ -23,16 +26,24 @@ public class Character extends Nobject{
     //Sinüs dalgası için kullanılacak derece charAcceleration yönünü belirleyecek
     private int derece;
 
+
     public Character() {
         health = 100;
         damagecount = 0;
         hitcount = 0;
         misscount = 0;
+        shoutcountrol=false;
         jumpcontrol = false;
         livecontrol = true;
         downcontrol = false;
         charAcceleration = 0;
         derece=0;
+    }
+
+    public boolean isShoutControl() { return shoutcountrol; }
+
+    public void setShoutControl(boolean shoutcontrol) {
+        this.shoutcountrol = shoutcountrol;
     }
 
     public int getHealth() {

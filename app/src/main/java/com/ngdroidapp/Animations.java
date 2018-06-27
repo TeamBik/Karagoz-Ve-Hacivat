@@ -52,15 +52,12 @@ public class Animations {
         if (!Collision(targetCharacter,object)){
             objectX += 15;
             object.setNobjectdstx(objectX);
-            return true;
-            }
-        else
-            {
-            return false;
-            }
+            return true;}
+           else{ return false;}
+
+        }
 
 
         }
 
 
-    }
