@@ -15,7 +15,7 @@ public class GameCanvas extends BaseCanvas {
 
     Character karagoz, hacivat;
     Animations animKaragoz, animHacivat;
-    Nobject arkaplan, obje1, backbutton;
+    Nobject arkaplan, obje1, backbutton, restart;
     private int touchdownx, touchdowny;
 
     public void setup() {
@@ -23,6 +23,7 @@ public class GameCanvas extends BaseCanvas {
         arkaplan = new Nobject();
         obje1 = new Nobject();
         backbutton = new Nobject();
+        restart = new Nobject();
         animKaragoz = new Animations(karagoz,hacivat);
         animHacivat = new Animations(hacivat,karagoz);
         setupHacivat();
@@ -31,6 +32,7 @@ public class GameCanvas extends BaseCanvas {
         karagoz.setNobject(Utils.loadImage(root,"karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root,"hacivat.png"));
         backbutton.setNobject(Utils.loadImage(root,"backbutton.png"));
+        restart.setNobject(Utils.loadImage(root,"restart.png"));
 
     }
     public void setupHacivat(){
@@ -79,6 +81,10 @@ public class GameCanvas extends BaseCanvas {
         backbutton.setNobjectsource(0,0,256,256);
         backbutton.setNobjectdestination(getWidth()-backbutton.getNobjectdstw(),0,128,128);
         canvas.drawBitmap(backbutton.getNobject(), backbutton.getNobjectsource(), backbutton.getNobjectdestination(), null);
+
+        restart.setNobjectsource(0,0,706,720);
+        restart.setNobjectdestination(getWidth()-backbutton.getNobjectdstw()*2,0,128,128);
+        canvas.drawBitmap( restart.getNobject(),  restart.getNobjectsource(), restart.getNobjectdestination(), null);
     }
     public void AiPlayerModeDefence(Character character){
             if(animHacivat.AIDefenceCollision()){
@@ -124,6 +130,11 @@ public class GameCanvas extends BaseCanvas {
 
             MenuCanvas mc1= new MenuCanvas(root);
             root.canvasManager.setCurrentCanvas(mc1);
+        }
+        if (x >= restart.getNobjectdstx() && x <= restart.getNobjectdstx() + restart.getNobjectdstw() && y >= restart.getNobjectdsty() && y <= restart.getNobjectdsty() + restart.getNobjectdsth()) {
+
+            GameCanvas mc2= new GameCanvas(root);
+            root.canvasManager.setCurrentCanvas(mc2);
         }
     }
 

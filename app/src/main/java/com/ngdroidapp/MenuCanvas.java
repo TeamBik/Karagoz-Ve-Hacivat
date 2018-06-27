@@ -1,16 +1,22 @@
 package com.ngdroidapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
+import android.widget.Toast;
 
+import istanbul.gamelab.ngdroid.base.BaseActivity;
 import istanbul.gamelab.ngdroid.base.BaseCanvas;
 import istanbul.gamelab.ngdroid.util.Log;
 import istanbul.gamelab.ngdroid.util.Utils;
+
 
 
 public class MenuCanvas extends BaseCanvas {
     Nobject arkaplan,playbutton,backbutton;
     Character karagoz,hacivat;
     private int touchdownx, touchdowny;
+
 
 
     public MenuCanvas(NgApp ngApp) {
@@ -25,12 +31,12 @@ public class MenuCanvas extends BaseCanvas {
         playbutton = new Nobject();
         backbutton = new Nobject();
 
+
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root, "karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root, "hacivat.png"));
         playbutton.setNobject(Utils.loadImage(root, "playbutton.png"));
         backbutton.setNobject(Utils.loadImage(root, "backbutton.png"));
-
 
     }
 
@@ -82,40 +88,61 @@ public class MenuCanvas extends BaseCanvas {
             root.canvasManager.setCurrentCanvas(mc);
         }
         if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(root.activity);
+            builder1.setTitle("Programdan Çıkılsın Mı?").setCancelable(false).setPositiveButton("Evet", new DialogInterface.OnClickListener() {
 
-            System.exit(0);
+                @Override
+                public void onClick(DialogInterface dialog, int id) { //Eğer evet butonuna basılırsa
+                    System.exit(0);
+
+
+                }
+            }).setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+//Eğer hayır butonuna basılırsa
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+
+            builder1.show();
         }
-
     }
 
-    public void touchMove(int x, int y, int id) {
-    }
 
-    public void touchUp(int x, int y, int id) {
-    }
 
-    public void surfaceChanged(int width, int height) {
-    }
 
-    public void surfaceCreated() {
-    }
 
-    public void surfaceDestroyed() {
-    }
+                public void touchMove(int x, int y, int id) {
+                }
 
-    public void pause() {
-    }
+                public void touchUp(int x, int y, int id) {
+                }
 
-    public void resume() {
-    }
+                public void surfaceChanged(int width, int height) {
+                }
 
-    public void reloadTextures() {
-    }
+                public void surfaceCreated() {
+                }
 
-    public void showNotify() {
-    }
+                public void surfaceDestroyed() {
+                }
 
-    public void hideNotify() {
-    }
+                public void pause() {
+                }
+
+                public void resume() {
+                }
+
+                public void reloadTextures() {
+                }
+
+                public void showNotify() {
+                }
+
+                public void hideNotify() {
+                }
+
 
 }
