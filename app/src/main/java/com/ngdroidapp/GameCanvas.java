@@ -14,16 +14,16 @@ import istanbul.gamelab.ngdroid.util.Utils;
 public class GameCanvas extends BaseCanvas {
 
     Character karagoz,hacivat;
-
-
-    Nobject nobject;
+    Nobject arkaplan,obje1;
 
     public void setup() {
         karagoz = new Character();
         hacivat = new Character();
-        nobject = new Nobject();
+        arkaplan = new Nobject();
+        obje1 = new Nobject();
 
-        nobject.setNobject(Utils.loadImage(root, "arkaplan.png"));
+        obje1.setNobject(Utils.loadImage(root,"orange.png"));
+        arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root,"karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root,"hacivat.png"));
 
@@ -37,21 +37,27 @@ public class GameCanvas extends BaseCanvas {
 
 
 
+
     }
 
     public void draw(Canvas canvas) {
-
-        nobject.setNobjectsource(0,0,3840,2160);
-        nobject.setNobjectdestination(0,0,getWidth(),getHeight());
-        canvas.drawBitmap(nobject.getNobject(), nobject.getNobjectsource(), nobject.getNobjectdestination(), null);
+,
+        arkaplan.setNobjectsource(0,0,3840,2160);
+        arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
+        canvas.drawBitmap(arkaplan.getNobject(), arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
 
         karagoz.setNobjectsource(0,0,2215,4892);
-        karagoz.setNobjectdestination(getWidth() - karagoz.getNobjectdstw(),getHeight()-karagoz.getNobjectdsth(),250,550);
+        karagoz.setNobjectdestination(getWidth() - karagoz.getNobjectdstw()-400,getHeight()-karagoz.getNobjectdsth(),150,330);
         canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
 
         hacivat.setNobjectsource(0,0,1957,5110);
-        hacivat.setNobjectdestination(0,getHeight() - hacivat.getNobjectdsth(),250,550);
+        hacivat.setNobjectdestination(300,getHeight() - hacivat.getNobjectdsth(),150,330);
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
+
+        obje1.setNobjectsource(0,0,757,720);
+        obje1.setNobjectdestination(hacivat.getNobjectdstx()+75,hacivat.getNobjectdsty() - obje1.getNobjectdsth(),15,30);
+        canvas.drawBitmap(obje1.getNobject(), obje1.getNobjectsource(), obje1.getNobjectdestination(), null);
+
     }
 
     public void keyPressed(int key) {

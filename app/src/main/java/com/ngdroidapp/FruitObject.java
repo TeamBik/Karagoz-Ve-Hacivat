@@ -1,6 +1,7 @@
 package com.ngdroidapp;
 
 public class FruitObject extends Nobject {
+
     private int weight,velocity;
     private boolean livecontrol;
 
