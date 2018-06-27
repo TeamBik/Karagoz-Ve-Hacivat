@@ -3,8 +3,8 @@ package com.ngdroidapp;
 import istanbul.gamelab.ngdroid.util.Utils;
 
 public class Animations {
-    private Character character = new Character();
-    private Nobject object = new Nobject();
+    private Character character;
+    private Nobject object;
     //Nesnenin X ve Y Konumu
     private int objectX, objectY;
     //Hedefin X ve Y Konumu
@@ -14,8 +14,9 @@ public class Animations {
 
     public Animations(Character character) {
         //Character Sınıfından karakterin X ve Y'sinin çekilmesi
+        character = new Character();
+        object = new Nobject();
         this.character = character;
-
         characterX = character.getNobjectdstx();
         characterY = character.getNobjectdstx();
         characterWidth = character.getNobjectdstw();
