@@ -13,14 +13,17 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 public class GameCanvas extends BaseCanvas {
 
-    Character karagoz,hacivat;
-    Nobject arkaplan,obje1;
+    Character karagoz, hacivat;
+    Animations animKaragoz, animHacivat;
+    Nobject arkaplan, obje1;
 
     public void setup() {
         karagoz = new Character();
         hacivat = new Character();
         arkaplan = new Nobject();
         obje1 = new Nobject();
+        animKaragoz = new Animations(karagoz);
+        animHacivat = new Animations(hacivat);
 
         obje1.setNobject(Utils.loadImage(root,"orange.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
@@ -28,20 +31,19 @@ public class GameCanvas extends BaseCanvas {
         hacivat.setNobject(Utils.loadImage(root,"hacivat.png"));
 
     }
+
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
+
     }
 
     public void update(){
-
-
-
-
+        if(hacivat.isLivecontrol()){
+            AiPlayer(hacivat,animHacivat);
+        }
 
     }
-
     public void draw(Canvas canvas) {
-,
         arkaplan.setNobjectsource(0,0,3840,2160);
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(arkaplan.getNobject(), arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
@@ -55,11 +57,17 @@ public class GameCanvas extends BaseCanvas {
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 
         obje1.setNobjectsource(0,0,757,720);
-        obje1.setNobjectdestination(hacivat.getNobjectdstx()+75,hacivat.getNobjectdsty() - obje1.getNobjectdsth(),15,30);
+        obje1.setNobjectdestination(hacivat.getNobjectdstx() + 75,hacivat.getNobjectdsty() - obje1.getNobjectdsth(),15,30);
         canvas.drawBitmap(obje1.getNobject(), obje1.getNobjectsource(), obje1.getNobjectdestination(), null);
 
     }
+    public void AiPlayerMode(Character character){
 
+    }
+    public void AiPlayer(Character character,Animations animCharacter) {
+        //if(karakterin canı 80 den büyük ise)
+        //if()
+    }
     public void keyPressed(int key) {
 
     }

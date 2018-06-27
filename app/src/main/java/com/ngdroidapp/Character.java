@@ -4,6 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 public class Character extends Nobject{
+    //Karakterin Sağlık durumunu tutar
+    private int health;
+    //Karakterin kaç kez hasar aldığını tutar
+    private int damagecount;
+    //Karakterin kaç kez hasar verdiğini tutar
+    private int hitcount;
+    //Karakterin kaç kez ıskaladığını tutar
+    private int misscount;
 
     private boolean jumpcontrol;
     //Karakterin yaşayıp yaşamadığını kontrol etmek için oluşturuldu

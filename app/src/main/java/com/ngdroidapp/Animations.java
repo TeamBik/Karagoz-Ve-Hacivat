@@ -26,12 +26,10 @@ public class Animations {
 
     public boolean Collision() {
     //Objelerin Karşılaştırılması
-    if(Utils.checkCollision(character.getNobjectdestination(),object.getNobjectdestination())
-        {
+    if(Utils.checkCollision(character.getNobjectdestination(),object.getNobjectdestination())) {
             return true;
         }
-    else
-        {
+        else{
             return false;
         }
 
@@ -39,7 +37,6 @@ public class Animations {
 
 
     public void ShoutAnımation() {
-
     if(!Collision())
     {
         objectX+= 15;
