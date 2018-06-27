@@ -40,7 +40,7 @@ public class MenuCanvas extends BaseCanvas {
     public void draw(Canvas canvas) {
         arkaplan.setNobjectsource(0,0,3840,2160);
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
-        canvas.drawBitmap(arkaplan.getNobject(), arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
+        canvas.drawBitmap(arkaplan.getNobject(),  arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
 
         karagoz.setNobjectsource(0,0,2215,4892);
         karagoz.setNobjectdestination(getWidth() *4/6,getHeight()*1/4,300,660);
