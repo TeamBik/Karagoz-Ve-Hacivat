@@ -8,7 +8,7 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 
 public class MenuCanvas extends BaseCanvas {
-    Nobject arkaplan,playbutton;
+    Nobject arkaplan,playbutton,backbutton;
     Character karagoz,hacivat;
     private int touchdownx, touchdowny;
 
@@ -23,11 +23,14 @@ public class MenuCanvas extends BaseCanvas {
         karagoz = new Character();
         hacivat = new Character();
         playbutton = new Nobject();
+        backbutton = new Nobject();
 
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root, "karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root, "hacivat.png"));
         playbutton.setNobject(Utils.loadImage(root, "playbutton.png"));
+        backbutton.setNobject(Utils.loadImage(root, "backbutton.png"));
+
 
     }
 
@@ -51,8 +54,12 @@ public class MenuCanvas extends BaseCanvas {
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 
         playbutton.setNobjectsource(0,0,300,122);
-        playbutton.setNobjectdestination(getWidth()/2-playbutton.getNobjectdstw()/2,getHeight()/2,300,122);
+        playbutton.setNobjectdestination(getWidth()/2-playbutton.getNobjectdstw()/2,getHeight()/2,600,244);
         canvas.drawBitmap(playbutton.getNobject(), playbutton.getNobjectsource(), playbutton.getNobjectdestination(), null);
+
+        backbutton.setNobjectsource(0,0,256,256);
+        backbutton.setNobjectdestination(getWidth()-backbutton.getNobjectdstw(),0,256,256);
+        canvas.drawBitmap(backbutton.getNobject(), backbutton.getNobjectsource(), backbutton.getNobjectdestination(), null);
     }
 
     public void keyPressed(int key) {
@@ -62,6 +69,7 @@ public class MenuCanvas extends BaseCanvas {
     }
 
     public boolean backPressed() {
+        System.exit(0);
         return false;
     }
 
@@ -69,9 +77,15 @@ public class MenuCanvas extends BaseCanvas {
         touchdownx = x;
         touchdowny = y;
         if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
+
             GameCanvas mc = new GameCanvas(root);
             root.canvasManager.setCurrentCanvas(mc);
         }
+        if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
+
+            System.exit(0);
+        }
+
     }
 
     public void touchMove(int x, int y, int id) {
