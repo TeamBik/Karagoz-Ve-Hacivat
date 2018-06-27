@@ -35,7 +35,7 @@ public class GameCanvas extends BaseCanvas {
     }
     public void setupHacivat(){
         hacivat = new Character();
-        hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdstw());
+        hacivat.setNobjectdsty(getHeight() - 330);
 
         hacivat.setJumpcontrol(true);
     }
@@ -49,11 +49,14 @@ public class GameCanvas extends BaseCanvas {
             AiPlayer(hacivat,animHacivat);
 
         }*/
-
+        Log.i("Jump",hacivat.getNobjectdsty()+"");
         if(hacivat.isJumpcontrol()){
         hacivat.jump();
-        }else hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdstw());
+        }else hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdsth());
         Log.i("Jump",hacivat.getNobjectdsty()+"");
+        Log.i("CharAcleration",hacivat.getCharAcceleration()+"");
+        Log.i("Derece",hacivat.getDerece()+"");
+
 
     }
     public void draw(Canvas canvas) {
