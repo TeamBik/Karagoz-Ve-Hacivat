@@ -17,25 +17,23 @@ public class GameCanvas extends BaseCanvas {
     Animations animKaragoz, animHacivat;
     Nobject arkaplan, obje1;
 
+
+
     public void setup() {
         karagoz = new Character();
+        hacivat = new Character();
         arkaplan = new Nobject();
         obje1 = new Nobject();
-        animKaragoz = new Animations(karagoz,hacivat);
-        animHacivat = new Animations(hacivat,karagoz);
-        setupHacivat();
+        animKaragoz = new Animations(karagoz);
+        animHacivat = new Animations(hacivat);
+
         obje1.setNobject(Utils.loadImage(root,"orange.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root,"karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root,"hacivat.png"));
 
     }
-    public void setupHacivat(){
-        hacivat = new Character();
-        hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdstw());
 
-
-    }
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
 
@@ -44,11 +42,7 @@ public class GameCanvas extends BaseCanvas {
     public void update(){
         if(hacivat.isLivecontrol()){
             AiPlayer(hacivat,animHacivat);
-
         }
-        hacivat.setJumpcontrol(true);
-        hacivat.jump();
-        Log.i("Jump",hacivat.getNobjectdsty()+"");
 
     }
     public void draw(Canvas canvas) {
@@ -61,24 +55,20 @@ public class GameCanvas extends BaseCanvas {
         canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
 
         hacivat.setNobjectsource(0,0,1957,5110);
-        hacivat.setNobjectdestination(300,hacivat.getNobjectdsty(),150,330);
+        hacivat.setNobjectdestination(300,getHeight() - hacivat.getNobjectdsth(),150,330);
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 
         obje1.setNobjectsource(0,0,757,720);
         obje1.setNobjectdestination(hacivat.getNobjectdstx() + 75,hacivat.getNobjectdsty() - obje1.getNobjectdsth(),15,30);
-        canvas.drawBitmap(obje1.getNobject(),obje1.getNobjectsource(),obje1.getNobjectdestination(),null);
+        canvas.drawBitmap(obje1.getNobject(), obje1.getNobjectsource(), obje1.getNobjectdestination(), null);
+
     }
-    public void AiPlayerModeDefence(Character character){
-            if(animHacivat.AIDefenceCollision()){
-                hacivat.setJumpcontrol(true);
-            }
+    public void AiPlayerMode(Character character){
+
     }
     public void AiPlayer(Character character,Animations animCharacter) {
         //if(karakterin canı 80 den büyük ise)
         //if()
-        if(hacivat.getHealth() == 100){
-            AiPlayerModeDefence(character);
-        }
     }
     public void keyPressed(int key) {
 
