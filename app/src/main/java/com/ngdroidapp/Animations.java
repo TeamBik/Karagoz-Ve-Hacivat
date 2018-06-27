@@ -3,7 +3,7 @@ package com.ngdroidapp;
 import istanbul.gamelab.ngdroid.util.Utils;
 
 public class Animations {
-    private Character character;
+    private Character character,targetCharacter;
     private Nobject object;
     //Nesnenin X ve Y Konumu
     private int objectX, objectY;
@@ -12,8 +12,9 @@ public class Animations {
     //Karakterin X ve Y Konumu
     private int characterX, characterY, characterWidth, characterHeight;
 
-    public Animations(Character character) {
+    public Animations(Character character,Character target) {
         //Character Sınıfından karakterin X ve Y'sinin çekilmesi
+        targetCharacter = target;
         character = new Character();
         object = new Nobject();
         this.character = character;
@@ -24,21 +25,14 @@ public class Animations {
         objectX = object.getNobjectdstx();
         objectY = object.getNobjectdsty();
     }
-
-    public boolean Collision() {
+    public boolean Collision(Character character1, Nobject nobject) {
     //Objelerin Karşılaştırılması
-    if(Utils.checkCollision(character.getNobjectdestination(),object.getNobjectdestination()))
-    {
-        return true;
-        }
-        else
-        {
+    if(Utils.checkCollision(character1.getNobjectdestination(),nobject.getNobjectdestination()))
+    { return true;
+        }else{
             return false;
         }
-        }
-
-
-
+    }
     public boolean AIDefenceCollision() {
         if ((character.getNobjectdstx() + 100) == objectX) {
             return true;
@@ -47,10 +41,8 @@ public class Animations {
         }
     }
 
-    public boolean ShoutAnımation () {
-
-        if (!Collision()){
-
+    public boolean ShoutAnımation() {
+        if (!Collision(targetCharacter,object)){
             objectX += 15;
             object.setNobjectdstx(objectX);
             return true;

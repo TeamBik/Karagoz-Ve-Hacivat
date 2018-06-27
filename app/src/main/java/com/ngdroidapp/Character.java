@@ -24,11 +24,47 @@ public class Character extends Nobject{
     private int derece;
 
     public Character() {
+        health = 100;
+        damagecount = 0;
+        hitcount = 0;
+        misscount = 0;
         jumpcontrol = false;
         livecontrol = true;
         downcontrol = false;
         charAcceleration=10;
         derece=0;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getDamagecount() {
+        return damagecount;
+    }
+
+    public void setDamagecount(int damagecount) {
+        this.damagecount = damagecount;
+    }
+
+    public int getHitcount() {
+        return hitcount;
+    }
+
+    public void setHitcount(int hitcount) {
+        this.hitcount = hitcount;
+    }
+
+    public int getMisscount() {
+        return misscount;
+    }
+
+    public void setMisscount(int misscount) {
+        this.misscount = misscount;
     }
 
     public boolean isJumpcontrol() {
@@ -73,14 +109,19 @@ public class Character extends Nobject{
 
     public void jump(){
         if(livecontrol&&!downcontrol){
-        derece+=3;
+            jumpcontrol = true;
+            derece+=3;
             if (derece <= 90) {
                 charAcceleration += Math.sin(Math.toRadians(derece)/180) * 500;
             }
             else if (derece <= 180) {
                 charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 500;
+            }else{
+                jumpcontrol =false;
             }
+
             setNobjectdsty(getNobjectdsty()+(int)charAcceleration);
+
         }
     }
     public void  power(){}
