@@ -26,7 +26,12 @@ public class Animations {
 
     public boolean Collision() {
     //Objelerin Karşılaştırılması
+<<<<<<< Updated upstream
     if(Utils.checkCollision(character.getNobjectdestination(),object.getNobjectdestination())) {
+=======
+    if(Utils.checkCollision(character.getNobjectdestination(),object.getNobjectdestination()))
+        {
+>>>>>>> Stashed changes
             return true;
         }
         else{
@@ -35,16 +40,43 @@ public class Animations {
 
     }
 
+    public boolean AIDefenceCollision()
+    {
+     if((character.getNobjectdstx()+100)==objectX)
+         {
+         return true;
+         }
+     else{
+         return false;
+         }
 
+<<<<<<< Updated upstream
     public void ShoutAnımation() {
     if(!Collision())
     {
         objectX+= 15;
         object.setNobjectdstx(objectX);
+=======
+
+>>>>>>> Stashed changes
     }
 
 
-    }
+
+    public boolean ShoutAnımation() {
+
+        if (!Collision()) {
+            objectX += 15;
+            object.setNobjectdstx(objectX);
+            return true;
+        }
+
+        else{
+            return false;
+        }
+
+
+}
 
 
 }

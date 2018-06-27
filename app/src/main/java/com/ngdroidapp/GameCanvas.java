@@ -13,9 +13,16 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 public class GameCanvas extends BaseCanvas {
 
+<<<<<<< Updated upstream
     Character karagoz, hacivat;
     Animations animKaragoz, animHacivat;
     Nobject arkaplan, obje1;
+=======
+    Character karagoz,hacivat;
+    Nobject arkaplan,obje1;
+    Animations karagozanim=new Animations(karagoz);
+    Animations hacivatanim=new Animations(hacivat);
+>>>>>>> Stashed changes
 
     public void setup() {
         karagoz = new Character();
@@ -44,6 +51,10 @@ public class GameCanvas extends BaseCanvas {
 
     }
     public void draw(Canvas canvas) {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         arkaplan.setNobjectsource(0,0,3840,2160);
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(arkaplan.getNobject(), arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
@@ -57,7 +68,11 @@ public class GameCanvas extends BaseCanvas {
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 
         obje1.setNobjectsource(0,0,757,720);
+<<<<<<< Updated upstream
         obje1.setNobjectdestination(hacivat.getNobjectdstx() + 75,hacivat.getNobjectdsty() - obje1.getNobjectdsth(),15,30);
+=======
+        obje1.setNobjectdestination(karagoz.getNobjectdstx()+75,karagoz.getNobjectdsty() - obje1.getNobjectdsth(),15,30);
+>>>>>>> Stashed changes
         canvas.drawBitmap(obje1.getNobject(), obje1.getNobjectsource(), obje1.getNobjectdestination(), null);
 
     }
