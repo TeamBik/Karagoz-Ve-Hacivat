@@ -34,7 +34,7 @@ public class GameCanvas extends BaseCanvas {
         hacivat = new Character();
         hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdstw());
 
-
+        hacivat.setJumpcontrol(true);
     }
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
@@ -42,12 +42,14 @@ public class GameCanvas extends BaseCanvas {
     }
 
     public void update(){
-        if(hacivat.isLivecontrol()){
+       /* if(hacivat.isLivecontrol()){
             AiPlayer(hacivat,animHacivat);
 
-        }
-        hacivat.setJumpcontrol(true);
+        }*/
+
+        if(hacivat.isJumpcontrol()){
         hacivat.jump();
+        }else hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdstw());
         Log.i("Jump",hacivat.getNobjectdsty()+"");
 
     }
