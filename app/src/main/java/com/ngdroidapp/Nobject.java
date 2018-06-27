@@ -8,10 +8,14 @@ class Nobject {
     private Bitmap Nobject;
     //Source ve destination tanımlaması
     private Rect Nobjectsource, Nobjectdestination;
-    //objenin genişlik ve yüksekliği
+    //Objenin genişlik ve yüksekliği
     private int Nobjectsrcw, Nobjectsrch, Nobjectdstw, Nobjectdsth;
     //Karakterin konumu x/y
     private int Nobjectsrcx, Nobjectsrcy, Nobjectdstx, Nobjectdsty;
+
+
+
+
     public Nobject(){
         Nobjectsource = new Rect();
         Nobjectdestination = new Rect();

@@ -46,11 +46,11 @@ public class GameCanvas extends BaseCanvas {
         canvas.drawBitmap(nobject.getNobject(), nobject.getNobjectsource(), nobject.getNobjectdestination(), null);
 
         karagoz.setNobjectsource(0,0,2215,4892);
-        karagoz.setNobjectdestination(getWidth() / 2 +200,getHeight()-karagoz.getNobjectdsth(),150,330);
+        karagoz.setNobjectdestination(getWidth() - karagoz.getNobjectdstw(),getHeight()-karagoz.getNobjectdsth(),250,550);
         canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
 
         hacivat.setNobjectsource(0,0,1957,5110);
-        hacivat.setNobjectdestination(getWidth()/2 - 400,getHeight() - hacivat.getNobjectdsth(),150,330);
+        hacivat.setNobjectdestination(0,getHeight() - hacivat.getNobjectdsth(),250,550);
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
     }
 
@@ -63,8 +63,6 @@ public class GameCanvas extends BaseCanvas {
     }
 
     public boolean backPressed() {
-
-        System.exit(0);
         return true;
     }
 
