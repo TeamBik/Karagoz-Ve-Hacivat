@@ -15,7 +15,7 @@ public class GameCanvas extends BaseCanvas {
     private boolean ShoutControl=false;
     Character karagoz, hacivat;
     Animations animKaragoz, animHacivat;
-    Nobject arkaplan, obje1, backbutton, restart, fire, jump;
+    Nobject arkaplan, obje1, obje2,backbutton, restart, fire, jump;
     private int touchdownx, touchdowny;
 
     public void setup() {
@@ -26,12 +26,17 @@ public class GameCanvas extends BaseCanvas {
         restart = new Nobject();
         fire = new Nobject();
         jump = new Nobject();
-        animKaragoz = new Animations(karagoz,hacivat,null);
-        animHacivat = new Animations(hacivat,karagoz,obje1);
+
         setupHacivat();
         setupKaragoz();
+        setupObjectHacivat();
+        setupObjectKaragoz();
+        animKaragoz = new Animations(karagoz,hacivat,obje2);
+        animHacivat = new Animations(hacivat,karagoz,obje1);
         //Resimlerin Tanınması
+
         obje1.setNobject(Utils.loadImage(root,"orange.png"));
+        obje2.setNobject(Utils.loadImage(root,"orange.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root,"karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root,"hacivat.png"));
@@ -56,12 +61,20 @@ public class GameCanvas extends BaseCanvas {
         hacivat.setNobjectdsth(330);
         hacivat.setJumpcontrol(true);
     }
-    public void setupObject() {
+    public void setupObjectHacivat() {
         obje1 = new Nobject();
         obje1.setNobjectdsty(getHeight() - hacivat.getNobjectdsth());
         obje1.setNobjectdstx(getWidth() - hacivat.getNobjectdstw());
         obje1.setNobjectdstw(25);
         obje1.setNobjectdsth(30);
+    }
+
+    public void setupObjectKaragoz() {
+        obje2 = new Nobject();
+        obje2.setNobjectdstw(25);
+        obje2.setNobjectdsth(30);
+        obje2.setNobjectdsty(getHeight() - karagoz.getNobjectdsth());
+        obje2.setNobjectdstx(getWidth() - karagoz.getNobjectdstw() - 25);
     }
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
@@ -103,8 +116,12 @@ public class GameCanvas extends BaseCanvas {
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 
         obje1.setNobjectsource(0,0,757,720);
-        obje1.setNobjectdestination(obje1.getNobjectdstx() ,obje1.getNobjectdsty()+100,25,30);
+        obje1.setNobjectdestination(obje1.getNobjectdstx() ,obje1.getNobjectdsty(),25,30);
         canvas.drawBitmap(obje1.getNobject(),obje1.getNobjectsource(),obje1.getNobjectdestination(),null);
+
+        obje2.setNobjectsource(0,0,757,720);
+        obje2.setNobjectdestination(obje2.getNobjectdstx() ,obje2.getNobjectdsty(),25,30);
+        canvas.drawBitmap(obje2.getNobject(),obje2.getNobjectsource(),obje2.getNobjectdestination(),null);
 
         backbutton.setNobjectsource(0,0,256,256);
         backbutton.setNobjectdestination(getWidth()-backbutton.getNobjectdstw(),0,128,128);
