@@ -15,7 +15,7 @@ public class GameCanvas extends BaseCanvas {
     private boolean ShoutControl=false;
     Character karagoz, hacivat;
     Animations animKaragoz, animHacivat;
-    Nobject arkaplan, obje1, backbutton, restart;
+    Nobject arkaplan, obje1, backbutton, restart, fire, jump;
     private int touchdownx, touchdowny;
 
     public void setup() {
@@ -24,6 +24,8 @@ public class GameCanvas extends BaseCanvas {
         obje1 = new Nobject();
         backbutton = new Nobject();
         restart = new Nobject();
+        fire = new Nobject();
+        jump = new Nobject();
         animKaragoz = new Animations(karagoz,hacivat,null);
         animHacivat = new Animations(hacivat,karagoz,obje1);
         setupHacivat();
@@ -35,6 +37,8 @@ public class GameCanvas extends BaseCanvas {
         hacivat.setNobject(Utils.loadImage(root,"hacivat.png"));
         backbutton.setNobject(Utils.loadImage(root,"backbutton.png"));
         restart.setNobject(Utils.loadImage(root,"restart.png"));
+        jump.setNobject(Utils.loadImage(root,"jump.png"));
+        fire.setNobject(Utils.loadImage(root,"fire.png"));
 
     }
     public void setupKaragoz(){
@@ -126,6 +130,15 @@ public class GameCanvas extends BaseCanvas {
         if(hacivat.jump()){
             hacivat.setJumpcontrol(false);
             hacivat.setNobjectdsty(getHeight() - 300);
+        }
+    }
+    public void KaragozJump(){
+        if(!karagoz.isJumpcontrol()){
+            karagoz.setJumpcontrol(true);
+        }
+        if(karagoz.jump()){
+            karagoz.setJumpcontrol(false);
+            karagoz.setNobjectdsty(getHeight() - 300);
         }
     }
     public void AiPlayerModeDefence(Character character){
