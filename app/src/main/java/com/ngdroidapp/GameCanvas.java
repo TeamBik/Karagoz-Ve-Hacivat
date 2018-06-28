@@ -15,7 +15,7 @@ public class GameCanvas extends BaseCanvas {
     private boolean ShoutControl=false;
     Character karagoz, hacivat;
     Animations animKaragoz, animHacivat;
-    Nobject arkaplan, obje1, backbutton, restart;
+    Nobject arkaplan, obje1, backbutton, restart, fire , jump ;
     private int touchdownx, touchdowny;
 
     public void setup() {
@@ -24,6 +24,8 @@ public class GameCanvas extends BaseCanvas {
         obje1 = new Nobject();
         backbutton = new Nobject();
         restart = new Nobject();
+        fire = new Nobject();
+        jump = new Nobject();
         animKaragoz = new Animations(karagoz,hacivat);
         animHacivat = new Animations(hacivat,karagoz);
         setupHacivat();
@@ -35,6 +37,8 @@ public class GameCanvas extends BaseCanvas {
         hacivat.setNobject(Utils.loadImage(root,"hacivat.png"));
         backbutton.setNobject(Utils.loadImage(root,"backbutton.png"));
         restart.setNobject(Utils.loadImage(root,"restart.png"));
+        jump.setNobject(Utils.loadImage(root,"jump.png"));
+        fire.setNobject(Utils.loadImage(root,"fire.png"));
 
     }
     public void setupKaragoz(){
@@ -102,6 +106,14 @@ public class GameCanvas extends BaseCanvas {
         restart.setNobjectsource(0,0,706,720);
         restart.setNobjectdestination(getWidth()-backbutton.getNobjectdstw()*2,0,128,128);
         canvas.drawBitmap( restart.getNobject(),  restart.getNobjectsource(), restart.getNobjectdestination(), null);
+
+        fire.setNobjectsource(0,0,256,256);
+        fire.setNobjectdestination(getWidth()-fire.getNobjectdstw(),getHeight()-fire.getNobjectdsth(),256,256);
+        canvas.drawBitmap(fire.getNobject(),  fire.getNobjectsource(), fire.getNobjectdestination(), null);
+
+        jump.setNobjectsource(0,0,256,256);
+        jump.setNobjectdestination(0,getHeight()-jump.getNobjectdsth(),256,256);
+        canvas.drawBitmap( jump.getNobject(),  jump.getNobjectsource(), jump.getNobjectdestination(), null);
     }
     public void AiPlayerModeDefence(Character character){
             if(animHacivat.AIDefenceCollision()){
@@ -165,6 +177,10 @@ public class GameCanvas extends BaseCanvas {
 
             GameCanvas mc2= new GameCanvas(root);
             root.canvasManager.setCurrentCanvas(mc2);
+        }
+        if (x >= jump.getNobjectdstx() && x <= jump.getNobjectdstx() + jump.getNobjectdstw() && y >= jump.getNobjectdsty() && y <= jump.getNobjectdsty() + jump.getNobjectdsth()) {
+
+
         }
     }
 

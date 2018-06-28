@@ -88,27 +88,27 @@ public class MenuCanvas extends BaseCanvas {
             root.canvasManager.setCurrentCanvas(mc);
         }
         if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(root.activity);
-            builder1.setTitle("Programdan Çıkılsın Mı?").setCancelable(false).setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(root.activity);
+        builder1.setTitle("Programdan Çıkılsın Mı?").setCancelable(false).setPositiveButton("Evet", new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int id) { //Eğer evet butonuna basılırsa
-                    System.exit(0);
+            @Override
+            public void onClick(DialogInterface dialog, int id) { //Eğer evet butonuna basılırsa
+                System.exit(0);
 
 
-                }
-            }).setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            }
+        }).setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
 //Eğer hayır butonuna basılırsa
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-                }
-            });
+            }
+        });
 
-            builder1.show();
-        }
+        builder1.show();
     }
+}
 
 
 
