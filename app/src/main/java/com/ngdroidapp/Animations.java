@@ -5,9 +5,8 @@ import android.content.res.Resources;
 import istanbul.gamelab.ngdroid.util.Utils;
 
 public class Animations {
-    private double localX, StartCharacterX;
-    private Character character, targetCharacter;
-    private Nobject object;
+    private Character character,targetCharacter;
+    private FruitObject object;
     //Nesnenin X ve Y Konumu
     private int objectX, objectY;
     //Hedefin X ve Y Konumu
@@ -16,10 +15,8 @@ public class Animations {
     private int characterX, characterY, characterWidth, characterHeight;
     private int derece;
 
-    public Animations(Character character, Character target, Nobject object) {
+    public Animations(Character character,Character target,FruitObject object) {
         //Character Sınıfından karakterin X ve Y'sinin çekilmesi
-
-
         targetCharacter = target;
         character = new Character();
         this.object = object;
@@ -35,62 +32,62 @@ public class Animations {
     }
 
     public boolean Collision(Character character1, Nobject nobject) {
-        //Objelerin Karşılaştırılması
-        if (Utils.checkCollision(character1.getNobjectdestination(), nobject.getNobjectdestination())) {
-            return true;
-        } else {
+    //Objelerin Karşılaştırılması
+    if(Utils.checkCollision(character1.getNobjectdestination(),nobject.getNobjectdestination()))
+    { return true;
+        }else{
             return false;
         }
+    }
+
+    public Character getTargetCharacter() {
+        return targetCharacter;
+    }
+
+    public FruitObject getObject() {
+        return object;
+    }
+
+    public void setTargetCharacter(Character targetCharacter) {
+        this.targetCharacter = targetCharacter;
     }
 
     //YAPAY ZEKA DEFANS ÇARPIŞMA
-    public boolean AIDefenceCollision() {
-        if ((character.getNobjectdstx() + 100) == objectX) {
+    public boolean AIDefenceCollision(Nobject enemyobject) {
+        if ((character.getNobjectdstx() + (targetCharacter.getNobjectdstx() - character.getNobjectdstx()) - 150) >= enemyobject.getNobjectdstx() && character.getNobjectdsty() < enemyobject.getNobjectdsty() - enemyobject.getNobjectdsth()) {
             return true;
         } else {
             return false;
         }
     }
-
     //YAPAY ZEKA ATAK ÇARPIŞMA
-    public boolean AIAttackCollision() {
-        if ((character.getNobjectdstx() + 300) == objectX) {
+    public boolean AIAttackCollision(Nobject enemyobject) {
+        if((character.getNobjectdstx() + (targetCharacter.getNobjectdstx() - character.getNobjectdstx()) - 100) >= enemyobject.getNobjectdstx()) {
             return true;
-        } else {
+        }else {
             return false;
         }
     }
-
     //HACİVAT ATEŞ ANİMASYON
     public boolean ShoutAnımationHacivat() {
         if (!Collision(targetCharacter, object)) {
             objectX = object.getNobjectdstx();
-            objectX += 25;
+            objectX += 20;
             object.setNobjectdstx(objectX);
-            return true;
-        } else {
-            return false;
+            return true;}
+           else{return false;}
         }
-    }
-
     //KARAGÖZ ATEŞ ANİMASYON
     public boolean ShoutAnımationKaragoz() {
         if (!Collision(targetCharacter, object)) {
             objectX = object.getNobjectdstx();
-          //  SinCurve();
-
-            return true;
-        } else {
-            return false;}
-        }
-
-        //EKRAN YÜKSEKLİĞİ ALMA
-        public static int getScreenHeight()
-        {
-        return Resources.getSystem().getDisplayMetrics().heightPixels;
-        }
-
-       /*
+            objectX -= 20;
+            object.setNobjectdstx(objectX);
+            return true;}
+        else {return false;}
+    }
+}
+/*
         //EĞRİ
         public void SinCurve()
         {
@@ -115,9 +112,4 @@ public class Animations {
 
 }
 */
-}
-
-
-
-
 

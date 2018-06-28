@@ -12,7 +12,8 @@ public class Character extends Nobject{
     private int hitcount;
     //Karakterin kaç kez ıskaladığını tutar
     private int misscount;
-
+    //Karakterin mermi sayısını tutar
+    private int bulletcount;
     //Karakterin vuruş kontrolü
     private boolean shoutcountrol;
     //Karakterin zıplama kontrolü
@@ -32,14 +33,26 @@ public class Character extends Nobject{
         damagecount = 0;
         hitcount = 0;
         misscount = 0;
+        bulletcount = 10;
         shoutcountrol=false;
         jumpcontrol = false;
         livecontrol = true;
         downcontrol = false;
-        charAcceleration = 0;
-        derece=0;
+        charAcceleration = -5;
+        derece=6;
     }
 
+    public int getBulletcount() {
+        return bulletcount;
+    }
+
+    public void setBulletcount(int bulletcount) {
+        this.bulletcount = bulletcount;
+    }
+
+    public void decBulletCount(){
+        bulletcount--;
+    }
     public boolean isShoutControl() { return shoutcountrol; }
 
     public void setShoutcountrol(boolean shoutcountrol) {
@@ -117,23 +130,37 @@ public class Character extends Nobject{
     public void setDerece(int derece) {
         this.derece = derece;
     }
+    public void incDamageCount(){
+        damagecount++;
 
+    }
+    public void incHitCount(){
+        hitcount++;
+
+    }
+    public void incMissCount(){
+        misscount++;
+
+    }
+    public void decHealth(FruitObject fruitObject){
+        if(livecontrol)
+            health -= fruitObject.getWeight();
+    }
     public boolean jump(){
         if(livecontrol&&!downcontrol&&jumpcontrol){
-            derece+=6;
+            derece += 6;
             if (derece <= 90) {
-                charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 650;
+                charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 600;
             }
             else if (derece <= 180) {
-                charAcceleration += Math.sin(Math.toRadians(derece)/180) * 650;
+                charAcceleration += Math.sin(Math.toRadians(derece)/180) * 600;
             }else{
                 jumpcontrol =false;
-                derece = 0;
-                charAcceleration=0;
+                derece = 6;
+                charAcceleration = -5;
                 return true;
             }
            setNobjectdsty(getNobjectdsty()+(int)charAcceleration);
-
         }
         return false;
     }
