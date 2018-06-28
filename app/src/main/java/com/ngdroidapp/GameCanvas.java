@@ -96,7 +96,7 @@ public class GameCanvas extends BaseCanvas {
         if(karagoz.isJumpcontrol())KaragozJump();
         if (hacivat.isJumpcontrol()) HacivatJump();
 
-        }
+
         //ZIPLAMA KOMUT
 
         hacivat.setNobjectdsty(getHeight() - 300);
