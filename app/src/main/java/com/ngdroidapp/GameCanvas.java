@@ -12,11 +12,13 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 
 public class GameCanvas extends BaseCanvas {
+    //Değişkenler
     private boolean ShoutControl=false;
     Character karagoz, hacivat;
     Animations animKaragoz, animHacivat;
-    Nobject arkaplan, obje1, obje2,backbutton, restart, fire, jump;
+    Nobject arkaplan, obje1,obje2, backbutton, restart, fire, jump;
     private int touchdownx, touchdowny;
+
 
     public void setup() {
         karagoz = new Character();
@@ -33,7 +35,7 @@ public class GameCanvas extends BaseCanvas {
         setupObjectKaragoz();
         animKaragoz = new Animations(karagoz,hacivat,obje2);
         animHacivat = new Animations(hacivat,karagoz,obje1);
-        //Resimlerin Tanınması
+        //RESİMLERİN TANINMASI
 
         obje1.setNobject(Utils.loadImage(root,"orange.png"));
         obje2.setNobject(Utils.loadImage(root,"orange.png"));
@@ -46,9 +48,10 @@ public class GameCanvas extends BaseCanvas {
         fire.setNobject(Utils.loadImage(root,"fire.png"));
 
     }
+    //OBJE,KARAKTER SETUPLARI
     public void setupKaragoz(){
         karagoz = new Character();
-        karagoz.setNobjectdsty(getHeight()-karagoz.getNobjectdsth());
+        karagoz.setNobjectdsty(getHeight() - karagoz.getNobjectdsth());
         karagoz.setNobjectdstx(getWidth() - karagoz.getNobjectdstw()-400);
         karagoz.setNobjectdstw(150);
         karagoz.setNobjectdsth(330);
@@ -63,8 +66,8 @@ public class GameCanvas extends BaseCanvas {
     }
     public void setupObjectHacivat() {
         obje1 = new Nobject();
-        obje1.setNobjectdsty(getHeight() - hacivat.getNobjectdsth());
-        obje1.setNobjectdstx(getWidth() - hacivat.getNobjectdstw());
+        obje1.setNobjectdsty(hacivat.getNobjectdsty()+hacivat.getNobjectdsth()/2);
+        obje1.setNobjectdstx(hacivat.getNobjectdstx()+hacivat.getNobjectdstw());
         obje1.setNobjectdstw(25);
         obje1.setNobjectdsth(30);
     }
@@ -73,33 +76,48 @@ public class GameCanvas extends BaseCanvas {
         obje2 = new Nobject();
         obje2.setNobjectdstw(25);
         obje2.setNobjectdsth(30);
-        obje2.setNobjectdsty(getHeight() - karagoz.getNobjectdsth());
-        obje2.setNobjectdstx(getWidth() - karagoz.getNobjectdstw() - 25);
+        obje2.setNobjectdsty(karagoz.getNobjectdsty()+karagoz.getNobjectdsth()/2);
+        obje2.setNobjectdstx(karagoz.getNobjectdstx()-karagoz.getNobjectdstw());
     }
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
-
     }
 
     public void update(){
+       //YAŞIYORMU
         if(hacivat.isLivecontrol()){
             AiPlayer(hacivat,animHacivat);
 
         }
-        hacivat.setShoutControl(true);
+        //ZIPLAMA KOMUT
         if(hacivat.isJumpcontrol()){
         hacivat.jump();
-        }else
+        }
+        else
         {hacivat.setNobjectdsty(getHeight() - 300);}
+        //ATIŞ KONTROL TRUE
+         karagoz.setShoutControl(true);
 
+        //ATEŞ ETTİ Mİ?
         if(hacivat.isShoutControl())
         {
-            animHacivat.ShoutAnımation();
+            animHacivat.ShoutAnımationHacivat();
 
         }
-        if(animHacivat.ShoutAnımation())hacivat.setShoutControl(false);
+        if(karagoz.isShoutControl())
+        {
+            animKaragoz.ShoutAnımationKaragoz();
 
+        }
+        //ATEŞ ANİMASYON DURUM
+        if(animHacivat.ShoutAnımationHacivat()) {
+            hacivat.setShoutControl(false);
 
+        }
+        if(animKaragoz.ShoutAnımationKaragoz())
+        {
+            karagoz.setShoutControl(false);
+        }
 
     }
     public void draw(Canvas canvas) {
@@ -139,7 +157,7 @@ public class GameCanvas extends BaseCanvas {
         jump.setNobjectdestination(0,getHeight()-jump.getNobjectdsth(),256,256);
         canvas.drawBitmap( jump.getNobject(),  jump.getNobjectsource(), jump.getNobjectdestination(), null);
     }
-
+//HACİVAT ZIPLAMA KONTROLU
     public void HacivatJump(){
         if(!hacivat.isJumpcontrol()){
             hacivat.setJumpcontrol(true);
@@ -149,6 +167,7 @@ public class GameCanvas extends BaseCanvas {
             hacivat.setNobjectdsty(getHeight() - 300);
         }
     }
+//KARAGÖZ ZIPLAMA KONTROLU
     public void KaragozJump(){
         if(!karagoz.isJumpcontrol()){
             karagoz.setJumpcontrol(true);
@@ -158,9 +177,10 @@ public class GameCanvas extends BaseCanvas {
             karagoz.setNobjectdsty(getHeight() - 300);
         }
     }
+ //AI DEFANS
     public void AiPlayerModeDefence(Character character){
             if(animHacivat.AIAttackCollision()){
-                animHacivat.ShoutAnımation();
+                animHacivat.ShoutAnımationHacivat();
                if(!hacivat.isJumpcontrol()){
                    hacivat.setJumpcontrol(true);
                }

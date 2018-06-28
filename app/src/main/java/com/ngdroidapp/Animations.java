@@ -33,6 +33,7 @@ public class Animations {
             return false;
         }
     }
+    //YAPAY ZEKA DEFANS ÇARPIŞMA
     public boolean AIDefenceCollision() {
         if ((character.getNobjectdstx() + 100) == objectX) {
             return true;
@@ -40,6 +41,7 @@ public class Animations {
             return false;
         }
     }
+    //YAPAY ZEKA ATAK ÇARPIŞMA
     public boolean AIAttackCollision() {
         if((character.getNobjectdstx() + 300) == objectX) {
             return true;
@@ -47,16 +49,22 @@ public class Animations {
             return false;
         }
     }
-
-    public boolean ShoutAnımation() {
+    //HACİVAT ATEŞ ANİMASYON
+    public boolean ShoutAnımationHacivat() {
         if (!Collision(targetCharacter,object)){
             objectX += 15;
             object.setNobjectdstx(objectX);
             return true;}
            else{ return false;}
-
         }
-
+    //KARAGÖZ ATEŞ ANİMASYON
+    public boolean ShoutAnımationKaragoz() {
+        if (!Collision(targetCharacter,object)){
+            objectX -= 15;
+            object.setNobjectdstx(objectX);
+            return true;}
+        else{ return false;}
+    }
 
         }
 
