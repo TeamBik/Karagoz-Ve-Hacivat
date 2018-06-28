@@ -12,11 +12,11 @@ public class Animations {
     //Karakterin X ve Y Konumu
     private int characterX, characterY, characterWidth, characterHeight;
 
-    public Animations(Character character,Character target) {
+    public Animations(Character character,Character target,Nobject object) {
         //Character Sınıfından karakterin X ve Y'sinin çekilmesi
         targetCharacter = target;
         character = new Character();
-        object = new Nobject();
+        this.object = object;
         this.character = character;
         characterX = character.getNobjectdstx();
         characterY = character.getNobjectdstx();
