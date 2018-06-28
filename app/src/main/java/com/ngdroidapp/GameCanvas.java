@@ -72,8 +72,8 @@ public class GameCanvas extends BaseCanvas {
     }
     public void setupObjectHacivat() {
         obje1 = new Nobject();
-        obje1.setNobjectdstw(25);
-        obje1.setNobjectdsth(30);
+        obje1.setNobjectdstw(50);
+        obje1.setNobjectdsth(60);
         obje1.setNobjectdsty(hacivat.getNobjectdsty()+hacivat.getNobjectdsth()/2);
         obje1.setNobjectdstx(hacivat.getNobjectdstx()+hacivat.getNobjectdstw());
     }
@@ -118,6 +118,10 @@ public class GameCanvas extends BaseCanvas {
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(arkaplan.getNobject(), arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
 
+        obje2.setNobjectsource(0,0,757,720);
+        obje2.setNobjectdestination(obje2.getNobjectdstx() ,obje2.getNobjectdsty(),obje2.getNobjectdstw(),obje2.getNobjectdsth());
+        canvas.drawBitmap(obje2.getNobject(),obje2.getNobjectsource(),obje2.getNobjectdestination(),null);
+
         karagoz.setNobjectsource(0,0,2215,4892);
         karagoz.setNobjectdestination(getWidth() - karagoz.getNobjectdstw()-400,karagoz.getNobjectdsty(),150,330);
         canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
@@ -130,9 +134,6 @@ public class GameCanvas extends BaseCanvas {
         obje1.setNobjectdestination(obje1.getNobjectdstx() ,obje1.getNobjectdsty(),25,30);
         canvas.drawBitmap(obje1.getNobject(),obje1.getNobjectsource(),obje1.getNobjectdestination(),null);
 
-        obje2.setNobjectsource(0,0,757,720);
-        obje2.setNobjectdestination(obje2.getNobjectdstx() ,obje2.getNobjectdsty(),obje2.getNobjectdstw(),obje2.getNobjectdsth());
-        canvas.drawBitmap(obje2.getNobject(),obje2.getNobjectsource(),obje2.getNobjectdestination(),null);
 
         backbutton.setNobjectsource(0,0,256,256);
         backbutton.setNobjectdestination(getWidth()-backbutton.getNobjectdstw(),0,128,128);
@@ -164,20 +165,26 @@ public class GameCanvas extends BaseCanvas {
     public void karagozShot(){
         if(karagoz.isShoutControl()) {
             animKaragoz.ShoutAnımationKaragoz();
-            Log.i("Hareket Karagoz","Var");
+            setObje1SetBase();
         }
         if(!animKaragoz.ShoutAnımationKaragoz()){
-            Log.i("Collision","Var");
             karagoz.setShoutcountrol(false);
             obje2.setNobjectdsty(karagoz.getNobjectdsty() + karagoz.getNobjectdsth() / 4);
             obje2.setNobjectdstx(karagoz.getNobjectdstx() - obje2.getNobjectdstw());
         }
         else if (obje2.getNobjectdstx() < 0){
             karagoz.setShoutcountrol(false);
-            obje2.setNobjectdsty(karagoz.getNobjectdsty() + karagoz.getNobjectdsth() / 4);
-            obje2.setNobjectdstx(karagoz.getNobjectdstx() - obje2.getNobjectdstw());
+            setObje2SetBase();
         }
     }
+        public void setObje1SetBase(){
+            obje1.setNobjectdsty(hacivat.getNobjectdsty() + hacivat.getNobjectdsth() / 4);
+            obje1.setNobjectdstx(hacivat.getNobjectdstx() + hacivat.getNobjectdstw() - 20);
+        }
+        public void setObje2SetBase(){
+            obje2.setNobjectdsty(karagoz.getNobjectdsty() + karagoz.getNobjectdsth() / 4);
+            obje2.setNobjectdstx(karagoz.getNobjectdstx() - obje2.getNobjectdstw() + 20);
+        }
 //HACİVAT ZIPLAMA KONTROLU
     public void HacivatJump(){
         if(!hacivat.isJumpcontrol()){
