@@ -42,7 +42,7 @@ public class Character extends Nobject{
 
     public boolean isShoutControl() { return shoutcountrol; }
 
-    public void setShoutControl(boolean shoutcontrol) {
+    public void setShoutcountrol(boolean shoutcountrol) {
         this.shoutcountrol = shoutcountrol;
     }
 

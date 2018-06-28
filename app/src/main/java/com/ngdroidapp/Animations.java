@@ -52,20 +52,21 @@ public class Animations {
     //HACİVAT ATEŞ ANİMASYON
     public boolean ShoutAnımationHacivat() {
         if (!Collision(targetCharacter,object)){
-            objectX += 15;
+            objectX = object.getNobjectdstx();
+            objectX += 25;
             object.setNobjectdstx(objectX);
             return true;}
-           else{ return false;}
+           else{return false;}
         }
     //KARAGÖZ ATEŞ ANİMASYON
     public boolean ShoutAnımationKaragoz() {
         if (!Collision(targetCharacter,object)){
-            objectX -= 15;
+            objectX = object.getNobjectdstx();
+            objectX -= 25;
             object.setNobjectdstx(objectX);
             return true;}
-        else{ return false;}
+        else {return false;}
     }
-
-        }
+}
 
 
