@@ -19,13 +19,12 @@ public class GameCanvas extends BaseCanvas {
     private int touchdownx, touchdowny;
 
     public void setup() {
-        karagoz = new Character();
         arkaplan = new Nobject();
         obje1 = new Nobject();
         backbutton = new Nobject();
         restart = new Nobject();
-        animKaragoz = new Animations(karagoz,hacivat);
-        animHacivat = new Animations(hacivat,karagoz);
+        animKaragoz = new Animations(karagoz,hacivat,obje1);
+        animHacivat = new Animations(hacivat,karagoz,null);
         setupHacivat();
         setupKaragoz();
         //Resimlerin Tanınması
@@ -38,11 +37,11 @@ public class GameCanvas extends BaseCanvas {
 
     }
     public void setupKaragoz(){
-        hacivat = new Character();
-        hacivat.setNobjectdsty(getHeight()-karagoz.getNobjectdsth());
-        hacivat.setNobjectdstx(getWidth() - karagoz.getNobjectdstw()-400);
-        hacivat.setNobjectdstw(150);
-        hacivat.setNobjectdsth(330);
+        karagoz = new Character();
+        karagoz.setNobjectdsty(getHeight()-karagoz.getNobjectdsth());
+        karagoz.setNobjectdstx(getWidth() - karagoz.getNobjectdstw()-400);
+        karagoz.setNobjectdstw(150);
+        karagoz.setNobjectdsth(330);
     }
     public void setupHacivat(){
         hacivat = new Character();
@@ -54,13 +53,10 @@ public class GameCanvas extends BaseCanvas {
     }
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
-
     }
-
     public void update(){
         if(hacivat.isLivecontrol()){
             AiPlayer(hacivat,animHacivat);
-
         }
         hacivat.setShoutControl(true);
         if(hacivat.isJumpcontrol()){
@@ -74,9 +70,6 @@ public class GameCanvas extends BaseCanvas {
 
         }
         if(animHacivat.ShoutAnımation())hacivat.setShoutControl(false);
-
-
-
     }
     public void draw(Canvas canvas) {
         arkaplan.setNobjectsource(0,0,3840,2160);
@@ -103,8 +96,19 @@ public class GameCanvas extends BaseCanvas {
         restart.setNobjectdestination(getWidth()-backbutton.getNobjectdstw()*2,0,128,128);
         canvas.drawBitmap( restart.getNobject(),  restart.getNobjectsource(), restart.getNobjectdestination(), null);
     }
+
+    public void HacivatJump(){
+        if(!hacivat.isJumpcontrol()){
+            hacivat.setJumpcontrol(true);
+        }
+        if(hacivat.jump()){
+            hacivat.setJumpcontrol(false);
+            hacivat.setNobjectdsty(getHeight() - 300);
+        }
+    }
     public void AiPlayerModeDefence(Character character){
-            if(animHacivat.AIDefenceCollision()){
+            if(animHacivat.AIAttackCollision()){
+                animHacivat.ShoutAnımation();
                if(!hacivat.isJumpcontrol()){
                    hacivat.setJumpcontrol(true);
                }
@@ -114,7 +118,6 @@ public class GameCanvas extends BaseCanvas {
                }
             }else{
                 hacivat.setJumpcontrol(false);
-
             }
 
     }
