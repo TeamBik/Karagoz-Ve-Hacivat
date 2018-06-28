@@ -23,8 +23,8 @@ public class GameCanvas extends BaseCanvas {
         obje1 = new Nobject();
         backbutton = new Nobject();
         restart = new Nobject();
-        animKaragoz = new Animations(karagoz,hacivat,obje1);
-        animHacivat = new Animations(hacivat,karagoz,null);
+        animKaragoz = new Animations(karagoz,hacivat,null);
+        animHacivat = new Animations(hacivat,karagoz,obje1);
         setupHacivat();
         setupKaragoz();
         //Resimlerin Tanınması
