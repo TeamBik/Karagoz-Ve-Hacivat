@@ -97,20 +97,7 @@ public class GameCanvas extends BaseCanvas {
         else obje2.setNobjectdsty(karagoz.getNobjectdsty()+karagoz.getNobjectdsth()/4);
 
 
-       /* if(karagoz.isShoutControl())
-        {
-            animKaragoz.ShoutAnımationKaragoz();
-
-        }
-        //ATEŞ ANİMASYON DURUM
-        if(animHacivat.ShoutAnımationHacivat()) {
-            hacivat.setShoutControl(false);
-
-        }
-        if(animKaragoz.ShoutAnımationKaragoz())
-        {
-            karagoz.setShoutControl(false);
-        }*/
+     
 
     }
     public void draw(Canvas canvas) {
