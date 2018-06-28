@@ -51,6 +51,13 @@ public class GameCanvas extends BaseCanvas {
         hacivat.setNobjectdsth(330);
         hacivat.setJumpcontrol(true);
     }
+    public void setupObject() {
+        obje1 = new Nobject();
+        obje1.setNobjectdsty(getHeight() - hacivat.getNobjectdsth());
+        obje1.setNobjectdstx(getWidth() - hacivat.getNobjectdstw());
+        obje1.setNobjectdstw(25);
+        obje1.setNobjectdsth(30);
+    }
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
     }
