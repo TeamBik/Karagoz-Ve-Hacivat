@@ -1,5 +1,7 @@
 package com.ngdroidapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -188,10 +190,31 @@ public class GameCanvas extends BaseCanvas {
     }
 
     public boolean backPressed() {
-         System.exit(0);
-   return true;
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(root.activity);
+        builder1.setTitle("Programdan Çıkılsın Mı?").setCancelable(false).setPositiveButton("Evet", new DialogInterface.OnClickListener() {
 
+            @Override
+            public void onClick(DialogInterface dialog, int id) { //Eğer evet butonuna basılırsa
+                System.exit(0);
+
+
+            }
+        }).setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+//Eğer hayır butonuna basılırsa
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder1.show();
+    return true;
     }
+
+
+
+
 
 
 
