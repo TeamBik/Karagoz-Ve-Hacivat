@@ -4,7 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.nfc.Tag;
+import android.widget.ProgressBar;
 
 import istanbul.gamelab.ngdroid.base.BaseCanvas;
 import istanbul.gamelab.ngdroid.util.Log;
@@ -24,7 +27,8 @@ public class GameCanvas extends BaseCanvas {
     private int touchdownx, touchdowny;
     private final String Hacivat = "Hacivat";
     private final String Karagoz = "Karagoz";
-
+    private final int peachsrcx = 0, peachsrcy = 0, watermelonsrcx = 90, watermelonsrcy = 0, pearsrcx = 182, pearsrcy = 0, plumsrcx = 255, plumsrcy = 0, strawberrysrcx = 340, strawberrysrcy = 0, orangesrcx = 422, orangesrcy = 0, tomatosrcx = 0, tomatosrcy = 107 ;
+    private final int peachsrcw = 89, peachsrch = 107, watermelonsrcw = 90, watermelonsrch = 94, pearsrcw = 73, pearsrch = 107, plumsrcw = 84, plumsrch = 107, strawberrysrcw = 114 , strawberrysrch = 107, orangesrcw = 104, orangesrch = 107, tomatosrcw = 110, tomatosrch = 118 ;
     public void setup() {
         karagoz = new Character();
         arkaplan = new Nobject();
@@ -42,8 +46,8 @@ public class GameCanvas extends BaseCanvas {
         animHacivat = new Animations(hacivat,karagoz,obje1);
         //RESİMLERİN TANINMASI
 
-        obje1.setNobject(Utils.loadImage(root,"orange.png"));
-        obje2.setNobject(Utils.loadImage(root,"orange.png"));
+        obje1.setNobject(Utils.loadImage(root,"fruits.png"));
+        obje2.setNobject(Utils.loadImage(root,"fruits.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root,"karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root,"hacivat.png"));
@@ -75,6 +79,7 @@ public class GameCanvas extends BaseCanvas {
     }
     public void setupObjectHacivat() {
         obje1 = new FruitObject(10,10);
+        chooseFruitHacivat(2);
         obje1.setNobjectdstw(50);
         obje1.setNobjectdsth(60);
         setObje1SetBase();
@@ -82,6 +87,7 @@ public class GameCanvas extends BaseCanvas {
 
     public void setupObjectKaragoz() {
         obje2 = new FruitObject(10,10);
+        chooseFruitKaragoz(1);
         obje2.setNobjectdstw(50);
         obje2.setNobjectdsth(60);
         obje2.setLivecontrol(true);
@@ -112,7 +118,7 @@ public class GameCanvas extends BaseCanvas {
         canvas.drawBitmap(arkaplan.getNobject(), arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
 
         if(obje2.isLivecontrol()) {
-            obje2.setNobjectsource(0, 0, 757, 720);
+            obje2.setNobjectsource(obje2.getNobjectsrcx(), obje2.getNobjectsrcy(), obje2.getNobjectsrcw(), obje2.getNobjectsrch());
             obje2.setNobjectdestination(obje2.getNobjectdstx(), obje2.getNobjectdsty(), obje2.getNobjectdstw(), obje2.getNobjectdsth());
             canvas.drawBitmap(obje2.getNobject(), obje2.getNobjectsource(), obje2.getNobjectdestination(), null);
         }
@@ -120,13 +126,14 @@ public class GameCanvas extends BaseCanvas {
         karagoz.setNobjectdestination(karagoz.getNobjectdstx(),karagoz.getNobjectdsty(),150,330);
         canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
 
+        obje1.setNobjectsource(obje1.getNobjectsrcx(),obje1.getNobjectsrcy(),obje1.getNobjectsrcw(),obje1.getNobjectsrch());
+        obje1.setNobjectdestination(obje1.getNobjectdstx() ,obje1.getNobjectdsty(),obje1.getNobjectdstw(),obje1.getNobjectdsth());
+        canvas.drawBitmap(obje1.getNobject(),obje1.getNobjectsource(),obje1.getNobjectdestination(),null);
+
+
         hacivat.setNobjectsource(0,0,1957,5110);
         hacivat.setNobjectdestination(hacivat.getNobjectdstx(),hacivat.getNobjectdsty(),hacivat.getNobjectdstw(),hacivat.getNobjectdsth());
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
-
-        obje1.setNobjectsource(0,0,757,720);
-        obje1.setNobjectdestination(obje1.getNobjectdstx() ,obje1.getNobjectdsty(),obje1.getNobjectdstw(),obje1.getNobjectdsth());
-        canvas.drawBitmap(obje1.getNobject(),obje1.getNobjectsource(),obje1.getNobjectdestination(),null);
 
 
         backbutton.setNobjectsource(0,0,256,256);
@@ -149,16 +156,18 @@ public class GameCanvas extends BaseCanvas {
         if(hacivat.isShoutControl()){
             animHacivat.ShoutAnımationHacivat();
         }
-        if(hacivat.getBulletcount()==0){
+        if(hacivat.getBulletcount() == 0){
             hacivat.setShoutcountrol(false);
             Log.i(Hacivat,"Mermi Bitti");
-        }
+            obje1.setLivecontrol(false);
+        }else obje1.setLivecontrol(true);
         if(!animHacivat.ShoutAnımationHacivat()){
             hacivat.setShoutcountrol(false);
             setObje1SetBase();
             hacivat.decBulletCount();
+            animHacivat.getTargetCharacter().decHealth(animHacivat.getObject());
         }
-        else if(obje1.getNobjectdstx()+obje1.getNobjectdstw() > getWidth()){
+        else if(obje1.getNobjectdstx() + obje1.getNobjectdstw() > getWidth()){
             hacivat.setShoutcountrol(false);
             setObje1SetBase();
             hacivat.decBulletCount();
@@ -188,7 +197,7 @@ public class GameCanvas extends BaseCanvas {
     }
         //Obje1 i sahibi olan karakterin eline konumlandırır
         public void setObje1SetBase(){
-            obje1.setNobjectdsty(hacivat.getNobjectdsty() + hacivat.getNobjectdsth() / 4);
+            obje1.setNobjectdsty(hacivat.getNobjectdsty() + hacivat.getNobjectdsth() / 4 + 10);
             obje1.setNobjectdstx(hacivat.getNobjectdstx() + hacivat.getNobjectdstw() - 20);
         }
         //Obje2 i sahibi olan karakterin eline konumlandırır
@@ -216,7 +225,9 @@ public class GameCanvas extends BaseCanvas {
             karagoz.setNobjectdsty(getHeight() - karagoz.getNobjectdsth());
         }
     }
+    public void healthBarKaragoz(){
 
+    }
  //AI DEFANS
     public void aiPlayerModeAttack(){
             if(animHacivat.AIAttackCollision(obje2)){
@@ -229,6 +240,7 @@ public class GameCanvas extends BaseCanvas {
     }
     public void aiPlayerModeTrack(){
         if(animHacivat.AIAttackCollision(obje2)){
+
             if(animHacivat.AIDefenceCollision(obje2)){
                 hacivat.setShoutcountrol(true);
                 hacivat.setJumpcontrol(true);
@@ -245,13 +257,121 @@ public class GameCanvas extends BaseCanvas {
         }else if (karagoz.getBulletcount() == 0) hacivat.setShoutcountrol(true);
 
     }
-    public void aiPlayer(Character character,Animations animCharacter) {
-        if(hacivat.getHealth() > 70 ){
-            aiPlayerModeTrack();
-        }else if(hacivat.getHealth() > 50){
+    public void aiPlayer(Character character,Animations animCharacter)
+    {
+        if(hacivat.getHealth() > 70 && hacivat.getBulletcount() > 7){
             aiPlayerModeSafeAttack();
-        }else if(hacivat.getHealth() > 30){
+        }else if(hacivat.getHealth() > 70 && hacivat.getBulletcount() > 4 ){
             aiPlayerModeAttack();
+        }else if(hacivat.getHealth() > 50 && hacivat.getBulletcount() > 7){
+            aiPlayerModeTrack();
+        }else if(hacivat.getHealth() > 50 && hacivat.getBulletcount() > 4){
+            aiPlayerModeAttack();
+        }else if (hacivat.getHealth() > 30 && hacivat.getBulletcount() > 7){
+            aiPlayerModeSafeAttack();
+        }else if (hacivat.getHealth() > 30 && hacivat.getBulletcount() > 4){
+            aiPlayerModeAttack();
+        }else if(hacivat.getHealth() > 0 && hacivat.getBulletcount() > 0){
+            aiPlayerModeSafeAttack();
+        }else {
+            hacivat.setShoutcountrol(false);
+            obje1.setLivecontrol(false);
+        };
+
+    }
+
+    //Meyve Secimi
+    public void chooseFruitKaragoz(int fruitnumber){
+        switch (fruitnumber){
+            case 1:
+                obje2.setNobjectsrcx(peachsrcx);
+                obje2.setNobjectsrcy(peachsrcy);
+                obje2.setNobjectsrcw(peachsrcw);
+                obje2.setNobjectsrch(peachsrch);
+                break;
+            case 2:
+                obje2.setNobjectsrcx(watermelonsrcx);
+                obje2.setNobjectsrcy(watermelonsrcy);
+                obje2.setNobjectsrcw(watermelonsrcw);
+                obje2.setNobjectsrch(watermelonsrch);
+                break;
+            case 3:
+                obje2.setNobjectsrcx(pearsrcx);
+                obje2.setNobjectsrcy(pearsrcy);
+                obje2.setNobjectsrcw(pearsrcw);
+                obje2.setNobjectsrch(pearsrch);
+                break;
+            case 4:
+                obje2.setNobjectsrcx(plumsrcx);
+                obje2.setNobjectsrcy(plumsrcy);
+                obje2.setNobjectsrcw(plumsrcw);
+                obje2.setNobjectsrch(plumsrch);
+                break;
+            case 5:
+                obje2.setNobjectsrcx(strawberrysrcx);
+                obje2.setNobjectsrcy(strawberrysrcy);
+                obje2.setNobjectsrcw(strawberrysrcw);
+                obje2.setNobjectsrch(strawberrysrch);
+                break;
+            case 6:
+                obje2.setNobjectsrcx(orangesrcx);
+                obje2.setNobjectsrcy(orangesrcy);
+                obje2.setNobjectsrcw(orangesrcw);
+                obje2.setNobjectsrch(orangesrch);
+                break;
+            case 7:
+                obje2.setNobjectsrcx(tomatosrcx);
+                obje2.setNobjectsrcy(tomatosrcy);
+                obje2.setNobjectsrcw(tomatosrcw);
+                obje2.setNobjectsrch(tomatosrch);
+                break;
+        }
+
+    }
+    public void chooseFruitHacivat(int fruitnumber){
+        switch (fruitnumber){
+            case 1:
+                obje1.setNobjectsrcx(peachsrcx);
+                obje1.setNobjectsrcy(peachsrcy);
+                obje1.setNobjectsrcw(peachsrcw);
+                obje1.setNobjectsrch(peachsrch);
+                break;
+            case 2:
+                obje1.setNobjectsrcx(watermelonsrcx);
+                obje1.setNobjectsrcy(watermelonsrcy);
+                obje1.setNobjectsrcw(watermelonsrcw);
+                obje1.setNobjectsrch(watermelonsrch);
+                break;
+            case 3:
+                obje1.setNobjectsrcx(pearsrcx);
+                obje1.setNobjectsrcy(pearsrcy);
+                obje1.setNobjectsrcw(pearsrcw);
+                obje1.setNobjectsrch(pearsrch);
+                break;
+            case 4:
+                obje1.setNobjectsrcx(plumsrcx);
+                obje1.setNobjectsrcy(plumsrcy);
+                obje1.setNobjectsrcw(plumsrcw);
+                obje1.setNobjectsrch(plumsrch);
+                break;
+            case 5:
+                obje1.setNobjectsrcx(strawberrysrcx);
+                obje1.setNobjectsrcy(strawberrysrcy);
+                obje1.setNobjectsrcw(strawberrysrcw);
+                obje1.setNobjectsrch(strawberrysrch);
+                break;
+            case 6:
+                obje1.setNobjectsrcx(orangesrcx);
+                obje1.setNobjectsrcy(orangesrcy);
+                obje1.setNobjectsrcw(orangesrcw);
+                obje1.setNobjectsrch(orangesrch);
+                break;
+            case 7:
+                obje1.setNobjectsrcx(tomatosrcx);
+                obje1.setNobjectsrcy(tomatosrcy);
+                obje1.setNobjectsrcw(tomatosrcw);
+                obje1.setNobjectsrch(tomatosrch);
+                break;
         }
 
     }

@@ -56,7 +56,7 @@ public class Animations {
     public boolean AIDefenceCollision(Nobject enemyobject) {
         if ((character.getNobjectdstx() + (targetCharacter.getNobjectdstx() - character.getNobjectdstx()) - 150) >= enemyobject.getNobjectdstx() && character.getNobjectdsty() < enemyobject.getNobjectdsty() - enemyobject.getNobjectdsth()) {
             return true;
-        } else {
+        }else {
             return false;
         }
     }
