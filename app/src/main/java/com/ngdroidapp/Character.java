@@ -33,7 +33,7 @@ public class Character extends Nobject{
         damagecount = 0;
         hitcount = 0;
         misscount = 0;
-        bulletcount = 10;
+        bulletcount = 30;
         shoutcountrol=false;
         jumpcontrol = false;
         livecontrol = true;
@@ -147,7 +147,7 @@ public class Character extends Nobject{
             health -= fruitObject.getWeight();
     }
     public boolean jump(){
-        if(livecontrol&&!downcontrol&&jumpcontrol){
+        if(!downcontrol&&jumpcontrol){
             derece += 6;
             if (derece <= 90) {
                 charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 600;

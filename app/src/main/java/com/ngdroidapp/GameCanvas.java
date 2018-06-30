@@ -23,13 +23,13 @@ public class GameCanvas extends BaseCanvas {
     Character karagoz, hacivat;
     Animations animKaragoz, animHacivat;
     Nobject arkaplan, backbutton, restart, fire, jump;
-    Nobject blackbar2, blackbar, greenbar, greenbar2;
+    Nobject blackbarHacivat, blackbarKaragoz, greenbarKaragoz, greenbarHacivat;
     FruitObject obje1,obje2;
     private int touchdownx, touchdowny;
     private final String Hacivat = "Hacivat";
     private final String Karagoz = "Karagoz";
     private final int peachsrcx = 0, peachsrcy = 0, watermelonsrcx = 90, watermelonsrcy = 0, pearsrcx = 182, pearsrcy = 0, plumsrcx = 255, plumsrcy = 0, strawberrysrcx = 340, strawberrysrcy = 0, orangesrcx = 422, orangesrcy = 0, tomatosrcx = 0, tomatosrcy = 107 ;
-    private final int peachsrcw = 89, peachsrch = 107, watermelonsrcw = 90, watermelonsrch = 94, pearsrcw = 73, pearsrch = 107, plumsrcw = 84, plumsrch = 107, strawberrysrcw = 114 , strawberrysrch = 107, orangesrcw = 104, orangesrch = 107, tomatosrcw = 110, tomatosrch = 118 ;
+    private final int peachsrcw = 89, peachsrch = 107, watermelonsrcw = 90, watermelonsrch = 94, pearsrcw = 73, pearsrch = 107, plumsrcw = 84, plumsrch = 107, strawberrysrcw = 82 , strawberrysrch = 107, orangesrcw = 104, orangesrch = 107, tomatosrcw = 110, tomatosrch = 118 ;
     public void setup() {
         karagoz = new Character();
         arkaplan = new Nobject();
@@ -38,15 +38,15 @@ public class GameCanvas extends BaseCanvas {
         restart = new Nobject();
         fire = new Nobject();
         jump = new Nobject();
-        blackbar2 = new Nobject();
-        blackbar = new Nobject();
-        greenbar = new Nobject();
-        greenbar2 = new Nobject();
+        greenbarKaragoz = new Nobject();
+        greenbarHacivat = new Nobject();
 
         setupHacivat();
         setupKaragoz();
         setupObjectHacivat();
         setupObjectKaragoz();
+        setupHealthBarHacivat();
+        setupHealthBarKaragoz();
         animKaragoz = new Animations(karagoz,hacivat,obje2);
         animHacivat = new Animations(hacivat,karagoz,obje1);
         //RESİMLERİN TANINMASI
@@ -60,10 +60,10 @@ public class GameCanvas extends BaseCanvas {
         restart.setNobject(Utils.loadImage(root,"restart.png"));
         jump.setNobject(Utils.loadImage(root,"jump.png"));
         fire.setNobject(Utils.loadImage(root,"fire.png"));
-        blackbar2.setNobject(Utils.loadImage(root,"blackbar.png"));
-        blackbar.setNobject(Utils.loadImage(root, "blackbar2.png"));
-        greenbar.setNobject(Utils.loadImage(root, "greenbar.png"));
-        greenbar2.setNobject(Utils.loadImage(root, "greenbar.png"));
+        blackbarHacivat.setNobject(Utils.loadImage(root,"blackbar2.png"));
+        blackbarKaragoz.setNobject(Utils.loadImage(root, "blackbar.png"));
+        greenbarKaragoz.setNobject(Utils.loadImage(root, "greenbar.png"));
+        greenbarHacivat.setNobject(Utils.loadImage(root, "greenbar2.png"));
 
     }
     //OBJE,KARAKTER SETUPLARI
@@ -96,29 +96,109 @@ public class GameCanvas extends BaseCanvas {
 
     public void setupObjectKaragoz() {
         obje2 = new FruitObject(10,10);
-        chooseFruitKaragoz(1);
+        chooseFruitKaragoz(5);
         obje2.setNobjectdstw(50);
         obje2.setNobjectdsth(60);
         obje2.setLivecontrol(true);
         setObje2SetBase();
     }
+
+    // Karagöz ve Hacivat sağlık barı Setupı
+    public void setupHealthBarHacivat(){
+        setupBlackBarHacivat();
+        setupGreenBarHacivat();
+    }
+    public void setupHealthBarKaragoz(){
+        setupBlackBarKaragoz();
+        setupGreenBarKaragoz();
+    }
+
+    //Karagöz ve Hacivat Sağlık Barı Çercevesi
+    public void setupBlackBarKaragoz(){
+        blackbarKaragoz = new Nobject();
+        blackbarKaragoz.setNobjectsrcx(0);
+        blackbarKaragoz.setNobjectsrcy(0);
+        blackbarKaragoz.setNobjectsrcw(811);
+        blackbarKaragoz.setNobjectsrch(266);
+        blackbarKaragoz.setNobjectdstw(blackbarKaragoz.getNobjectsrcw() / 4 * 3);
+        blackbarKaragoz.setNobjectdsth(blackbarKaragoz.getNobjectsrch() / 3 * 2);
+        blackbarKaragoz.setNobjectdstx(getWidth() / 2 + 50);
+        blackbarKaragoz.setNobjectdsty(5);
+    }
+    public void setupBlackBarHacivat(){
+        blackbarHacivat = new Nobject();
+        blackbarHacivat.setNobjectsrcx(0);
+        blackbarHacivat.setNobjectsrcy(0);
+        blackbarHacivat.setNobjectsrcw(826);
+        blackbarHacivat.setNobjectsrch(266);
+        blackbarHacivat.setNobjectdstw(blackbarHacivat.getNobjectsrcw() / 4 * 3);
+        blackbarHacivat.setNobjectdsth(blackbarHacivat.getNobjectsrch() / 3 * 2);
+        blackbarHacivat.setNobjectdstx(getWidth() / 2 - blackbarHacivat.getNobjectdstw() - 50);
+        blackbarHacivat.setNobjectdsty(5);
+    }
+    //Karagöz ve Hacivat Sağlık Barı Can Göstergesi
+    public void setupGreenBarHacivat(){
+        greenbarHacivat = new Nobject();
+        greenbarHacivat.setNobjectsrcx(0);
+        greenbarHacivat.setNobjectsrcy(0);
+        greenbarHacivat.setNobjectsrcw(759);
+        greenbarHacivat.setNobjectsrch(143);
+        greenbarHacivat.setNobjectdstx(getWidth() / 2 - 220 - hacivat.getHealth() * 4);
+        greenbarHacivat.setNobjectdstw(getWidth() / 2 - 220 - greenbarHacivat.getNobjectdstx());
+        greenbarHacivat.setNobjectdsth(blackbarHacivat.getNobjectdsth() - 45);
+        greenbarHacivat.setNobjectdsty(blackbarHacivat.getNobjectdsty() + 35);
+    }
+    public void setupGreenBarKaragoz(){
+        greenbarKaragoz = new Nobject();
+        greenbarKaragoz.setNobjectsrcx(0);
+        greenbarKaragoz.setNobjectsrcy(0);
+        greenbarKaragoz.setNobjectsrcw(759);
+        greenbarKaragoz.setNobjectsrch(143);
+        greenbarKaragoz.setNobjectdstw(karagoz.getHealth() * 4);
+        greenbarKaragoz.setNobjectdsth(blackbarKaragoz.getNobjectdsth() - 37);
+        greenbarKaragoz.setNobjectdstx(blackbarKaragoz.getNobjectdstx() + 150);
+        greenbarKaragoz.setNobjectdsty(blackbarKaragoz.getNobjectdsty() + 37);
+    }
+
+    ////Karakter karakterin sağlık durumunu günceller
+    public void setHacivatHealth(){
+        greenbarHacivat.setNobjectdstx(getWidth() / 2 - 220 - hacivat.getHealth() * 4);
+        greenbarHacivat.setNobjectdstw(getWidth() / 2 - 220 - greenbarHacivat.getNobjectdstx());
+
+    }
+    ////Karakter karakterin sağlık durumunu günceller
+    public void setKaragozHealth(){
+        greenbarKaragoz.setNobjectdstw(karagoz.getHealth() * 4);
+    }
+
+
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
     }
 
     public void update(){
-        if(karagoz.isJumpcontrol()) karagozJump();
 
-        if(hacivat.isJumpcontrol()) hacivatJump();
+        if(hacivat.getHealth() <=0){
+            hacivat.setLivecontrol(false);
+            Log.i(Hacivat,"dead");
+        }
+        if(karagoz.getHealth() <= 0){
+            karagoz.setLivecontrol(false);
+            Log.i(Karagoz,"dead");
+        }
 
-        if(hacivat.isShoutControl()) hacivatShot();
-        else setObje1SetBase();
+        if(karagoz.isLivecontrol() && hacivat.isLivecontrol()){
+            if(karagoz.isJumpcontrol()) karagozJump();
+            if(karagoz.isShoutControl()) karagozShot();
+            else setObje2SetBase();
 
-        if(karagoz.isShoutControl()) karagozShot();
-        else setObje2SetBase();
-        aiPlayer(hacivat,animHacivat);
+            if (hacivat.isJumpcontrol()) hacivatJump();
 
-     
+            if (hacivat.isShoutControl()) hacivatShot();
+            else setObje1SetBase();
+            aiPlayer(hacivat,animHacivat);
+            Log.i("GameCanvas","Oyun Devam Ediyor");
+        }
 
     }
     public void draw(Canvas canvas) {
@@ -161,27 +241,21 @@ public class GameCanvas extends BaseCanvas {
         jump.setNobjectdestination(0,getHeight()-jump.getNobjectdsth(),256,256);
         canvas.drawBitmap( jump.getNobject(),  jump.getNobjectsource(), jump.getNobjectdestination(), null);
 
-        greenbar.setNobjectsource(0,0,800,600);
-        greenbar.setNobjectdestination(getWidth()/2-blackbar.getNobjectdstw()+50,-200,hacivat.getHealth()*5-50,600);
-        canvas.drawBitmap(greenbar.getNobject(),  greenbar.getNobjectsource(), greenbar.getNobjectdestination(), null);
+        greenbarKaragoz.setNobjectsource(greenbarKaragoz.getNobjectsrcx(),greenbarKaragoz.getNobjectsrcy(),greenbarKaragoz.getNobjectsrcw(),greenbarKaragoz.getNobjectsrch());
+        greenbarKaragoz.setNobjectdestination(greenbarKaragoz.getNobjectdstx(),greenbarKaragoz.getNobjectdsty(),greenbarKaragoz.getNobjectdstw(),greenbarKaragoz.getNobjectdsth());
+        canvas.drawBitmap(greenbarKaragoz.getNobject(),  greenbarKaragoz.getNobjectsource(), greenbarKaragoz.getNobjectdestination(), null);
 
-        greenbar2.setNobjectsource(0,0,800,600);
-        greenbar2.setNobjectdestination(getWidth()/2+180,-200,hacivat.getHealth()*5-50,600);
-        canvas.drawBitmap(greenbar2.getNobject(),  greenbar2.getNobjectsource(), greenbar2.getNobjectdestination(), null);
+        greenbarHacivat.setNobjectsource(greenbarHacivat.getNobjectsrcx(),greenbarHacivat.getNobjectsrcy(),greenbarHacivat.getNobjectsrcw(),greenbarHacivat.getNobjectsrch());
+        greenbarHacivat.setNobjectdestination(greenbarHacivat.getNobjectdstx(),greenbarHacivat.getNobjectdsty(),greenbarHacivat.getNobjectdstw(),greenbarHacivat.getNobjectdsth());
+        canvas.drawBitmap(greenbarHacivat.getNobject(),  greenbarHacivat.getNobjectsource(), greenbarHacivat.getNobjectdestination(), null);
 
-        blackbar.setNobjectsource(0,88,842,985);
-        blackbar.setNobjectdestination(getWidth()/2-blackbar.getNobjectdstw(),5,700,650);
-        canvas.drawBitmap(blackbar.getNobject(),  blackbar.getNobjectsource(), blackbar.getNobjectdestination(), null);
+        blackbarKaragoz.setNobjectsource(blackbarKaragoz.getNobjectsrcx(),blackbarKaragoz.getNobjectsrcy(),blackbarKaragoz.getNobjectsrcw(),blackbarKaragoz.getNobjectsrch());
+        blackbarKaragoz.setNobjectdestination(blackbarKaragoz.getNobjectdstx(),blackbarKaragoz.getNobjectdsty(),blackbarKaragoz.getNobjectdstw(),blackbarKaragoz.getNobjectdsth());
+        canvas.drawBitmap(blackbarKaragoz.getNobject(),  blackbarKaragoz.getNobjectsource(), blackbarKaragoz.getNobjectdestination(), null);
 
-        blackbar2.setNobjectsource(0,715,842,985);
-        blackbar2.setNobjectdestination(getWidth()/2,5,700,650);
-        canvas.drawBitmap(blackbar2.getNobject(),  blackbar2.getNobjectsource(), blackbar2.getNobjectdestination(), null);
-
-
-
-
-
-
+        blackbarHacivat.setNobjectsource(blackbarHacivat.getNobjectsrcx(),blackbarHacivat.getNobjectsrcy(),blackbarHacivat.getNobjectsrcw(),blackbarHacivat.getNobjectsrch());
+        blackbarHacivat.setNobjectdestination(blackbarHacivat.getNobjectdstx(),blackbarHacivat.getNobjectdsty(),blackbarHacivat.getNobjectdstw(),blackbarHacivat.getNobjectdsth());
+        canvas.drawBitmap(blackbarHacivat.getNobject(),  blackbarHacivat.getNobjectsource(), blackbarHacivat.getNobjectdestination(), null);
 
 
     }
@@ -199,6 +273,7 @@ public class GameCanvas extends BaseCanvas {
             setObje1SetBase();
             hacivat.decBulletCount();
             animHacivat.getTargetCharacter().decHealth(animHacivat.getObject());
+            setKaragozHealth();
         }
         else if(obje1.getNobjectdstx() + obje1.getNobjectdstw() > getWidth()){
             hacivat.setShoutcountrol(false);
@@ -218,7 +293,7 @@ public class GameCanvas extends BaseCanvas {
         if(!animKaragoz.ShoutAnımationKaragoz()){
             karagoz.setShoutcountrol(false);
             animKaragoz.getTargetCharacter().decHealth(animKaragoz.getObject());
-            greenbar.setNobjectdstw(hacivat.getHealth());
+            setHacivatHealth();
             Log.i("Ai Player",""+animKaragoz.getTargetCharacter().getHealth());
             setObje2SetBase();
             karagoz.decBulletCount();
@@ -259,9 +334,7 @@ public class GameCanvas extends BaseCanvas {
             karagoz.setNobjectdsty(getHeight() - karagoz.getNobjectdsth());
         }
     }
-    public void healthBarKaragoz(){
 
-    }
  //AI DEFANS
     public void aiPlayerModeAttack(){
             if(animHacivat.AIAttackCollision(obje2)){
@@ -270,11 +343,9 @@ public class GameCanvas extends BaseCanvas {
                     hacivat.setJumpcontrol(true);
                 }
             }else if (karagoz.getBulletcount() == 0) hacivat.setShoutcountrol(true);
-
     }
     public void aiPlayerModeTrack(){
         if(animHacivat.AIAttackCollision(obje2)){
-
             if(animHacivat.AIDefenceCollision(obje2)){
                 hacivat.setShoutcountrol(true);
                 hacivat.setJumpcontrol(true);
@@ -289,10 +360,8 @@ public class GameCanvas extends BaseCanvas {
                 hacivat.setJumpcontrol(true);
             }
         }else if (karagoz.getBulletcount() == 0) hacivat.setShoutcountrol(true);
-
     }
-    public void aiPlayer(Character character,Animations animCharacter)
-    {
+    public void aiPlayer(Character character,Animations animCharacter) {
         if(hacivat.getHealth() > 70 && hacivat.getBulletcount() > 7){
             aiPlayerModeSafeAttack();
         }else if(hacivat.getHealth() > 70 && hacivat.getBulletcount() > 4 ){
