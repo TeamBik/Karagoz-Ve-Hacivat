@@ -176,6 +176,7 @@ public class GameCanvas extends BaseCanvas {
         super(ngApp);
     }
 
+
     public void update(){
 
         if(hacivat.getHealth() <=0){
@@ -304,17 +305,18 @@ public class GameCanvas extends BaseCanvas {
             karagoz.decBulletCount();
         }
     }
-        //Obje1 i sahibi olan karakterin eline konumlandırır
-        public void setObje1SetBase(){
-            obje1.setNobjectdsty(hacivat.getNobjectdsty() + hacivat.getNobjectdsth() / 4 + 10);
-            obje1.setNobjectdstx(hacivat.getNobjectdstx() + hacivat.getNobjectdstw() - 20);
-        }
-        //Obje2 i sahibi olan karakterin eline konumlandırır
-        public void setObje2SetBase(){
-            obje2.setNobjectdsty(karagoz.getNobjectdsty() + karagoz.getNobjectdsth() / 4);
-            obje2.setNobjectdstx(karagoz.getNobjectdstx() - obje2.getNobjectdstw() + 20);
-        }
-//HACİVAT ZIPLAMA KONTROLU
+
+    //Obje1 i sahibi olan karakterin eline konumlandırır
+    public void setObje1SetBase(){
+        obje1.setNobjectdsty(hacivat.getNobjectdsty() + hacivat.getNobjectdsth() / 4 + 10);
+        obje1.setNobjectdstx(hacivat.getNobjectdstx() + hacivat.getNobjectdstw() - 20);
+    }
+    //Obje2 i sahibi olan karakterin eline konumlandırır
+    public void setObje2SetBase(){
+        obje2.setNobjectdsty(karagoz.getNobjectdsty() + karagoz.getNobjectdsth() / 4);
+        obje2.setNobjectdstx(karagoz.getNobjectdstx() - obje2.getNobjectdstw() + 20);
+    }
+    //HACİVAT ZIPLAMA KONTROLU
     public void hacivatJump(){
         if(!hacivat.isJumpcontrol()){
             hacivat.setJumpcontrol(true);
@@ -324,7 +326,7 @@ public class GameCanvas extends BaseCanvas {
             hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdsth());
         }
     }
-//KARAGÖZ ZIPLAMA KONTROLU
+    //KARAGÖZ ZIPLAMA KONTROLU
     public void karagozJump(){
         if(!karagoz.isJumpcontrol()){
             karagoz.setJumpcontrol(true);
@@ -334,8 +336,7 @@ public class GameCanvas extends BaseCanvas {
             karagoz.setNobjectdsty(getHeight() - karagoz.getNobjectdsth());
         }
     }
-
- //AI DEFANS
+     //AI DEFANS
     public void aiPlayerModeAttack(){
             if(animHacivat.AIAttackCollision(obje2)){
                 if(animHacivat.AIDefenceCollision(obje2)){
@@ -382,7 +383,6 @@ public class GameCanvas extends BaseCanvas {
         };
 
     }
-
     //Meyve Secimi
     public void chooseFruitKaragoz(int fruitnumber){
         switch (fruitnumber){
