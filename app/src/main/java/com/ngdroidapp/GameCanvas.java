@@ -168,7 +168,7 @@ public class GameCanvas extends BaseCanvas {
         greenbarKaragoz.setNobjectdstw(karagoz.getHealth() * 4);
         greenbarKaragoz.setNobjectdsth(blackbarKaragoz.getNobjectdsth() - 38);
         greenbarKaragoz.setNobjectdstx(blackbarKaragoz.getNobjectdstx() + 150);
-        greenbarKaragoz.setNobjectdsty(blackbarKaragoz.getNobjectdsty() + 39    );
+        greenbarKaragoz.setNobjectdsty(blackbarKaragoz.getNobjectdsty() + 39);
     }
 
     ////Karakter karakterin sağlık durumunu günceller

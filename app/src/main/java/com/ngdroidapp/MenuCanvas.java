@@ -30,7 +30,8 @@ public class MenuCanvas extends BaseCanvas {
         hacivat = new Character();
         playbutton = new Nobject();
         backbutton = new Nobject();
-
+        setupKaragoz();
+        setupHacivat();
 
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root, "karagoz.png"));
@@ -40,8 +41,58 @@ public class MenuCanvas extends BaseCanvas {
 
     }
 
-    public void update() {
+    /*
+    public void setupKaragoz(){
+        karagoz = new Character();
+        karagoz.setNobjectdstw(150);
+        karagoz.setNobjectdsth(330);
+        karagoz.setNobjectdsty(getHeight()-karagoz.getNobjectdsth());
+        karagoz.setNobjectdstx(getWidth() - karagoz.getNobjectdstw()-400);
+        karagoz.setJumpcontrol(false);
+        hacivat.setShoutcountrol(false);
 
+    }
+    public void setupHacivat(){
+        hacivat = new Character();
+        hacivat.setNobjectdstw(150);
+        hacivat.setNobjectdsth(330);
+        hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdsth());
+        hacivat.setNobjectdstx(300);
+        hacivat.setJumpcontrol(false);
+        hacivat.setShoutcountrol(false);
+    }
+
+    public void transformKaragoz(){
+        if(karagoz.getNobjectdstw() > 150)
+        karagoz.setNobjectdstw(karagoz.getNobjectdstw() - karagoz.getNobjectdstw() / 60);
+        if(karagoz.getNobjectdsth() > 330)
+        karagoz.setNobjectdsth(karagoz.getNobjectdsth() - karagoz.getNobjectdsth() / 60);
+        if(karagoz.getNobjectdstx() > getWidth() - 550 )
+        karagoz.setNobjectdstx(karagoz.getNobjectdstx() - 5);
+        if(karagoz.getNobjectdsty() < getHeight() - 330)
+        karagoz.setNobjectdsty(karagoz.getNobjectdsty() + 10);
+    } */
+    public void setupKaragoz(){
+        karagoz = new Character();
+        karagoz.setNobjectdstw(300);
+        karagoz.setNobjectdsth(660);
+        karagoz.setNobjectdsty(getWidth() / 8);
+        karagoz.setNobjectdstx(getWidth() * 4 / 6);
+        karagoz.setJumpcontrol(false);
+        hacivat.setShoutcountrol(false);
+
+    }
+    public void setupHacivat(){
+        hacivat = new Character();
+        hacivat.setNobjectdstw(300);
+        hacivat.setNobjectdsth(660);
+        hacivat.setNobjectdsty(getWidth() / 8);
+        hacivat.setNobjectdstx(getHeight() / 6 + hacivat.getNobjectdstw() / 2);
+        hacivat.setJumpcontrol(false);
+        hacivat.setShoutcountrol(false);
+    }
+
+    public void update() {
 
 
     }
@@ -52,15 +103,16 @@ public class MenuCanvas extends BaseCanvas {
         canvas.drawBitmap(arkaplan.getNobject(),  arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
 
         karagoz.setNobjectsource(0,0,2215,4892);
-        karagoz.setNobjectdestination(getWidth() *4/6,getHeight()*1/4,300,660);
+        karagoz.setNobjectdestination(karagoz.getNobjectdstx(),karagoz.getNobjectdsty(),karagoz.getNobjectdstw(),karagoz.getNobjectdsth());
         canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
 
+
         hacivat.setNobjectsource(0,0,1957,5110);
-        hacivat.setNobjectdestination(getWidth()*1/6,getHeight()*1/4,300,660);
+        hacivat.setNobjectdestination(hacivat.getNobjectdstx(),hacivat.getNobjectdsty(),hacivat.getNobjectdstw(),hacivat.getNobjectdsth());
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 
         playbutton.setNobjectsource(0,0,300,122);
-        playbutton.setNobjectdestination(getWidth()/2-playbutton.getNobjectdstw()/2,getHeight()/2,600,244);
+        playbutton.setNobjectdestination(getWidth()/2-playbutton.getNobjectdstw()/2,getHeight()/2-playbutton.getNobjectdsth()/2,600,244);
         canvas.drawBitmap(playbutton.getNobject(), playbutton.getNobjectsource(), playbutton.getNobjectdestination(), null);
 
         backbutton.setNobjectsource(0,0,256,256);
