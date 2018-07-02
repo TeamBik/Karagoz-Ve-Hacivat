@@ -25,7 +25,7 @@ public class GameCanvas extends BaseCanvas {
     private boolean ShoutControl=false ,gameControl = true;
     private Character karagoz, hacivat;
     private Animations animKaragoz, animHacivat;
-    private Nobject arkaplan, backbutton, restart, fire, jump,bomb;
+    private Nobject arkaplan, backbutton, restart, fire, jump,bomb, win, lose;
     private Nobject blackbarHacivat, blackbarKaragoz, greenbarKaragoz, greenbarHacivat;
     private FruitObject obje1,obje2;
     private Paint paintTime, paintStartingTime;
@@ -37,7 +37,6 @@ public class GameCanvas extends BaseCanvas {
     private final int peachsrcw = 89, peachsrch = 107, watermelonsrcw = 90, watermelonsrch = 94, pearsrcw = 73, pearsrch = 107, plumsrcw = 84, plumsrch = 107, strawberrysrcw = 82 , strawberrysrch = 107, orangesrcw = 104, orangesrch = 107, tomatosrcw = 110, tomatosrch = 118 ;
     private final int peachv = 17, peachw = 10, watermelonv = 15, watermelonw = 10, pearv = 20, pearw = 10, plumv = 25, plumw = 10, strawberryv = 27 , strawberryw = 10, orangev = 25, orangew = 10, tomatov = 27, tomatow = 10 ;
     public void setup() {
-
         karagoz = new Character();
         arkaplan = new Nobject();
         obje1 = new FruitObject(10,10);
@@ -51,6 +50,9 @@ public class GameCanvas extends BaseCanvas {
         setupBomb();
         randFruitHacivat = new Random();
         randFruitKaragoz = new Random();
+        win = new Nobject();
+        lose= new Nobject();
+        gameControl = true;
         setupHacivat();
         setupKaragoz();
         setupObjectHacivat();
@@ -58,11 +60,12 @@ public class GameCanvas extends BaseCanvas {
         setupHealthBarHacivat();
         setupHealthBarKaragoz();
         setupText();
+        setupwin();
+        setuplose();
         time = 1800;
         startingtime = 120;
         animKaragoz = new Animations(karagoz,hacivat,obje2);
         animHacivat = new Animations(hacivat,karagoz,obje1);
-
         //RESİMLERİN TANINMASI
 
         bomb.setNobject(Utils.loadImage(root,"bom.jpg"));
@@ -79,6 +82,8 @@ public class GameCanvas extends BaseCanvas {
         blackbarKaragoz.setNobject(Utils.loadImage(root, "blackbar.png"));
         greenbarKaragoz.setNobject(Utils.loadImage(root, "greenbar.png"));
         greenbarHacivat.setNobject(Utils.loadImage(root, "greenbar2.png"));
+        win.setNobject(Utils.loadImage(root, "win.png"));
+        lose.setNobject(Utils.loadImage(root,"lose.png"));
 
     }
     public void setupText(){
@@ -138,6 +143,7 @@ public class GameCanvas extends BaseCanvas {
         obje2.setLivecontrol(true);
         setObje2SetBase();
     }
+
     // Karagöz ve Hacivat sağlık barı Setupı
     public void setupHealthBarHacivat(){
         setupBlackBarHacivat();
@@ -194,7 +200,30 @@ public class GameCanvas extends BaseCanvas {
         greenbarKaragoz.setNobjectdstx(blackbarKaragoz.getNobjectdstx() + 150);
         greenbarKaragoz.setNobjectdsty(blackbarKaragoz.getNobjectdsty() + 39);
     }
+    public void setupwin(){
+        win = new Nobject();
+        win.setNobjectsrcx(0);
+        win.setNobjectsrcy(0);
+        win.setNobjectsrcw(480);
+        win.setNobjectsrch(450);
+        win.setNobjectdstw(480);
+        win.setNobjectdsth(450);
+        win.setNobjectdstx(getWidth()/2 - win.getNobjectdstw()/2);
+        win.setNobjectdsty(getHeight()/2 - win.getNobjectdsth()/2);
 
+    }
+    public void setuplose(){
+        lose = new Nobject();
+        lose.setNobjectsrcx(0);
+        lose.setNobjectsrcy(0);
+        lose.setNobjectsrcw(480);
+        lose.setNobjectsrch(480);
+        lose.setNobjectdstw(480);
+        lose.setNobjectdsth(480);
+        lose.setNobjectdstx(getWidth()/2 - lose.getNobjectdstw()/2);
+        lose.setNobjectdsty(getHeight()/2 - lose.getNobjectdsth()/2);
+
+    }
     ////Karakter karakterin sağlık durumunu günceller
     public void setHacivatHealth(){
         greenbarHacivat.setNobjectdstx(getWidth() / 2 - 220 - hacivat.getHealth() * 4);
@@ -219,16 +248,9 @@ public class GameCanvas extends BaseCanvas {
     public void update(){
         timerControl();
         startingTimeCountDown();
-        if(hacivat.getHealth() <= 0){
-            hacivat.setLivecontrol(false);
-            gameControl = false;
-            Log.i(Hacivat,"dead");
-        }
-        if(karagoz.getHealth() <= 0){
-            karagoz.setLivecontrol(false);
-            gameControl = false;
-            Log.i(Karagoz,"dead");
-        }
+        winkontrol();
+        losekontrol();
+
         if (gameControl) {
                 time--;
                 if (karagoz.isJumpcontrol()) karagozJump();
@@ -275,18 +297,14 @@ public class GameCanvas extends BaseCanvas {
             obje2.setNobjectdestination(obje2.getNobjectdstx(), obje2.getNobjectdsty(), obje2.getNobjectdstw(), obje2.getNobjectdsth());
             canvas.drawBitmap(obje2.getNobject(), obje2.getNobjectsource(), obje2.getNobjectdestination(), null);
         }
-        karagoz.setNobjectsource(0,0,2215,4892);
-        karagoz.setNobjectdestination(karagoz.getNobjectdstx(),karagoz.getNobjectdsty(),150,330);
-        canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
+
 
         obje1.setNobjectsource(obje1.getNobjectsrcx(),obje1.getNobjectsrcy(),obje1.getNobjectsrcw(),obje1.getNobjectsrch());
         obje1.setNobjectdestination(obje1.getNobjectdstx() ,obje1.getNobjectdsty(),obje1.getNobjectdstw(),obje1.getNobjectdsth());
         canvas.drawBitmap(obje1.getNobject(),obje1.getNobjectsource(),obje1.getNobjectdestination(),null);
 
 
-        hacivat.setNobjectsource(0,0,1957,5110);
-        hacivat.setNobjectdestination(hacivat.getNobjectdstx(),hacivat.getNobjectdsty(),hacivat.getNobjectdstw(),hacivat.getNobjectdsth());
-        canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
+
 
         backbutton.setNobjectsource(0,0,256,256);
         backbutton.setNobjectdestination(getWidth()-backbutton.getNobjectdstw(),0,128,128);
@@ -324,6 +342,46 @@ public class GameCanvas extends BaseCanvas {
         canvas.drawText("" + startingtime/30,getWidth() / 2 - paintStartingTime.getTextSize() / 3, getHeight() / 2 + paintStartingTime.getTextSize() / 3, paintStartingTime );
 
         canvas.drawText(""+time / 30 ,getWidth() / 2 - 34, blackbarKaragoz.getNobjectdsth() / 2 + 25 ,paintTime );
+            if (hacivat.getHealth()>0 && karagoz.getHealth()>0){
+                hacivat.setNobjectsource(0,0,1957,5110);
+                hacivat.setNobjectdestination(hacivat.getNobjectdstx(),hacivat.getNobjectdsty(),hacivat.getNobjectdstw(),hacivat.getNobjectdsth());
+                canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
+
+                karagoz.setNobjectsource(0,0,2215,4892);
+                karagoz.setNobjectdestination(karagoz.getNobjectdstx(),karagoz.getNobjectdsty(),150,330);
+                canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
+            }
+        else if (hacivat.getHealth() <=0){
+
+            win.setNobjectsource(win.getNobjectsrcx(),win.getNobjectsrcy(),win.getNobjectsrcw(),win.getNobjectsrch());
+            win.setNobjectdestination(win.getNobjectdstx(),win.getNobjectdsty(),win.getNobjectdstw(),win.getNobjectdsth());
+            canvas.drawBitmap(win.getNobject(), win.getNobjectsource(), win.getNobjectdestination(), null);
+            }
+
+
+        else if(karagoz.getHealth() <=0){
+
+            lose.setNobjectsource(lose.getNobjectsrcx(),lose.getNobjectsrcy(),lose.getNobjectsrcw(),lose.getNobjectsrch());
+            lose.setNobjectdestination(lose.getNobjectdstx(),lose.getNobjectdsty(),lose.getNobjectdstw(),lose.getNobjectdsth());
+            canvas.drawBitmap(lose.getNobject(),  lose.getNobjectsource(), lose.getNobjectdestination(), null);
+
+
+        }
+
+    }
+    public void winkontrol(){
+        if(hacivat.getHealth() <= 0){
+            hacivat.setLivecontrol(false);
+            gameControl = false;
+            Log.i(Hacivat,"dead");
+        }
+    }
+    public  void losekontrol(){
+        if(karagoz.getHealth() <= 0){
+            karagoz.setLivecontrol(false);
+            gameControl = false;
+            Log.i(Karagoz,"dead");
+        }
 
     }
     //Oyun başlamadan önceki geri sayım metodu
