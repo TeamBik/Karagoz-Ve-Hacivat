@@ -31,7 +31,7 @@ public class Animations {
 
     }
 
-    public boolean Collision(Character character1, Nobject nobject) {
+    public boolean Collision(Character character1, FruitObject nobject) {
     //Objelerin Karşılaştırılması
     if(Utils.checkCollision(character1.getNobjectdestination(),nobject.getNobjectdestination()))
     { return true;
@@ -72,7 +72,7 @@ public class Animations {
     public boolean ShoutAnımationHacivat() {
         if (!Collision(targetCharacter, object)) {
             objectX = object.getNobjectdstx();
-            objectX += 20;
+            objectX += object.getVelocity();
             object.setNobjectdstx(objectX);
             return true;}
            else{return false;}
@@ -81,7 +81,7 @@ public class Animations {
     public boolean ShoutAnımationKaragoz() {
         if (!Collision(targetCharacter, object)) {
             objectX = object.getNobjectdstx();
-            objectX -= 20;
+            objectX -= object.getVelocity();
             object.setNobjectdstx(objectX);
             return true;}
         else {return false;}

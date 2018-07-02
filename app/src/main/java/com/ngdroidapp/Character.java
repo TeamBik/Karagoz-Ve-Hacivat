@@ -119,6 +119,7 @@ public class Character extends Nobject{
         return charAcceleration;
     }
 
+
     public void setCharAcceleration(double charAcceleration) {
         this.charAcceleration = charAcceleration;
     }
@@ -148,6 +149,7 @@ public class Character extends Nobject{
     }
     public boolean jump(){
         if(!downcontrol&&jumpcontrol){
+
             derece += 6;
             if (derece <= 90) {
                 charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 600;
