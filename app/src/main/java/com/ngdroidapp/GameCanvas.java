@@ -25,7 +25,7 @@ public class GameCanvas extends BaseCanvas {
     private boolean ShoutControl=false ,gameControl = true;
     private Character karagoz, hacivat;
     private Animations animKaragoz, animHacivat;
-    private Nobject arkaplan, backbutton, restart, fire, jump;
+    private Nobject arkaplan, backbutton, restart, fire, jump,bomb;
     private Nobject blackbarHacivat, blackbarKaragoz, greenbarKaragoz, greenbarHacivat;
     private FruitObject obje1,obje2;
     private Paint paintTime, paintStartingTime;
@@ -37,6 +37,7 @@ public class GameCanvas extends BaseCanvas {
     private final int peachsrcw = 89, peachsrch = 107, watermelonsrcw = 90, watermelonsrch = 94, pearsrcw = 73, pearsrch = 107, plumsrcw = 84, plumsrch = 107, strawberrysrcw = 82 , strawberrysrch = 107, orangesrcw = 104, orangesrch = 107, tomatosrcw = 110, tomatosrch = 118 ;
     private final int peachv = 17, peachw = 10, watermelonv = 15, watermelonw = 10, pearv = 20, pearw = 10, plumv = 25, plumw = 10, strawberryv = 27 , strawberryw = 10, orangev = 25, orangew = 10, tomatov = 27, tomatow = 10 ;
     public void setup() {
+
         karagoz = new Character();
         arkaplan = new Nobject();
         obje1 = new FruitObject(10,10);
@@ -47,6 +48,7 @@ public class GameCanvas extends BaseCanvas {
         greenbarKaragoz = new Nobject();
         greenbarHacivat = new Nobject();
         gameControl = false;
+        setupBomb();
         randFruitHacivat = new Random();
         randFruitKaragoz = new Random();
         setupHacivat();
@@ -62,6 +64,8 @@ public class GameCanvas extends BaseCanvas {
         animHacivat = new Animations(hacivat,karagoz,obje1);
 
         //RESİMLERİN TANINMASI
+
+        bomb.setNobject(Utils.loadImage(root,"bom.jpg"));
         obje1.setNobject(Utils.loadImage(root,"fruits.png"));
         obje2.setNobject(Utils.loadImage(root,"fruits.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
@@ -75,6 +79,7 @@ public class GameCanvas extends BaseCanvas {
         blackbarKaragoz.setNobject(Utils.loadImage(root, "blackbar.png"));
         greenbarKaragoz.setNobject(Utils.loadImage(root, "greenbar.png"));
         greenbarHacivat.setNobject(Utils.loadImage(root, "greenbar2.png"));
+
     }
     public void setupText(){
             paintTime = new Paint();
@@ -87,6 +92,17 @@ public class GameCanvas extends BaseCanvas {
             paintStartingTime.setTextSize(256);
     }
     //OBJE,KARAKTER SETUPLARI
+   public  void setupBomb()
+   {
+
+       bomb.setNobjectdstw(320);
+       bomb.setNobjectdsth(226);
+       bomb.setNobjectdsty(karagoz.getNobjectdsty());
+       bomb.setNobjectdstx(karagoz.getNobjectdstx());
+
+
+   }
+
     public void setupKaragoz(){
         karagoz = new Character();
         karagoz.setNobjectdstw(150);
@@ -194,9 +210,12 @@ public class GameCanvas extends BaseCanvas {
             gameControl = false;
         }
     }
+
     public GameCanvas(NgApp ngApp) {
         super(ngApp);
     }
+
+
     public void update(){
         timerControl();
         startingTimeCountDown();
@@ -224,10 +243,32 @@ public class GameCanvas extends BaseCanvas {
                 Log.i("GameCanvas", "Oyun Devam Ediyor");
         }else if(time == 0)pause();
     }
+    public int x=0,y=226,say=0,tam=0;
+
+    public void animdraw() {
+        while (tam != 4) {tam++;
+            while (say != 6) {
+                say++;
+                x += 320;
+            }
+            x=0;
+            say=0;
+            y+=226;
+
+        }
+    }
     public void draw(Canvas canvas) {
+       animdraw();
+
+
         arkaplan.setNobjectsource(0,0,3840,2160);
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(arkaplan.getNobject(), arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
+
+        bomb.setNobjectsource(x,y,1920,1356);
+        bomb.setNobjectdestination(obje1.getNobjectdstx(),obje1.getNobjectdsty(),320,226);
+        canvas.drawBitmap(bomb.getNobject(),bomb.getNobjectsource(),bomb.getNobjectdestination(),null);
+
 
         if(obje2.isLivecontrol()) {
             obje2.setNobjectsource(obje2.getNobjectsrcx(), obje2.getNobjectsrcy(), obje2.getNobjectsrcw(), obje2.getNobjectsrch());

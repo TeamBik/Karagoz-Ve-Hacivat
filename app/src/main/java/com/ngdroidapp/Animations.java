@@ -39,6 +39,14 @@ public class Animations {
             return false;
         }
     }
+    public boolean FruitCollision(FruitObject fruit1, FruitObject fruit2) {
+        //Objelerin Karşılaştırılması
+        if(Utils.checkCollision(fruit1.getNobjectdestination(),fruit2.getNobjectdestination()))
+        { return true;
+        }else{
+            return false;
+        }
+    }
 
     public Character getTargetCharacter() {
         return targetCharacter;
