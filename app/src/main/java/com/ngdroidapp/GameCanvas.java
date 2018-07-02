@@ -47,7 +47,7 @@ public class GameCanvas extends BaseCanvas {
         greenbarKaragoz = new Nobject();
         greenbarHacivat = new Nobject();
         gameControl = false;
-        setupBomb();
+
         randFruitHacivat = new Random();
         randFruitKaragoz = new Random();
         win = new Nobject();
@@ -62,6 +62,7 @@ public class GameCanvas extends BaseCanvas {
         setupText();
         setupwin();
         setuplose();
+        setupBomb();
         time = 1800;
         startingtime = 120;
         animKaragoz = new Animations(karagoz,hacivat,obje2);
@@ -99,11 +100,11 @@ public class GameCanvas extends BaseCanvas {
     //OBJE,KARAKTER SETUPLARI
    public  void setupBomb()
    {
-
+       bomb= new Nobject();
        bomb.setNobjectdstw(320);
        bomb.setNobjectdsth(226);
        bomb.setNobjectdsty(karagoz.getNobjectdsty());
-       bomb.setNobjectdstx(karagoz.getNobjectdstx());
+       bomb.setNobjectdstx(karagoz.getNobjectdsty());
 
 
    }
@@ -280,17 +281,14 @@ public class GameCanvas extends BaseCanvas {
         }
     }
     public void draw(Canvas canvas) {
-       animdraw();
-
-
         arkaplan.setNobjectsource(0,0,3840,2160);
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(arkaplan.getNobject(), arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
 
-        bomb.setNobjectsource(x,y,1920,1356);
+       /* bomb.setNobjectsource(x,y,1920,1356);
         bomb.setNobjectdestination(obje1.getNobjectdstx(),obje1.getNobjectdsty(),320,226);
         canvas.drawBitmap(bomb.getNobject(),bomb.getNobjectsource(),bomb.getNobjectdestination(),null);
-
+        */
 
         if(obje2.isLivecontrol()) {
             obje2.setNobjectsource(obje2.getNobjectsrcx(), obje2.getNobjectsrcy(), obje2.getNobjectsrcw(), obje2.getNobjectsrch());
