@@ -15,7 +15,11 @@ public class Animations {
     private int characterX, characterY, characterWidth, characterHeight;
     private int derece;
 
-    public Animations(Character character,Character target,FruitObject object) {
+    public Animations() {
+
+    }
+
+    public Animations(Character character, Character target, FruitObject object) {
         //Character Sınıfından karakterin X ve Y'sinin çekilmesi
         targetCharacter = target;
         character = new Character();

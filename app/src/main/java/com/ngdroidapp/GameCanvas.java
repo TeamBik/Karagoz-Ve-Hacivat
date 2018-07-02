@@ -24,7 +24,7 @@ public class GameCanvas extends BaseCanvas {
     //Değişkenler
     private boolean ShoutControl=false ,gameControl = true;
     private Character karagoz, hacivat;
-    private Animations animKaragoz, animHacivat;
+    private Animations animKaragoz, animHacivat,animations;
     private Nobject arkaplan, backbutton, restart, fire, jump,bomb, win, lose;
     private Nobject blackbarHacivat, blackbarKaragoz, greenbarKaragoz, greenbarHacivat;
     private FruitObject obje1,obje2;
@@ -37,9 +37,9 @@ public class GameCanvas extends BaseCanvas {
     private final int peachsrcw = 89, peachsrch = 107, watermelonsrcw = 90, watermelonsrch = 94, pearsrcw = 73, pearsrch = 107, plumsrcw = 84, plumsrch = 107, strawberrysrcw = 82 , strawberrysrch = 107, orangesrcw = 104, orangesrch = 107, tomatosrcw = 110, tomatosrch = 118 ;
     private final int peachv = 17, peachw = 10, watermelonv = 15, watermelonw = 10, pearv = 20, pearw = 10, plumv = 25, plumw = 10, strawberryv = 27 , strawberryw = 10, orangev = 25, orangew = 10, tomatov = 27, tomatow = 10 ;
     public void setup() {
+
         karagoz = new Character();
         arkaplan = new Nobject();
-        obje1 = new FruitObject(10,10);
         backbutton = new Nobject();
         restart = new Nobject();
         fire = new Nobject();
@@ -69,7 +69,7 @@ public class GameCanvas extends BaseCanvas {
         animHacivat = new Animations(hacivat,karagoz,obje1);
         //RESİMLERİN TANINMASI
 
-        bomb.setNobject(Utils.loadImage(root,"bom.jpg"));
+
         obje1.setNobject(Utils.loadImage(root,"fruits.png"));
         obje2.setNobject(Utils.loadImage(root,"fruits.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
@@ -85,7 +85,7 @@ public class GameCanvas extends BaseCanvas {
         greenbarHacivat.setNobject(Utils.loadImage(root, "greenbar2.png"));
         win.setNobject(Utils.loadImage(root, "win.png"));
         lose.setNobject(Utils.loadImage(root,"lose.png"));
-
+        bomb.setNobject(Utils.loadImage(root,"bom.png"));
     }
     public void setupText(){
             paintTime = new Paint();
@@ -100,9 +100,10 @@ public class GameCanvas extends BaseCanvas {
     //OBJE,KARAKTER SETUPLARI
    public  void setupBomb()
    {
+       animations=new Animations();
        bomb= new Nobject();
-       bomb.setNobjectdstw(320);
-       bomb.setNobjectdsth(226);
+       bomb.setNobjectdstw(500);
+       bomb.setNobjectdsth(300);
        bomb.setNobjectdsty(karagoz.getNobjectdsty());
        bomb.setNobjectdstx(karagoz.getNobjectdsty());
 
@@ -266,29 +267,36 @@ public class GameCanvas extends BaseCanvas {
                 Log.i("GameCanvas", "Oyun Devam Ediyor");
         }else if(time == 0)pause();
     }
-    public int x=0,y=226,say=0,tam=0;
+    public int x=0,y=100,satır=0;
 
     public void animdraw() {
-        while (tam != 4) {tam++;
-            while (say != 6) {
-                say++;
-                x += 320;
-            }
-            x=0;
-            say=0;
-            y+=226;
 
-        }
+        if(satır<100){
+         satır++;
+         x+=5;
+          }
+         else if(satır==100){x=0; y+=5;}
+         else if(satır<200){
+           satır++;
+            x+=5;
+          }
+          else if(satır==220){
+            x=5;
+            y+=5;
+          }
+
+
+
+
+
     }
     public void draw(Canvas canvas) {
+
+
         arkaplan.setNobjectsource(0,0,3840,2160);
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(arkaplan.getNobject(), arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
 
-       /* bomb.setNobjectsource(x,y,1920,1356);
-        bomb.setNobjectdestination(obje1.getNobjectdstx(),obje1.getNobjectdsty(),320,226);
-        canvas.drawBitmap(bomb.getNobject(),bomb.getNobjectsource(),bomb.getNobjectdestination(),null);
-        */
 
         if(obje2.isLivecontrol()) {
             obje2.setNobjectsource(obje2.getNobjectsrcx(), obje2.getNobjectsrcy(), obje2.getNobjectsrcw(), obje2.getNobjectsrch());
@@ -300,9 +308,6 @@ public class GameCanvas extends BaseCanvas {
         obje1.setNobjectsource(obje1.getNobjectsrcx(),obje1.getNobjectsrcy(),obje1.getNobjectsrcw(),obje1.getNobjectsrch());
         obje1.setNobjectdestination(obje1.getNobjectdstx() ,obje1.getNobjectdsty(),obje1.getNobjectdstw(),obje1.getNobjectdsth());
         canvas.drawBitmap(obje1.getNobject(),obje1.getNobjectsource(),obje1.getNobjectdestination(),null);
-
-
-
 
         backbutton.setNobjectsource(0,0,256,256);
         backbutton.setNobjectdestination(getWidth()-backbutton.getNobjectdstw(),0,128,128);
@@ -365,6 +370,15 @@ public class GameCanvas extends BaseCanvas {
 
 
         }
+        if(animations.FruitCollision(obje1,obje2)) {
+                Log.i("Meyveler","Çarpışma var");
+               satır=0; x=0;
+                animdraw();
+                bomb.setNobjectsource(x, y, 100, 100);
+                bomb.setNobjectdestination(obje1.getNobjectdstx(), obje1.getNobjectdsty(), 100, 100);
+                canvas.drawBitmap(bomb.getNobject(), bomb.getNobjectsource(), bomb.getNobjectdestination(), null);
+        }
+
 
     }
     public void winkontrol(){
