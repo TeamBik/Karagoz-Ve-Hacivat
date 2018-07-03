@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import istanbul.gamelab.ngdroid.util.Utils;
 
 public class Animations {
+
     private Character character,targetCharacter;
     private FruitObject object;
     //Nesnenin X ve Y Konumu
@@ -20,7 +21,9 @@ public class Animations {
     }
 
     public Animations(Character character, Character target, FruitObject object) {
+
         //Character Sınıfından karakterin X ve Y'sinin çekilmesi
+
         targetCharacter = target;
         character = new Character();
         this.object = object;
@@ -38,7 +41,10 @@ public class Animations {
     public boolean Collision(Character character1, FruitObject nobject) {
     //Objelerin Karşılaştırılması
     if(Utils.checkCollision(character1.getNobjectdestination(),nobject.getNobjectdestination()))
-    { return true;
+    {
+
+
+        return true;
         }else{
             return false;
         }
@@ -46,7 +52,8 @@ public class Animations {
     public boolean FruitCollision(FruitObject fruit1, FruitObject fruit2) {
         //Objelerin Karşılaştırılması
         if(Utils.checkCollision(fruit1.getNobjectdestination(),fruit2.getNobjectdestination()))
-        { return true;
+        {
+            return true;
         }else{
             return false;
         }
