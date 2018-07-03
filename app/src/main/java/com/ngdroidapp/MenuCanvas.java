@@ -135,7 +135,6 @@ public class MenuCanvas extends BaseCanvas {
         touchdownx = x;
         touchdowny = y;
         if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
-
             GameCanvas mc = new GameCanvas(root);
             root.canvasManager.setCurrentCanvas(mc);
         }
@@ -145,7 +144,9 @@ public class MenuCanvas extends BaseCanvas {
 
             @Override
             public void onClick(DialogInterface dialog, int id) { //Eğer evet butonuna basılırsa
+                root.activity.finish();
                 System.exit(0);
+
 
 
             }
