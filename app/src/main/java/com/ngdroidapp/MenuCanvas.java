@@ -28,11 +28,10 @@ public class MenuCanvas extends BaseCanvas {
         arkaplan = new Nobject();
         karagoz = new Character();
         hacivat = new Character();
-        playbutton = new Nobject();
         backbutton = new Nobject();
         setupKaragoz();
         setupHacivat();
-
+        setupPlayButton();
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root, "karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root, "hacivat.png"));
@@ -96,7 +95,18 @@ public class MenuCanvas extends BaseCanvas {
 
 
     }
+    public void setupPlayButton(){
+        playbutton = new Nobject();
+        playbutton.setNobjectsrcx(0);
+        playbutton.setNobjectsrcy(0);
+        playbutton.setNobjectsrcw(300);
+        playbutton.setNobjectsrch(122);
+        playbutton.setNobjectdstw(600);
+        playbutton.setNobjectdsth(244);
+        playbutton.setNobjectdstx(getWidth()/2-playbutton.getNobjectdstw()/2);
+        playbutton.setNobjectdsty(getHeight()/2-playbutton.getNobjectdsth()/2);
 
+    }
     public void draw(Canvas canvas) {
         arkaplan.setNobjectsource(0,0,3840,2160);
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
@@ -111,8 +121,8 @@ public class MenuCanvas extends BaseCanvas {
         hacivat.setNobjectdestination(hacivat.getNobjectdstx(),hacivat.getNobjectdsty(),hacivat.getNobjectdstw(),hacivat.getNobjectdsth());
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 
-        playbutton.setNobjectsource(0,0,300,122);
-        playbutton.setNobjectdestination(getWidth()/2-playbutton.getNobjectdstw()/2,getHeight()/2-playbutton.getNobjectdsth()/2,600,244);
+        playbutton.setNobjectsource(playbutton.getNobjectsrcx(),playbutton.getNobjectsrcy(),playbutton.getNobjectsrcw(),playbutton.getNobjectsrch());
+        playbutton.setNobjectdestination(playbutton.getNobjectdstx(),playbutton.getNobjectdsty(),playbutton.getNobjectdstw(),playbutton.getNobjectdsth());
         canvas.drawBitmap(playbutton.getNobject(), playbutton.getNobjectsource(), playbutton.getNobjectdestination(), null);
 
         backbutton.setNobjectsource(0,0,256,256);
@@ -135,8 +145,7 @@ public class MenuCanvas extends BaseCanvas {
         touchdownx = x;
         touchdowny = y;
         if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
-            GameCanvas mc = new GameCanvas(root);
-            root.canvasManager.setCurrentCanvas(mc);
+           playbutton.setNobjectsrcx(300);
         }
         if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(root.activity);
@@ -160,18 +169,47 @@ public class MenuCanvas extends BaseCanvas {
         });
 
         builder1.show();
+        }
     }
-}
+
+    public void touchMove(int x, int y, int id) {
+        if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
+            playbutton.setNobjectsrcx(300);
+        }else playbutton.setNobjectsrcx(0);
+
+    }public void touchUp(int x, int y, int id) {
+
+        touchdownx = x;
+        touchdowny = y;
+        if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
+                playbutton.setNobjectsrcx(0);
+                GameCanvas mc = new GameCanvas(root);
+                root.canvasManager.setCurrentCanvas(mc);
+        }
+        if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(root.activity);
+
+            builder1.setTitle("Oyundan çıkılsın mı?").setCancelable(false).setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) { //Eğer evet butonuna basılırsa
+                                root.activity.finish();
+                                System.exit(0);
+                            }
+                        }).setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+//Eğer hayır butonuna basılırsa
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        builder1.show();
+        }
 
 
-
-
-
-                public void touchMove(int x, int y, int id) {
-                }
-
-                public void touchUp(int x, int y, int id) {
-                }
+    }
 
                 public void surfaceChanged(int width, int height) {
                 }
