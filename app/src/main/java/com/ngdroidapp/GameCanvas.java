@@ -31,7 +31,7 @@ public class GameCanvas extends BaseCanvas {
     private int splashrow=0,splashline=0;
     private Paint paintTime, paintStartingTime;
     private Random randFruitHacivat, randFruitKaragoz;
-    private int touchdownx, touchdowny, time, startingtime;
+    private int touchdownx, touchdowny, time, startingtime, sure;
     private final String Hacivat = "Hacivat";
     private final String Karagoz = "Karagoz";
     private final int peachsrcx = 0, peachsrcy = 0, watermelonsrcx = 90, watermelonsrcy = 0, pearsrcx = 182, pearsrcy = 0, plumsrcx = 255, plumsrcy = 0, strawberrysrcx = 340, strawberrysrcy = 0, orangesrcx = 422, orangesrcy = 0, tomatosrcx = 0, tomatosrcy = 107 ;
@@ -201,7 +201,7 @@ public class GameCanvas extends BaseCanvas {
         win.setNobjectsrch(450);
         win.setNobjectdstw(480);
         win.setNobjectdsth(450);
-        win.setNobjectdstx(getWidth()/2 - win.getNobjectdstw()/2);
+        win.setNobjectdstx(getWidth() + win.getNobjectdstw()*5);
         win.setNobjectdsty(getHeight()/2 - win.getNobjectdsth()/2);
 
     }
@@ -213,7 +213,7 @@ public class GameCanvas extends BaseCanvas {
         lose.setNobjectsrch(480);
         lose.setNobjectdstw(480);
         lose.setNobjectdsth(480);
-        lose.setNobjectdstx(getWidth()/2 - lose.getNobjectdstw()/2);
+        lose.setNobjectdstx(getWidth() + lose.getNobjectdstw()*4);
         lose.setNobjectdsty(getHeight()/2 - lose.getNobjectdsth()/2);
     }
     ////Karakter karakterin sağlık durumunu günceller
@@ -254,6 +254,19 @@ public class GameCanvas extends BaseCanvas {
         startingTimeCountDown();
         winkontrol();
         losekontrol();
+        sure++;
+        if(sure %5 == 0){
+            lose.setNobjectdstx(lose.getNobjectdstx() - 30);
+            win.setNobjectdstx(win.getNobjectdstx() - 30);
+            if(lose.getNobjectdstx() <= getWidth()/2-lose.getNobjectdstw()/2){
+                lose.setNobjectdstx(getWidth()/2 - lose.getNobjectdstw()/2);
+            }
+            if(win.getNobjectdstx() <= getWidth()/2-win.getNobjectdstw()/2){
+                win.setNobjectdstx(getWidth()/2 - win.getNobjectdstw()/2);
+            }
+        }
+
+
 
         if (gameControl) {
                 splashEffect();
