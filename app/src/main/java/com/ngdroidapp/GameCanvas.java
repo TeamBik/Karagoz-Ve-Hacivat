@@ -26,7 +26,7 @@ public class GameCanvas extends BaseCanvas {
     private Character karagoz, hacivat;
     private Animations animKaragoz, animHacivat,animations;
     private Nobject arkaplan, backbutton, restart, fire, jump,bomb, win, lose;
-    private Nobject blackbarHacivat, blackbarKaragoz, greenbarKaragoz, greenbarHacivat;
+    private Nobject blackbarHacivat, blackbarKaragoz, greenbarKaragoz, greenbarHacivat, startintimeImage;
     private FruitObject obje1,obje2;
     private int splashrow=0,splashline=0;
     private Paint paintTime, paintStartingTime;
@@ -53,7 +53,7 @@ public class GameCanvas extends BaseCanvas {
         randFruitKaragoz = new Random();
         win = new Nobject();
         lose= new Nobject();
-        gameControl = true;
+        gameControl = false;
         setupHacivat();
         setupKaragoz();
         setupObjectHacivat();
@@ -64,13 +64,14 @@ public class GameCanvas extends BaseCanvas {
         setupwin();
         setuplose();
         setupBomb();
+        setupstartingImage();
         time = 1800;
         startingtime = 120;
         animKaragoz = new Animations(karagoz,hacivat,obje2);
         animHacivat = new Animations(hacivat,karagoz,obje1);
         //RESİMLERİN TANINMASI
 
-
+        startintimeImage.setNobject(Utils.loadImage(root,"alphabetnumb.png"));
         obje1.setNobject(Utils.loadImage(root,"fruits.png"));
         obje2.setNobject(Utils.loadImage(root,"fruits.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
@@ -216,6 +217,17 @@ public class GameCanvas extends BaseCanvas {
         lose.setNobjectdstx(getWidth() + lose.getNobjectdstw()*4);
         lose.setNobjectdsty(getHeight()/2 - lose.getNobjectdsth()/2);
     }
+    public void setupstartingImage(){
+        startintimeImage = new Nobject();
+        startintimeImage.setNobjectsrcw(250);
+        startintimeImage.setNobjectsrch(350);
+        startintimeImage.setNobjectsrcx(0);
+        startintimeImage.setNobjectsrcy(0);
+        startintimeImage.setNobjectdstw(250);
+        startintimeImage.setNobjectdsth(350);
+        startintimeImage.setNobjectdstx(getWidth() / 2 - startintimeImage.getNobjectdstw() / 2);
+        startintimeImage.setNobjectdsty(getHeight() / 2 - startintimeImage.getNobjectdsth() / 2);
+    }
     ////Karakter karakterin sağlık durumunu günceller
     public void setHacivatHealth(){
         greenbarHacivat.setNobjectdstx(getWidth() / 2 - 220 - hacivat.getHealth() * 4);
@@ -279,9 +291,8 @@ public class GameCanvas extends BaseCanvas {
                 else if(!splashEffectControl) setObje1SetBase();
                 aiPlayer(hacivat, animHacivat);
                 Log.i("GameCanvas", "Oyun Devam Ediyor");
-        }else if(time == 0)pause();
+        }//else if(time == 0)pause();
     }
-
     public void draw(Canvas canvas) {
 
 
@@ -333,8 +344,13 @@ public class GameCanvas extends BaseCanvas {
         blackbarHacivat.setNobjectdestination(blackbarHacivat.getNobjectdstx(),blackbarHacivat.getNobjectdsty(),blackbarHacivat.getNobjectdstw(),blackbarHacivat.getNobjectdsth());
         canvas.drawBitmap(blackbarHacivat.getNobject(),  blackbarHacivat.getNobjectsource(), blackbarHacivat.getNobjectdestination(), null);
         //Oyun başlamadıysa ve zaman 1800 ise başlangıc sğresi ekranda gözükecek
-        if(!gameControl && time == 1800)
-        canvas.drawText("" + startingtime/30,getWidth() / 2 - paintStartingTime.getTextSize() / 3, getHeight() / 2 + paintStartingTime.getTextSize() / 3, paintStartingTime );
+        if(!gameControl && time == 1800){
+            startintimeImage.setNobjectsource(startintimeImage.getNobjectsrcx(),startintimeImage.getNobjectsrcy(),startintimeImage.getNobjectsrcw(),startintimeImage.getNobjectsrch());
+            startintimeImage.setNobjectdestination(startintimeImage.getNobjectdstx(),startintimeImage.getNobjectdsty(),startintimeImage.getNobjectdstw(),startintimeImage.getNobjectdsth());
+            canvas.drawBitmap(startintimeImage.getNobject(),startintimeImage.getNobjectsource(),startintimeImage.getNobjectdestination(),null);
+        }
+
+        //canvas.drawText("" + startingtime/30,getWidth() / 2 - paintStartingTime.getTextSize() / 3, getHeight() / 2 + paintStartingTime.getTextSize() / 3, paintStartingTime );
 
         canvas.drawText(""+time / 30 ,getWidth() / 2 - 34, blackbarKaragoz.getNobjectdsth() / 2 + 25 ,paintTime );
             if (hacivat.getHealth()>0 && karagoz.getHealth()>0){
@@ -413,7 +429,13 @@ public class GameCanvas extends BaseCanvas {
     public void startingTimeCountDown(){
         if(!gameControl && time == 1800){
             startingtime--;
-            if(startingtime == 0) {
+            if(startingtime >= 90) {
+                startintimeImage.setNobjectsrcx(2 * startintimeImage.getNobjectsrcw());
+            }else if(startingtime >= 60){
+                startintimeImage.setNobjectsrcx(startintimeImage.getNobjectsrcw());
+            }else if(startingtime >= 30){
+                startintimeImage.setNobjectsrcx(0);
+            }else {
                 gameControl = true;
             }
         }
