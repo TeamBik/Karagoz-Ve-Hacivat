@@ -457,7 +457,6 @@ public class GameCanvas extends BaseCanvas {
 
             if(mediaback.isPlaying()){}
             mediaback.start();
-            if(!mediaback.isPlaying()){mediaback.start();}
 
         }
         //GİRİŞ MÜZİĞİ
@@ -474,7 +473,7 @@ public class GameCanvas extends BaseCanvas {
          }
        //KAYBETME MUZİĞİ
         private void defeatmusic () {
-
+            mediaback.release();
             if(mediadefeat.isPlaying()){}
             mediadefeat.start();
     }
