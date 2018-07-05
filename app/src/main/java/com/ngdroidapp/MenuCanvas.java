@@ -19,6 +19,8 @@ public class MenuCanvas extends BaseCanvas {
 
 
 
+
+
     public MenuCanvas(NgApp ngApp) {
         super(ngApp);
     }
@@ -40,37 +42,8 @@ public class MenuCanvas extends BaseCanvas {
 
     }
 
-    /*
-    public void setupKaragoz(){
-        karagoz = new Character();
-        karagoz.setNobjectdstw(150);
-        karagoz.setNobjectdsth(330);
-        karagoz.setNobjectdsty(getHeight()-karagoz.getNobjectdsth());
-        karagoz.setNobjectdstx(getWidth() - karagoz.getNobjectdstw()-400);
-        karagoz.setJumpcontrol(false);
-        hacivat.setShoutcountrol(false);
 
-    }
-    public void setupHacivat(){
-        hacivat = new Character();
-        hacivat.setNobjectdstw(150);
-        hacivat.setNobjectdsth(330);
-        hacivat.setNobjectdsty(getHeight() - hacivat.getNobjectdsth());
-        hacivat.setNobjectdstx(300);
-        hacivat.setJumpcontrol(false);
-        hacivat.setShoutcountrol(false);
-    }
 
-    public void transformKaragoz(){
-        if(karagoz.getNobjectdstw() > 150)
-        karagoz.setNobjectdstw(karagoz.getNobjectdstw() - karagoz.getNobjectdstw() / 60);
-        if(karagoz.getNobjectdsth() > 330)
-        karagoz.setNobjectdsth(karagoz.getNobjectdsth() - karagoz.getNobjectdsth() / 60);
-        if(karagoz.getNobjectdstx() > getWidth() - 550 )
-        karagoz.setNobjectdstx(karagoz.getNobjectdstx() - 5);
-        if(karagoz.getNobjectdsty() < getHeight() - 330)
-        karagoz.setNobjectdsty(karagoz.getNobjectdsty() + 10);
-    } */
     public void setupKaragoz(){
         karagoz = new Character();
         karagoz.setNobjectdstw(300);
@@ -160,7 +133,7 @@ public class MenuCanvas extends BaseCanvas {
 
             }
         }).setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
-//Eğer hayır butonuna basılırsa
+           //Eğer hayır butonuna basılırsa
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
