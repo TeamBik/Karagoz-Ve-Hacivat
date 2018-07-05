@@ -9,6 +9,8 @@ import java.util.Random;
 import istanbul.gamelab.ngdroid.base.BaseCanvas;
 import istanbul.gamelab.ngdroid.util.Log;
 import istanbul.gamelab.ngdroid.util.Utils;
+
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import com.mycompany.myngdroidapp.R;
 
@@ -25,7 +27,7 @@ public class GameCanvas extends BaseCanvas {
     private FruitObject obje1,obje2;
     private int splashrow=0,splashline=0;
     private double velocityend;
-    private Paint paintTime, paintStartingTime;
+    private Paint paintTime, paintStartingTime,paintScoreCount, paintCoinCount;
     private Random randFruitHacivat, randFruitKaragoz;
     private int touchdownx, touchdowny, time, startingtime, sure;
     private final String Hacivat = "Hacivat";
@@ -33,7 +35,7 @@ public class GameCanvas extends BaseCanvas {
     private final int peachsrcx = 0, peachsrcy = 0, watermelonsrcx = 90, watermelonsrcy = 0, pearsrcx = 182, pearsrcy = 0, plumsrcx = 255, plumsrcy = 0, strawberrysrcx = 340, strawberrysrcy = 0, orangesrcx = 422, orangesrcy = 0, tomatosrcx = 0, tomatosrcy = 107 ;
     private final int peachsrcw = 89, peachsrch = 107, watermelonsrcw = 90, watermelonsrch = 94, pearsrcw = 73, pearsrch = 107, plumsrcw = 84, plumsrch = 107, strawberrysrcw = 82 , strawberrysrch = 107, orangesrcw = 104, orangesrch = 107, tomatosrcw = 110, tomatosrch = 118 ;
     private final int peachv = 17, peachw = 10, watermelonv = 15, watermelonw = 10, pearv = 20, pearw = 10, plumv = 25, plumw = 10, strawberryv = 27 , strawberryw = 10, orangev = 25, orangew = 10, tomatov = 27, tomatow = 10 ;
-
+    private int scorehit, scoredamage, scoremiss,scorecoin;
     public void setup() {
 
         karagoz = new Character();
@@ -64,6 +66,10 @@ public class GameCanvas extends BaseCanvas {
         setupstartingImage();
         time = 1800;
         startingtime = 120;
+        scorehit = 0;
+        scoredamage = 0;
+        scoremiss = 0;
+        scorecoin = 0;
         animKaragoz = new Animations(karagoz, hacivat, obje2);
         animHacivat = new Animations(hacivat, karagoz, obje1);
         pictures();
@@ -108,10 +114,22 @@ public class GameCanvas extends BaseCanvas {
             paintTime.setColor(Color.WHITE);
             paintTime.setStyle(Paint.Style.FILL);
             paintTime.setTextSize(64);
+
             paintStartingTime = new Paint();
             paintStartingTime.setColor(Color.WHITE);
             paintStartingTime.setStyle(Paint.Style.FILL);
             paintStartingTime.setTextSize(256);
+
+            paintScoreCount = new Paint();
+            paintScoreCount.setColor(Color.WHITE);
+            paintScoreCount.setTypeface(Typeface.create("ObelixPro",Typeface.BOLD));
+            paintScoreCount.setStyle(Paint.Style.FILL);
+            paintScoreCount.setTextSize(128);
+
+            paintCoinCount = new Paint();
+            paintCoinCount.setColor(Color.WHITE);
+            paintCoinCount.setStyle(Paint.Style.FILL);
+            paintCoinCount.setTextSize(64);
     }
     //OBJE,KARAKTER SETUPLARI
 
@@ -220,11 +238,11 @@ public class GameCanvas extends BaseCanvas {
         win.setNobjectsrcx(0);
         win.setNobjectsrcy(0);
         win.setNobjectsrcw(480);
-        win.setNobjectsrch(450);
-        win.setNobjectdstw(480);
-        win.setNobjectdsth(450);
-        win.setNobjectdstx(getWidth() + win.getNobjectdstw() * 5);
-        win.setNobjectdsty(getHeight() / 2 - win.getNobjectdsth() / 2);
+        win.setNobjectsrch(480);
+        win.setNobjectdstw(getHeight());
+        win.setNobjectdsth(getHeight());
+        win.setNobjectdstx(getWidth() / 2 - win.getNobjectdstw() / 2);
+        win.setNobjectdsty(getHeight());
 
     }
 
@@ -234,10 +252,10 @@ public class GameCanvas extends BaseCanvas {
         lose.setNobjectsrcy(0);
         lose.setNobjectsrcw(480);
         lose.setNobjectsrch(480);
-        lose.setNobjectdstw(480);
-        lose.setNobjectdsth(480);
-        lose.setNobjectdstx(getWidth());
-        lose.setNobjectdsty(getHeight() / 2 - lose.getNobjectdsth() / 2);
+        lose.setNobjectdstw(getHeight());
+        lose.setNobjectdsth(getHeight());
+        lose.setNobjectdstx(getWidth() / 2 - lose.getNobjectdstw() / 2);
+        lose.setNobjectdsty(getHeight());
     }
 
     public void setupstartingImage() {
@@ -389,28 +407,48 @@ public class GameCanvas extends BaseCanvas {
         if (!hacivat.isLivecontrol()) {
             win.setNobjectsource(win.getNobjectsrcx(), win.getNobjectsrcy(), win.getNobjectsrcw(), win.getNobjectsrch());
             win.setNobjectdestination(win.getNobjectdstx(), win.getNobjectdsty(), win.getNobjectdstw(), win.getNobjectdsth());
-            canvas.drawBitmap(win.getNobject(), win.getNobjectsource(), win.getNobjectdestination(), null);
+            canvas.drawBitmap(win.getNobject(), win .getNobjectsource(), win.getNobjectdestination(), null);
+            canvas.drawText("" + scorecoin, win.getNobjectdstx() + (win.getNobjectdstw() / (float) 1.45),win.getNobjectdsty() + (win.getNobjectdsth() / (float)(4)), paintCoinCount);
+            canvas.drawText("" + scorehit, win.getNobjectdstx() + (win.getNobjectdstw() / (float)1.6),win.getNobjectdsty() + (win.getNobjectdsth() / (float)(2.52)), paintScoreCount);
+            canvas.drawText("" + scoredamage, win.getNobjectdstx() + (win.getNobjectdstw() / (float)1.6),win.getNobjectdsty() + (win.getNobjectdsth() / (float)(1.87)), paintScoreCount);
+            canvas.drawText("" + scoremiss, win.getNobjectdstx() + (win.getNobjectdstw() / (float)1.6),win.getNobjectdsty() + (win.getNobjectdsth() / (float)(1.48)), paintScoreCount);
         }
         if (!karagoz.isLivecontrol()) {
             lose.setNobjectsource(lose.getNobjectsrcx(), lose.getNobjectsrcy(), lose.getNobjectsrcw(), lose.getNobjectsrch());
             lose.setNobjectdestination(lose.getNobjectdstx(), lose.getNobjectdsty(), lose.getNobjectdstw(), lose.getNobjectdsth());
             canvas.drawBitmap(lose.getNobject(), lose.getNobjectsource(), lose.getNobjectdestination(), null);
+            canvas.drawText("" + scorecoin, lose.getNobjectdstx() + (lose.getNobjectdstw() / (float)1.45),lose.getNobjectdsty()+ (lose.getNobjectdsth() /(float) (4)), paintCoinCount);
+            canvas.drawText("" + scorehit, lose.getNobjectdstx() + (lose.getNobjectdstw() / (float)1.6),lose.getNobjectdsty() + (lose.getNobjectdsth() / (float)(2.52)), paintScoreCount);
+            canvas.drawText("" + scoredamage, lose.getNobjectdstx() + (lose.getNobjectdstw() / (float)1.6),lose.getNobjectdsty() + (lose.getNobjectdsth() / (float)(1.87)), paintScoreCount);
+            canvas.drawText("" + scoremiss, lose.getNobjectdstx() + (lose.getNobjectdstw() / (float)1.6),lose.getNobjectdsty() + (lose.getNobjectdsth() / (float)(1.48)), paintScoreCount);
         }
+        //canvas.drawText(""+scorecoin, win.getNobjectdstx() + (win.getNobjectdstw() / 140 * 100),win.getNobjectdsty()+ (win.getNobjectdsth() / 377 *100),paintCoinCount);
     }
 
+    public void setScore(){
+        scoredamage = karagoz.getDamagecount();
+        scoremiss = karagoz.getHitcount();
+        scorehit = karagoz.getHitcount();
+        scorecoin = 100 * scoredamage / (scorehit + scoremiss + 1) ;
+        if(scorecoin > 100){
+            scorecoin = 100;
+        }else if(scorecoin < 0){
+            scorecoin = scoredamage * 100;
+        }
 
+    }
 
     public void timeScroll() {
         if(!gameControl && time != 1800) {
-            velocityend +=0.5;
+            velocityend +=5;
             Log.i("Oyun Bitti","BİTTİ");
-               lose.setNobjectdstx(lose.getNobjectdstx() - (20 + (int) velocityend));
-               win.setNobjectdstx(win.getNobjectdstx() - (20 + (int) velocityend));
-               if (lose.getNobjectdstx() <= getWidth() / 2 - lose.getNobjectdstw() / 2) {
-                   lose.setNobjectdstx(getWidth() / 2 - lose.getNobjectdstw() / 2);
+               lose.setNobjectdsty(lose.getNobjectdsty() - (20 + (int) velocityend));
+               win.setNobjectdsty(win.getNobjectdsty() - (20 + (int) velocityend));
+               if (lose.getNobjectdsty() <= getHeight() / 2 - lose.getNobjectdsth() / 2) {
+                   lose.setNobjectdsty(getHeight() / 2 - lose.getNobjectdsth() / 2);
                }
-               if (win.getNobjectdstx() <= getWidth() / 2 - win.getNobjectdstw() / 2) {
-                   win.setNobjectdstx(getWidth() / 2 - win.getNobjectdstw() / 2);
+               if (win.getNobjectdsty() <= getHeight() / 2 - win.getNobjectdsth() / 2) {
+                   win.setNobjectdsty(getHeight() / 2 - win.getNobjectdsth() / 2);
                    }
         }
        }
@@ -480,6 +518,7 @@ public class GameCanvas extends BaseCanvas {
 
     public void winkontrol() {
         if (hacivat.getHealth() <= 0) {
+            setScore();
             hacivat.setLivecontrol(false);
             gameControl = false;
             Log.i(Hacivat, "dead");
@@ -488,7 +527,8 @@ public class GameCanvas extends BaseCanvas {
 
     public void losekontrol() {
         if (karagoz.getHealth() <= 0) {
-
+            setScore();
+            scorecoin = 0;
             defeatmusic();
             karagoz.setLivecontrol(false);
             gameControl = false;
@@ -849,24 +889,39 @@ public class GameCanvas extends BaseCanvas {
     }
 
     public void touchMove(int x, int y, int id) {
+
     }
 
     public void touchUp(int x, int y, int id) {
         touchdownx = x;
         touchdowny = y;
-        if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
-            MenuCanvas mc1 = new MenuCanvas(root);
-            root.canvasManager.setCurrentCanvas(mc1);
-        }
-        if (x >= restart.getNobjectdstx() && x <= restart.getNobjectdstx() + restart.getNobjectdstw() && y >= restart.getNobjectdsty() && y <= restart.getNobjectdsty() + restart.getNobjectdsth()) {
-            GameCanvas mc2 = new GameCanvas(root);
-            root.canvasManager.setCurrentCanvas(mc2);
-        }
         if (x >= jump.getNobjectdstx() && x <= jump.getNobjectdstx() + jump.getNobjectdstw() && y >= jump.getNobjectdsty() && y <= jump.getNobjectdsty() + jump.getNobjectdsth()) {
             karagoz.setJumpcontrol(true);
         }
         if (x >= fire.getNobjectdstx() && x <= fire.getNobjectdstx() + fire.getNobjectdstw() && y >= fire.getNobjectdsty() && y <= fire.getNobjectdsty() + fire.getNobjectdsth()) {
             karagoz.setShoutcountrol(true);
+        }
+        if(!hacivat.isLivecontrol()){
+            if(x >= win.getNobjectdstx() + (win.getNobjectdstw() / 6 * 1.75) && x <= win.getNobjectdstx() + (win.getNobjectdstw() / 2 - win.getNobjectdstw() / 24 )&& y >= win.getNobjectdsty() + (win.getNobjectdsth() * 5 / 6) && y <= getHeight() ){
+                Log.i("Restart","Basılı");
+                GameCanvas mc2 = new GameCanvas(root);
+                root.canvasManager.setCurrentCanvas(mc2);
+            }
+        }else if(!karagoz.isLivecontrol()){
+            if(x >= lose.getNobjectdstx() + (lose.getNobjectdstw() / 6 * 1.75) && x <= lose.getNobjectdstx() + lose.getNobjectdstw() / 2 - lose.getNobjectdstw() / 24 && y >= lose.getNobjectdsty() + (lose.getNobjectdsth() * 5 / 6) && y <= getHeight() ){
+                Log.i("Restart","Basılı");
+                GameCanvas mc2 = new GameCanvas(root);
+                root.canvasManager.setCurrentCanvas(mc2);
+            }
+        }else {
+            if (x >= restart.getNobjectdstx() && x <= restart.getNobjectdstx() + restart.getNobjectdstw() && y >= restart.getNobjectdsty() && y <= restart.getNobjectdsty() + restart.getNobjectdsth()) {
+                GameCanvas mc2 = new GameCanvas(root);
+                root.canvasManager.setCurrentCanvas(mc2);
+            }
+            if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
+                MenuCanvas mc1 = new MenuCanvas(root);
+                root.canvasManager.setCurrentCanvas(mc1);
+            }
         }
     }
 
