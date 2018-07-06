@@ -17,12 +17,12 @@ import com.mycompany.myngdroidapp.R;
 
 public class GameCanvas extends BaseCanvas {
     //Değişkenler
-    public MediaPlayer mediaback, mediadefeat, mediafruitbam, mediafruitcol, mediajump, mediatitle;
+    public MediaPlayer mediaback, mediadefeat,mediafire,mediaapplause, mediafruitcol, mediajump,mediatime;
 
     public static int thundereffectline = 0, thundereffectRow = 0;
     public static int fruiteffectLine = 0, fruiteffectRow = 0;
     public static int iceeffectLine = 0, iceeffectRow = 0;
-    private boolean ShoutControl = false, gameControl = true, splashEffectControl = false, fruitEffectControl = false;
+    private boolean gameControl = true, splashEffectControl = false;
     private Character karagoz, hacivat;
     private Animations animKaragoz, animHacivat, animations;
     private Nobject arkaplan, backbutton, restart, fire, jump, bomb, win, lose,iceeffect,fruiteffect,thundereffect;
@@ -32,7 +32,7 @@ public class GameCanvas extends BaseCanvas {
     private double velocityend;
     private Paint paintTime, paintStartingTime, paintScoreCount, paintCoinCount;
     private Random randFruitHacivat, randFruitKaragoz;
-    private int touchdownx, touchdowny, time, startingtime, sure;
+    private int touchdownx, touchdowny, time, startingtime;
     private final String Hacivat = "Hacivat";
     private final String Karagoz = "Karagoz";
     private final int peachsrcx = 0, peachsrcy = 0, watermelonsrcx = 90, watermelonsrcy = 0, pearsrcx = 182, pearsrcy = 0, plumsrcx = 255, plumsrcy = 0, strawberrysrcx = 340, strawberrysrcy = 0, orangesrcx = 422, orangesrcy = 0, tomatosrcx = 0, tomatosrcy = 107;
@@ -66,6 +66,7 @@ public class GameCanvas extends BaseCanvas {
         setupText();
         setupwin();
         setuplose();
+
         setupBomb();
         setupFeffect();
         setupThunder();
@@ -87,8 +88,6 @@ public class GameCanvas extends BaseCanvas {
 
     //RESİMLERİN TANINMASI
     public void pictures()
-
-
     {
         iceeffect.setNobject(Utils.loadImage(root, "ice.png"));
         thundereffect.setNobject(Utils.loadImage(root, "light.png"));
@@ -114,12 +113,15 @@ public class GameCanvas extends BaseCanvas {
 
     //SESLERİN TANINMASI
     public void sounds() {
+       // mediakaragozdamage = MediaPlayer.create(root.activity,R.raw.karagozdamage);
+       // mediahacivatdamage = MediaPlayer.create(root.activity,R.raw.hacivatdamage);
+        mediafire = MediaPlayer.create(root.activity,R.raw.fire);
         mediafruitcol = MediaPlayer.create(root.activity, R.raw.fruitcollesion);
         mediaback = MediaPlayer.create(root.activity, R.raw.background);
-        mediatitle = MediaPlayer.create(root.activity, R.raw.tittle);
         mediajump = MediaPlayer.create(root.activity, R.raw.jump);
         mediadefeat = MediaPlayer.create(root.activity, R.raw.defeat);
-    }
+        mediatime=MediaPlayer.create(root.activity,R.raw.time);
+        mediaapplause=MediaPlayer.create(root.activity,R.raw.applause);}
 
 
     //YAZILAR
@@ -361,6 +363,39 @@ public class GameCanvas extends BaseCanvas {
         super(ngApp);
     }
 
+
+
+    public  Random random=new Random();
+    public int next=0;
+   // public int select[][]=new int[][];
+
+/*
+    public void AI() {
+        next++;
+
+
+        if (karagoz.isShoutControl()) {
+            select[next][1]=1;
+        }
+        else{select[next][1]=0;}
+
+
+        if (karagoz.isJumpcontrol()) {
+            select[next][2]=1;
+        }
+        else{select[next][2]=0;}
+
+        if(!karagoz.isJumpcontrol() && !karagoz.isShoutControl())
+        {
+            select[next][0]=0;
+        }
+
+
+
+
+
+    }
+*/
     public void update(){
 
         timerControl();
@@ -369,10 +404,11 @@ public class GameCanvas extends BaseCanvas {
         winkontrol();
         losekontrol();
         timeScroll();
+        iceEffect();
         if (gameControl) {
             splashEffect();
             time--;
-            if (karagoz.isJumpcontrol()) karagozJump();jumpmusic();
+            if (karagoz.isJumpcontrol()) karagozJump();
             if (karagoz.isShoutControl()) karagozShot();
             else if (!splashEffectControl) setObje2SetBase();
             if (hacivat.isJumpcontrol()) hacivatJump();
@@ -425,7 +461,7 @@ public class GameCanvas extends BaseCanvas {
 
 
         if (Utils.checkCollision(obje2.getNobjectdestination(), hacivat.getNobjectdestination()))
-        {   iceEffect();
+        {
             iceeffect.setNobjectsource(iceeffect.getNobjectsrcx(), iceeffect.getNobjectsrcy(), iceeffect.getNobjectsrcw(), iceeffect.getNobjectsrch());
             iceeffect.setNobjectdestination(iceeffect.getNobjectdstx(), iceeffect.getNobjectdsty(), iceeffect.getNobjectdstw(), iceeffect.getNobjectdsth());
             canvas.drawBitmap(iceeffect.getNobject(), iceeffect.getNobjectsource(), iceeffect.getNobjectdestination(), null);
@@ -544,6 +580,7 @@ public class GameCanvas extends BaseCanvas {
                     if (Utils.checkCollision(animKaragoz.getObject().getNobjectdestination(), karagoz.getNobjectdestination()))
                         damageKaragoz();
                     if (Utils.checkCollision(animHacivat.getObject().getNobjectdestination(), hacivat.getNobjectdestination()))
+
                         damageHacivat();
                     setObje1SetBase();
                     setObje2SetBase();
@@ -623,6 +660,28 @@ public class GameCanvas extends BaseCanvas {
 
         }
     ///////////////MÜZİKLER\\\\\\\\\\\\\\\
+        //KAZANMA MÜZİĞİ
+        private void applausemusic()
+        {
+        if(mediaapplause.isPlaying()){}
+        else{mediaapplause.start();}
+
+        }
+
+        //ATEŞ MÜZİĞİ
+        private void firemusic(){
+
+            if(mediafire.isPlaying()){}
+            else{
+                mediafire.start();}
+        }
+        //GERİ SAYIM MÜZİĞİ
+        private void timemusic(){
+
+            if(mediatime.isPlaying()){}
+            else{
+                mediatime.start();}
+        }
         //MEYVE ÇARPIŞMA MUZİĞİ
         private void fruitcollisionmusic () {
 
@@ -638,17 +697,11 @@ public class GameCanvas extends BaseCanvas {
             mediaback.start();
 
         }
-        //GİRİŞ MUZİĞİ
-        private void titlemusic () {
 
-        if(mediatitle.isPlaying()){}
-        mediatitle.start();
-       }
         //ZIPLAMA MUZİĞİ
         private void jumpmusic () {
-
-            if(mediajump.isPlaying()){}
             mediajump.start();
+            if(mediajump.isPlaying()){}
          }
        //KAYBETME MUZİĞİ
         private void defeatmusic () {
@@ -657,11 +710,12 @@ public class GameCanvas extends BaseCanvas {
             mediadefeat.start();
     }
 
-
         //KAZANMA KONTROL
         public void winkontrol() {
         if (hacivat.getHealth() <= 0) {
             setScore();
+            mediaback.release();
+            applausemusic();
             hacivat.setLivecontrol(false);
             gameControl = false;
             Log.i(Hacivat, "dead");
@@ -671,6 +725,7 @@ public class GameCanvas extends BaseCanvas {
         public void losekontrol() {
         if (karagoz.getHealth() <= 0) {
             setScore();
+            mediaback.release();
             scorecoin = 0;
             defeatmusic();
             karagoz.setLivecontrol(false);
@@ -683,7 +738,7 @@ public class GameCanvas extends BaseCanvas {
         //Oyun başlamadan önceki geri sayım metodu
         public void startingTimeCountDown() {
         if (!gameControl && time == 1800) {
-           mediatitle.release();
+            timemusic();
             startingtime--;
             if (startingtime >= 90) {
                 startintimeImage.setNobjectsrcx(2 * startintimeImage.getNobjectsrcw());
@@ -694,21 +749,25 @@ public class GameCanvas extends BaseCanvas {
             } else {
 
                 gameControl = true;
+                if(mediatime.isPlaying()){mediatime.release();}
                 backgroundmusic();
             }
         }
     }
         //KARAGOZ DAMAGE
         public void damageKaragoz () {
+
             hacivat.decBulletCount();
             animHacivat.getTargetCharacter().decHealth(animHacivat.getObject());
             setKaragozHealth();
             hacivat.setHitcount(hacivat.getHitcount() + 1);
             animHacivat.getTargetCharacter().setDamagecount(animHacivat.getTargetCharacter().getDamagecount() + 1);
             chooseFruitHacivat();
-        }
+            iceEffect();
+    }
         //HACİVAT DAMAGE
         public void damageHacivat () {
+
             animKaragoz.getTargetCharacter().decHealth(animKaragoz.getObject());
             setHacivatHealth();
             karagoz.decBulletCount();
@@ -719,7 +778,9 @@ public class GameCanvas extends BaseCanvas {
         public void hacivatShot () {
             //Ateş Ediyormu
             if (hacivat.isShoutControl()) {
+
                 animHacivat.ShoutAnımationHacivat();
+
             }
             if (hacivat.getBulletcount() == 0) {
                 hacivat.setShoutcountrol(false);
@@ -738,8 +799,10 @@ public class GameCanvas extends BaseCanvas {
                 hacivat.setMisscount(hacivat.getHitcount() + 1);
             }
         }
+
         public void karagozShot () {
             if (karagoz.isShoutControl()) {
+
                 animKaragoz.ShoutAnımationKaragoz();
                 fruitEffect();
 
@@ -795,6 +858,8 @@ public class GameCanvas extends BaseCanvas {
             }
         }
         //AI DEFANS MODLARI
+
+
         public void aiPlayerModeAttack () {
             if (animHacivat.AIAttackCollision(obje2)) {
                 if (animHacivat.AIDefenceCollision(obje2)) {
@@ -838,7 +903,9 @@ public class GameCanvas extends BaseCanvas {
                 hacivat.setShoutcountrol(true);
             }
         }
+
         //AI CANA VE MERMIYE GORE SAVAŞ MODUNU SEÇME
+
         public void aiPlayer (Character character, Animations animCharacter){
             if (hacivat.getHealth() > 70 && hacivat.getBulletcount() > 7) {
                 aiPlayerModeSafeAttack();
@@ -860,6 +927,10 @@ public class GameCanvas extends BaseCanvas {
             }
 
         }
+
+
+
+
         //Meyve Secimi(Karagöz)
         public void chooseFruitKaragoz () {
             switch (randFruitKaragoz.nextInt(7)) {
@@ -1047,9 +1118,12 @@ public class GameCanvas extends BaseCanvas {
         }
         if (x >= jump.getNobjectdstx() && x <= jump.getNobjectdstx() + jump.getNobjectdstw() && y >= jump.getNobjectdsty() && y <= jump.getNobjectdsty() + jump.getNobjectdsth()) {
             karagoz.setJumpcontrol(true);
+            jumpmusic();
         }
         if (x >= fire.getNobjectdstx() && x <= fire.getNobjectdstx() + fire.getNobjectdstw() && y >= fire.getNobjectdsty() && y <= fire.getNobjectdsty() + fire.getNobjectdsth()) {
             karagoz.setShoutcountrol(true);
+           if(karagoz.isShoutControl())
+           {firemusic();}
         }
         if(!hacivat.isLivecontrol()){
             if(x >= win.getNobjectdstx() + (win.getNobjectdstw() / 6 * 1.75) && x <= win.getNobjectdstx() + (win.getNobjectdstw() / 2 - win.getNobjectdstw() / 24 )&& y >= win.getNobjectdsty() + (win.getNobjectdsth() * 5 / 6) && y <= getHeight() ){

@@ -3,7 +3,10 @@ package com.ngdroidapp;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.widget.Toast;
+
+import com.mycompany.myngdroidapp.R;
 
 import istanbul.gamelab.ngdroid.base.BaseActivity;
 import istanbul.gamelab.ngdroid.base.BaseCanvas;
@@ -15,6 +18,8 @@ import istanbul.gamelab.ngdroid.util.Utils;
 public class MenuCanvas extends BaseCanvas {
     Nobject arkaplan,playbutton,backbutton;
     Character karagoz,hacivat;
+    private MediaPlayer mediatitle = MediaPlayer.create(root.activity, R.raw.title);
+
     private int touchdownx, touchdowny;
 
 
@@ -31,15 +36,17 @@ public class MenuCanvas extends BaseCanvas {
         karagoz = new Character();
         hacivat = new Character();
         backbutton = new Nobject();
+
         setupKaragoz();
         setupHacivat();
+
+
         setupPlayButton();
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root, "karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root, "hacivat.png"));
         playbutton.setNobject(Utils.loadImage(root, "playbutton.png"));
         backbutton.setNobject(Utils.loadImage(root, "backbutton.png"));
-
     }
 
 
@@ -64,8 +71,7 @@ public class MenuCanvas extends BaseCanvas {
         hacivat.setShoutcountrol(false);
     }
 
-    public void update() {
-
+    public void update() {titlemusic();
 
     }
     public void setupPlayButton(){
@@ -101,6 +107,14 @@ public class MenuCanvas extends BaseCanvas {
         backbutton.setNobjectsource(0,0,256,256);
         backbutton.setNobjectdestination(getWidth()-backbutton.getNobjectdstw(),0,256,256);
         canvas.drawBitmap(backbutton.getNobject(), backbutton.getNobjectsource(), backbutton.getNobjectdestination(), null);
+    }
+
+
+    //GİRİŞ MUZİĞİ
+    public void titlemusic () {
+
+        if(mediatitle.isPlaying()){}
+        else{mediatitle.start();}
     }
 
     public void keyPressed(int key) {
@@ -171,7 +185,7 @@ public class MenuCanvas extends BaseCanvas {
                                 System.exit(0);
                             }
                         }).setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
-//Eğer hayır butonuna basılırsa
+            //Eğer hayır butonuna basılırsa
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
