@@ -16,6 +16,7 @@ public class GameActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         appmanager.setUnitResolution(AppManager.RESOLUTION_QHD);
         appmanager.setFrameRateTarget(20);
+        sesControl = true;
         setDevelopmentMode(true);
         setFreeVersion(true);
         setGPRelease(true);

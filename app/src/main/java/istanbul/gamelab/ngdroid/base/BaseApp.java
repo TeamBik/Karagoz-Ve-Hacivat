@@ -13,6 +13,7 @@ import istanbul.gamelab.ngdroid.gui.GUI;
  */
 
 public abstract class BaseApp {
+    public static boolean sesControl;
     public BaseActivity activity;
     public AppManager appManager;
     public CanvasManager canvasManager;

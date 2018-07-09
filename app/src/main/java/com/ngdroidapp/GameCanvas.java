@@ -273,8 +273,7 @@ public class GameCanvas extends BaseCanvas {
         lose.setNobjectdstx(getWidth() / 2 - lose.getNobjectdstw() / 2);
         lose.setNobjectdsty(getHeight());
     }
-
-    public void setupstartingImage() {
+    public void setupstartingImage(){
         startintimeImage = new Nobject();
         startintimeImage.setNobjectsrcw(250);
         startintimeImage.setNobjectsrch(350);
@@ -691,7 +690,7 @@ public class GameCanvas extends BaseCanvas {
            }
 
         //ARKAPLAN MUZİĞİ
-        private void backgroundmusic () {
+        public void backgroundmusic () {
 
             if(mediaback.isPlaying()){}
             mediaback.start();
@@ -749,8 +748,10 @@ public class GameCanvas extends BaseCanvas {
             } else {
 
                 gameControl = true;
-                if(mediatime.isPlaying()){mediatime.release();}
-                backgroundmusic();
+                MenuCanvas mc = new MenuCanvas(root);
+               if(root.activity.sesControl){ backgroundmusic();}
+               else{mediaback.release();}
+
             }
         }
     }

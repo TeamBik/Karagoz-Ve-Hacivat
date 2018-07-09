@@ -15,7 +15,7 @@ import com.mycompany.myngdroidapp.R;
 public class BaseActivity extends Activity {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
-
+    public static boolean sesControl;
     private RelativeLayout gamesurface;
     protected AppManager appmanager;
     private boolean isdevelopmentmode, isfreeversion, isgprelease;
@@ -27,7 +27,7 @@ public class BaseActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         makeFullScreen();
         appmanager = new AppManager(this);
-
+        sesControl = true;
         setContentView(R.layout.activity_game);
         gamesurface = (RelativeLayout)findViewById(R.id.gameSurface);
         gamesurface.addView(appmanager);
@@ -37,6 +37,9 @@ public class BaseActivity extends Activity {
         isgprelease = true;
     }
 
+    public void setSound(boolean deger){
+        sesControl = deger;
+    }
     public void makeFullScreen() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if(Build.VERSION.SDK_INT < 19) { //19 or above api
