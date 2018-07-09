@@ -396,7 +396,7 @@ public class GameCanvas extends BaseCanvas {
     }
 */
     public void update(){
-
+        Log.i("FPS","Var");
         timerControl();
         startingTimeCountDown();
         thunderEffect();
@@ -564,7 +564,9 @@ public class GameCanvas extends BaseCanvas {
     //ÇARPIŞMA EFEKTİ
         public void splashEffect () {
             if (animations.FruitCollision(animHacivat.getObject(), animKaragoz.getObject())) {
-                fruitcollisionmusic();
+                if(root.activity.sesControl){
+                fruitcollisionmusic();}
+                else {mediafruitcol.release();}
                 splashEffectControl = true;
                 karagoz.setShoutcountrol(false);
                 hacivat.setShoutcountrol(false);
@@ -737,7 +739,9 @@ public class GameCanvas extends BaseCanvas {
         //Oyun başlamadan önceki geri sayım metodu
         public void startingTimeCountDown() {
         if (!gameControl && time == 1800) {
-            timemusic();
+            if(root.activity.sesControl){timemusic();}
+            else{mediatime.release();}
+        }
             startingtime--;
             if (startingtime >= 90) {
                 startintimeImage.setNobjectsrcx(2 * startintimeImage.getNobjectsrcw());
@@ -749,12 +753,13 @@ public class GameCanvas extends BaseCanvas {
 
                 gameControl = true;
                 MenuCanvas mc = new MenuCanvas(root);
-               if(root.activity.sesControl){ backgroundmusic();}
-               else{mediaback.release();}
-
+               if(root.activity.sesControl) {
+                   backgroundmusic(); }
+                   else{
+                   mediaback.release();}
             }
         }
-    }
+
         //KARAGOZ DAMAGE
         public void damageKaragoz () {
 
@@ -1107,62 +1112,78 @@ public class GameCanvas extends BaseCanvas {
         }
 
         public void touchUp(int x, int y, int id) {
-        touchdownx = x;
-        touchdowny = y;
-        if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
-            MenuCanvas mc1 = new MenuCanvas(root);
-            root.canvasManager.setCurrentCanvas(mc1);
-        }
-        if (x >= restart.getNobjectdstx() && x <= restart.getNobjectdstx() + restart.getNobjectdstw() && y >= restart.getNobjectdsty() && y <= restart.getNobjectdsty() + restart.getNobjectdsth()) {
-            GameCanvas mc2 = new GameCanvas(root);
-            root.canvasManager.setCurrentCanvas(mc2);
-        }
-        if (x >= jump.getNobjectdstx() && x <= jump.getNobjectdstx() + jump.getNobjectdstw() && y >= jump.getNobjectdsty() && y <= jump.getNobjectdsty() + jump.getNobjectdsth()) {
-            karagoz.setJumpcontrol(true);
-            jumpmusic();
-        }
-        if (x >= fire.getNobjectdstx() && x <= fire.getNobjectdstx() + fire.getNobjectdstw() && y >= fire.getNobjectdsty() && y <= fire.getNobjectdsty() + fire.getNobjectdsth()) {
-            karagoz.setShoutcountrol(true);
-           if(karagoz.isShoutControl())
-           {firemusic();}
-        }
-        if(!hacivat.isLivecontrol()){
-            if(x >= win.getNobjectdstx() + (win.getNobjectdstw() / 6 * 1.75) && x <= win.getNobjectdstx() + (win.getNobjectdstw() / 2 - win.getNobjectdstw() / 24 )&& y >= win.getNobjectdsty() + (win.getNobjectdsth() * 5 / 6) && y <= getHeight() ){
-                Log.i("Restart","Basılı");
-                GameCanvas mc2 = new GameCanvas(root);
-                root.canvasManager.setCurrentCanvas(mc2);
-            }
-        }else if(!karagoz.isLivecontrol()){
-            if(x >= lose.getNobjectdstx() + (lose.getNobjectdstw() / 6 * 1.75) && x <= lose.getNobjectdstx() + lose.getNobjectdstw() / 2 - lose.getNobjectdstw() / 24 && y >= lose.getNobjectdsty() + (lose.getNobjectdsth() * 5 / 6) && y <= getHeight() ){
-                Log.i("Restart","Basılı");
-                GameCanvas mc2 = new GameCanvas(root);
-                root.canvasManager.setCurrentCanvas(mc2);
-            }
-        }else {
-            if (x >= restart.getNobjectdstx() && x <= restart.getNobjectdstx() + restart.getNobjectdstw() && y >= restart.getNobjectdsty() && y <= restart.getNobjectdsty() + restart.getNobjectdsth()) {
-                GameCanvas mc2 = new GameCanvas(root);
-                root.canvasManager.setCurrentCanvas(mc2);
-            }
+            touchdownx = x;
+            touchdowny = y;
             if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
                 MenuCanvas mc1 = new MenuCanvas(root);
                 root.canvasManager.setCurrentCanvas(mc1);
             }
+            if (x >= restart.getNobjectdstx() && x <= restart.getNobjectdstx() + restart.getNobjectdstw() && y >= restart.getNobjectdsty() && y <= restart.getNobjectdsty() + restart.getNobjectdsth()) {
+                GameCanvas mc2 = new GameCanvas(root);
+                root.canvasManager.setCurrentCanvas(mc2);
+            }
+            if (x >= jump.getNobjectdstx() && x <= jump.getNobjectdstx() + jump.getNobjectdstw() && y >= jump.getNobjectdsty() && y <= jump.getNobjectdsty() + jump.getNobjectdsth()) {
+                karagoz.setJumpcontrol(true);
+                if (karagoz.isShoutControl()) {
+                    if (root.activity.sesControl) {
+                        jumpmusic();
+                    } else {
+                        mediajump.release();
+                    }
+                }
+            }
+                if (x >= fire.getNobjectdstx() && x <= fire.getNobjectdstx() + fire.getNobjectdstw() && y >= fire.getNobjectdsty() && y <= fire.getNobjectdsty() + fire.getNobjectdsth()) {
+                    karagoz.setShoutcountrol(true);
+                    if (karagoz.isShoutControl()) {
+                        if (root.activity.sesControl) {
+                            firemusic();
+                        } else {
+                            mediafire.release();
+                        }
+                    }
+                }
+                if (!hacivat.isLivecontrol()) {
+                    if (x >= win.getNobjectdstx() + (win.getNobjectdstw() / 6 * 1.75) && x <= win.getNobjectdstx() + (win.getNobjectdstw() / 2 - win.getNobjectdstw() / 24) && y >= win.getNobjectdsty() + (win.getNobjectdsth() * 5 / 6) && y <= getHeight()) {
+                        Log.i("Restart", "Basılı");
+                        GameCanvas mc2 = new GameCanvas(root);
+                        root.canvasManager.setCurrentCanvas(mc2);
+                    }
+                } else if (!karagoz.isLivecontrol()) {
+                    if (x >= lose.getNobjectdstx() + (lose.getNobjectdstw() / 6 * 1.75) && x <= lose.getNobjectdstx() + lose.getNobjectdstw() / 2 - lose.getNobjectdstw() / 24 && y >= lose.getNobjectdsty() + (lose.getNobjectdsth() * 5 / 6) && y <= getHeight()) {
+                        Log.i("Restart", "Basılı");
+                        GameCanvas mc2 = new GameCanvas(root);
+                        root.canvasManager.setCurrentCanvas(mc2);
+                    }
+                } else {
+                    if (x >= restart.getNobjectdstx() && x <= restart.getNobjectdstx() + restart.getNobjectdstw() && y >= restart.getNobjectdsty() && y <= restart.getNobjectdsty() + restart.getNobjectdsth()) {
+                        GameCanvas mc2 = new GameCanvas(root);
+                        root.canvasManager.setCurrentCanvas(mc2);
+                    }
+                    if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
+                        MenuCanvas mc1 = new MenuCanvas(root);
+                        root.canvasManager.setCurrentCanvas(mc1);
+                    }
+                }
+            }
+
+
+            public void pause () {
+            }
+
+
+            public void resume () {
+            }
+
+
+            public void reloadTextures () {
+            }
+
+
+            public void showNotify () {
+            }
+            public void hideNotify () {
+            }
         }
-    }
-
-        public void pause() {  }
 
 
-
-        public void resume() { }
-
-
-        public void reloadTextures() {   }
-
-
-        public void showNotify() {}
-        public void hideNotify() {}
-
-
-}
 
