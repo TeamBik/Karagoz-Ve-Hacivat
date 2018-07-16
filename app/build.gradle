@@ -24,10 +24,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    output.outputFile = new File(output.outputFile.parent,
-                            output.outputFile.name.replace("app-release", "export/MyNgdroidApp")
-                    )
+                variant.outputs.all { output ->
+                    output.outputFileName = "${variant.name}-${variant.versionName}.apk"
+
+                    // output.outputFile = "${variant.name}-${variant.versionName}.apk"//new File(output.outputFile.parent,
+                    //output.outputFile.name.replace("app-release", "export/MyNgdroidApp")
+
                 }
             }
         }
@@ -35,7 +37,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    //    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:27.1.1'
+    dependencies {
+        implementation fileTree(include: ['*.jar'], dir: 'libs')
+        //    testCompile 'junit:junit:4.12'
+        implementation 'com.android.support:appcompat-v7:27.1.1'
+        implementation 'com.android.support:support-v4:27.1.1'
+        implementation 'com.android.support:support-media-compat:27.1.1'
+        implementation 'com.android.support:animated-vector-drawable:27.1.1'
+
+    }
 }

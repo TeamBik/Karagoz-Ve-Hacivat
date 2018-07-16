@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.mycompany.myngdroidapp.R;
 
+import java.util.Random;
+
 import istanbul.gamelab.ngdroid.base.BaseActivity;
 import istanbul.gamelab.ngdroid.base.BaseCanvas;
 import istanbul.gamelab.ngdroid.util.Log;
@@ -16,14 +18,12 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 
 public class MenuCanvas extends BaseCanvas {
-    Nobject arkaplan,playbutton,backbutton,onofsoundbutton;
+    Nobject arkaplan,playbutton,backbutton,onofsoundbutton,effect;
     Character karagoz,hacivat;
     private MediaPlayer mediatitle = MediaPlayer.create(root.activity, R.raw.title);
-
     private int touchdownx, touchdowny;
     public boolean ses= true;
-
-    private int sayi = 1;
+    private int sayi = 1,effectLine=0,effectRow=0;
 
 
 
@@ -40,11 +40,16 @@ public class MenuCanvas extends BaseCanvas {
         hacivat = new Character();
         backbutton = new Nobject();
         onofsoundbutton = new Nobject();
+        effect=new Nobject();
 
+        setupEffect();
         setupKaragoz();
         setupHacivat();
+        titlemusic();
         setupPlayButton();
         setuponofsoundbutton();
+
+        effect.setNobject(Utils.loadImage(root,"buz.png"));
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root, "karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root, "hacivat.png"));
@@ -55,7 +60,16 @@ public class MenuCanvas extends BaseCanvas {
     }
 
 
-
+    public void setupEffect()
+        {
+        effect = new Nobject();
+        effect.setNobjectsrcw(192);
+        effect.setNobjectsrch(240);
+        effect.setNobjectdstw(192);
+        effect.setNobjectdsth(240);
+        effect.setNobjectdsty(getHeight()/2);
+        effect.setNobjectdstx(getWidth()/2);
+         }
     public void setupKaragoz(){
         karagoz = new Character();
         karagoz.setNobjectdstw(300);
@@ -88,7 +102,9 @@ public class MenuCanvas extends BaseCanvas {
     }
 
     public void update() {
-    sesControl();
+        Effect();
+
+        sesControl();
 
     }
     public void setupPlayButton(){
@@ -115,6 +131,11 @@ public class MenuCanvas extends BaseCanvas {
         onofsoundbutton.setNobjectdsty(0);
     }
         public void draw(Canvas canvas) {
+        effect.setNobjectsource(effect.getNobjectsrcx(),effect.getNobjectsrcy(),effect.getNobjectsrcw(),effect.getNobjectsrch());
+        effect.setNobjectdestination(effect.getNobjectdstx(),effect.getNobjectdsty(), effect.getNobjectdstx(),effect.getNobjectdsty());
+        canvas.drawBitmap(effect.getNobject(), effect.getNobjectsource(),effect.getNobjectdestination(), null);
+
+
         arkaplan.setNobjectsource(0,0,3840,2160);
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(arkaplan.getNobject(),  arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
@@ -141,7 +162,35 @@ public class MenuCanvas extends BaseCanvas {
         canvas.drawBitmap(onofsoundbutton.getNobject(), onofsoundbutton.getNobjectsource(), onofsoundbutton.getNobjectdestination(), null);
     }
 
+       //giriş animasyonu
+    public void Effect()
+    {
+        Random random=new Random();
+        int rastgele=random.nextInt(51);
 
+        if (effectLine > 4) {
+            effectRow++;
+            effectLine = 0;
+        }
+        if (effectRow > 3) {
+            effectRow = 0;
+            effectLine = 0;
+        }
+
+        if(rastgele>24)
+        {
+            effect.setNobjectdstx((getWidth()/2)+rastgele);
+            effect.setNobjectdsty(getHeight()/2);
+        }
+        else{
+
+            effect.setNobjectdstx((getWidth())/2-rastgele);
+            effect.setNobjectdsty(getHeight()/2);
+        }
+        effect.setNobjectsrcx(effect.getNobjectsrcw() * effectLine);
+        effect.setNobjectsrcy(effect.getNobjectsrch() * effectRow);
+        effectLine++;
+    }
     //GİRİŞ MUZİĞİ
     public void titlemusic () {
 

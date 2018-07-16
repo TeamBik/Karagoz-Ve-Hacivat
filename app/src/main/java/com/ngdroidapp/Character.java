@@ -25,8 +25,12 @@ public class Character extends Nobject{
     //Karakterin dikey doğrultudaki ivmesi
     private double charAcceleration;
     //Sinüs dalgası için kullanılacak derece charAcceleration yönünü belirleyecek
+    private boolean crouchcontrol;
+    //Jump sayacı
     private int derece;
-
+    //Crouch sayacı
+    private int derececrouch;
+    private int counter;
 
     public Character() {
         health = 100;
@@ -34,13 +38,21 @@ public class Character extends Nobject{
         hitcount = 0;
         misscount = 0;
         bulletcount = 30;
+        crouchcontrol=false;
         shoutcountrol=false;
         jumpcontrol = false;
         livecontrol = true;
         downcontrol = false;
         charAcceleration = -5;
         derece=6;
+        derececrouch=0;
+        counter=0;
+
     }
+
+    public void setcrouchControl(boolean crouchcontrol) {  this.crouchcontrol=crouchcontrol; }
+
+    public boolean getcrouchControl() {  return crouchcontrol;  }
 
     public int getBulletcount() {
         return bulletcount;
@@ -137,7 +149,6 @@ public class Character extends Nobject{
     }
     public void incHitCount(){
         hitcount++;
-
     }
     public void incMissCount(){
         misscount++;
@@ -147,8 +158,11 @@ public class Character extends Nobject{
         if(livecontrol)
             health -= fruitObject.getWeight();
     }
-    public boolean jump(){
-        if(!downcontrol&&jumpcontrol){
+
+    //ZIPLAMA
+    public boolean jump()
+    {
+        if(!downcontrol && jumpcontrol){
 
             derece += 6;
             if (derece <= 90) {
@@ -166,5 +180,17 @@ public class Character extends Nobject{
         }
         return false;
     }
-    public void  power(){}
+    //EĞİLME
+    public boolean crouch()
+    {
+        derececrouch+=10;
+        if(derececrouch<=50){counter+=8;setNobjectdsty(getNobjectdsty()+counter);}
+        if(derececrouch>=51){counter-=8;setNobjectdsty(getNobjectdsty()-counter);}
+        if(derececrouch==100)
+        {
+            derececrouch=0;
+        }
+      return true;
+
+    }
 }

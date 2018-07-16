@@ -106,29 +106,5 @@ public class Animations {
         else {return false;}
     }
 }
-/*
-        //EĞRİ
-        public void SinCurve()
-        {
-                    derece += 15;
 
-                    objectX -= 15;
-                   if(derece<=90)
-                   {
-                       objectY -= Math.sin(Math.toRadians(derece)/180)*1000;}
-                   else if(derece>90 && derece<=180)
-                   {
-                       objectY += Math.sin(Math.toRadians(derece)/180)*1000;
-                   }
-
-                    object.setNobjectdstx(objectX);
-                    object.setNobjectdsty(objectY);
-
-
-
-
-
-
-}
-*/
 
