@@ -180,6 +180,31 @@ public class Character extends Nobject{
         }
         return false;
     }
+    public boolean down(){
+        if(downcontrol&&!jumpcontrol){
+            derece += 6;
+            if (derece <= 90) {
+                if(derece <= 64){
+                    for (;derece <= 64; derece += 6){
+                        charAcceleration += Math.sin(Math.toRadians(derece)/180) * 500;
+                    }
+                }else{
+                    charAcceleration += Math.sin(Math.toRadians(derece)/180) * 500;
+
+                }
+            }
+            else if (derece <= 180) {
+                charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 300;
+            }else{
+                downcontrol =false;
+                derece = 6;
+                charAcceleration = -5;
+                return true;
+            }
+            setNobjectdsty(getNobjectdsty()+(int)charAcceleration);
+        }
+        return false;
+    }
     //EĞİLME
     public boolean crouch()
     {
