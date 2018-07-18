@@ -4,7 +4,7 @@ public class FruitObject extends Nobject {
 
     private int weight,velocity;
     private boolean livecontrol;
-
+///
     public FruitObject(int weight, int velocity) {
         this.velocity = velocity;
         this.weight = weight;
