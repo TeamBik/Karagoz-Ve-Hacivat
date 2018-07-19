@@ -53,7 +53,11 @@ public class MenuCanvas extends BaseCanvas {
 
     public void setupKaragoz(){
         karagoz = new Character();
-        karagoz.setNobjectdstw(300);
+        karagoz.setNobjectsrcx(20);
+        karagoz.setNobjectsrcy(0);
+        karagoz.setNobjectsrcw(480);
+        karagoz.setNobjectsrch(718);
+        karagoz.setNobjectdstw(423);
         karagoz.setNobjectdsth(660);
         karagoz.setNobjectdsty(getWidth() / 8);
         karagoz.setNobjectdstx(getWidth() * 4 / 6);
@@ -63,10 +67,14 @@ public class MenuCanvas extends BaseCanvas {
     }
     public void setupHacivat(){
         hacivat = new Character();
-        hacivat.setNobjectdstw(300);
+        hacivat.setNobjectsrcx(0);
+        hacivat.setNobjectsrcy(0);
+        hacivat.setNobjectsrcw(390);
+        hacivat.setNobjectsrch(718);
+        hacivat.setNobjectdstw(358);
         hacivat.setNobjectdsth(660);
         hacivat.setNobjectdsty(getWidth() / 8);
-        hacivat.setNobjectdstx(getHeight() / 6 + hacivat.getNobjectdstw() / 2);
+        hacivat.setNobjectdstx(getHeight() / 6 + hacivat.getNobjectdstw() / 3);
         hacivat.setJumpcontrol(false);
         hacivat.setShoutcountrol(false);
     }
@@ -91,12 +99,12 @@ public class MenuCanvas extends BaseCanvas {
         arkaplan.setNobjectdestination(0,0,getWidth(),getHeight());
         canvas.drawBitmap(arkaplan.getNobject(),  arkaplan.getNobjectsource(), arkaplan.getNobjectdestination(), null);
 
-        karagoz.setNobjectsource(0,0,2215,4892);
+        karagoz.setNobjectsource(karagoz.getNobjectsrcx(),karagoz.getNobjectsrcy(),karagoz.getNobjectsrcw(),karagoz.getNobjectsrch());
         karagoz.setNobjectdestination(karagoz.getNobjectdstx(),karagoz.getNobjectdsty(),karagoz.getNobjectdstw(),karagoz.getNobjectdsth());
         canvas.drawBitmap(karagoz.getNobject(), karagoz.getNobjectsource(), karagoz.getNobjectdestination(), null);
 
 
-        hacivat.setNobjectsource(0,0,1957,5110);
+        hacivat.setNobjectsource(hacivat.getNobjectsrcx(),hacivat.getNobjectsrcy(),hacivat.getNobjectsrcw(),hacivat.getNobjectsrch());
         hacivat.setNobjectdestination(hacivat.getNobjectdstx(),hacivat.getNobjectdsty(),hacivat.getNobjectdstw(),hacivat.getNobjectdsth());
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 

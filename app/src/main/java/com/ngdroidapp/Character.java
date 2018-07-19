@@ -149,13 +149,16 @@ public class Character extends Nobject{
     }
     public boolean jump(){
         if(!downcontrol&&jumpcontrol){
-
             derece += 6;
             if (derece <= 90) {
-                charAcceleration -= Math.sin(Math.toRadians(derece)/180) * 600;
+                if(derece < 48 ) {
+                    for (; derece < 48; derece += 6)
+                        charAcceleration -= Math.sin(Math.toRadians(derece / 180)) * 800;
+                }
+                else charAcceleration -= Math.sin(Math.toRadians(derece) / 180) * 750;
             }
             else if (derece <= 180) {
-                charAcceleration += Math.sin(Math.toRadians(derece)/180) * 600;
+                charAcceleration += Math.sin(Math.toRadians(derece) / 180) * 450;
             }else{
                 jumpcontrol =false;
                 derece = 6;
