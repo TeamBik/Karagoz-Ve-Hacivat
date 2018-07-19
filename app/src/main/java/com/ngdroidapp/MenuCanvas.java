@@ -2,8 +2,10 @@ package com.ngdroidapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.mycompany.myngdroidapp.R;
@@ -19,11 +21,8 @@ public class MenuCanvas extends BaseCanvas {
     Nobject arkaplan,playbutton,backbutton;
     Character karagoz,hacivat;
     private MediaPlayer mediatitle = MediaPlayer.create(root.activity, R.raw.title);
-
+    private int gameCoin, gameCount, winCount, loseCount;
     private int touchdownx, touchdowny;
-
-
-
 
 
     public MenuCanvas(NgApp ngApp) {
@@ -39,7 +38,7 @@ public class MenuCanvas extends BaseCanvas {
 
         setupKaragoz();
         setupHacivat();
-
+        sharedPreference();
 
         setupPlayButton();
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
@@ -49,7 +48,26 @@ public class MenuCanvas extends BaseCanvas {
         backbutton.setNobject(Utils.loadImage(root, "backbutton.png"));
     }
 
+    public void sharedPreference(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(root.activity);
+        if(preferences.contains("myCoin")){
+            gameCoin = preferences.getInt("myCoin",0);
+            gameCount = preferences.getInt("myGameCount",0);
+            winCount = preferences.getInt("myWinCount",0);
+            loseCount = preferences.getInt("myLoseCount",0);
+        }else {
+            gameCoin = 0;
+            gameCount = 0;
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("myCoin", gameCoin);
+            editor.putInt("myGameCount", gameCount);
+            editor.putInt("myWinCount", winCount);
+            editor.putInt("myLoseCount", loseCount);
+            editor.commit();
+        }
 
+
+    }
 
     public void setupKaragoz(){
         karagoz = new Character();
@@ -79,8 +97,9 @@ public class MenuCanvas extends BaseCanvas {
         hacivat.setShoutcountrol(false);
     }
 
-    public void update() {titlemusic();
-
+    public void update() {
+        Log.i("Coin:",""+gameCoin);
+        titlemusic();
     }
     public void setupPlayButton(){
         playbutton = new Nobject();
@@ -90,8 +109,8 @@ public class MenuCanvas extends BaseCanvas {
         playbutton.setNobjectsrch(122);
         playbutton.setNobjectdstw(600);
         playbutton.setNobjectdsth(244);
-        playbutton.setNobjectdstx(getWidth()/2-playbutton.getNobjectdstw()/2);
-        playbutton.setNobjectdsty(getHeight()/2-playbutton.getNobjectdsth()/2);
+        playbutton.setNobjectdstx(getWidth() / 2 - playbutton.getNobjectdstw() / 2);
+        playbutton.setNobjectdsty(getHeight() / 2 - playbutton.getNobjectdsth() / 2);
 
     }
     public void draw(Canvas canvas) {

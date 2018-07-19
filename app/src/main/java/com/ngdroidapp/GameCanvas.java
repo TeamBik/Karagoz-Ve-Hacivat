@@ -13,6 +13,8 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
+
 import com.mycompany.myngdroidapp.R;
 
 
@@ -40,7 +42,9 @@ public class GameCanvas extends BaseCanvas {
     private final int peachv = 17, peachw = 10, watermelonv = 15, watermelonw = 10, pearv = 20, pearw = 10, plumv = 25, plumw = 10, strawberryv = 27, strawberryw = 10, orangev = 25, orangew = 10, tomatov = 27, tomatow = 10;
     private int scorehit, scoredamage, scoremiss, scorecoin;
     private int karagozAnimRow, karagozAnimLine, hacivatAnimLine, hacivatAnimRow;
-
+    private int gamecoin;
+    private  SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     public void setup() {
 
         karagoz = new Character();
@@ -58,6 +62,7 @@ public class GameCanvas extends BaseCanvas {
         win = new Nobject();
         lose = new Nobject();
         gameControl = false;
+        sharedPreference();
         setupHacivat();
         setupKaragoz();
         setupObjectHacivat();
@@ -67,12 +72,10 @@ public class GameCanvas extends BaseCanvas {
         setupText();
         setupwin();
         setuplose();
-
         setupBomb();
         setupFeffect();
         setupThunder();
         setupIceeffect();
-
         setupstartingImage();
         time = 1800;
         startingtime = 120;
@@ -85,8 +88,19 @@ public class GameCanvas extends BaseCanvas {
         pictures();
         sounds();
     }
+    public void sharedPreference(){
+       preferences = PreferenceManager.getDefaultSharedPreferences(root.activity);
+       editor = preferences.edit();
+        if(preferences.contains("myCoin")){
+            gamecoin = preferences.getInt("myCoin",0);
+        }else {
+            gamecoin = 0;
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("myCoin", gamecoin);
+            editor.commit();
+        }
 
-
+    }
     //RESİMLERİN TANINMASI
     public void pictures()
     {
@@ -164,7 +178,6 @@ public class GameCanvas extends BaseCanvas {
         karagozAnimRow = 0;
         karagozAnimLine = 0;
         animControlKaragoz = true;
-
     }
 
     public void setupHacivat() {
@@ -547,6 +560,7 @@ public class GameCanvas extends BaseCanvas {
             canvas.drawText("" + scoredamage, lose.getNobjectdstx() + (lose.getNobjectdstw() / (float)1.6),lose.getNobjectdsty() + (lose.getNobjectdsth() / (float)(1.87)), paintScoreCount);
             canvas.drawText("" + scoremiss, lose.getNobjectdstx() + (lose.getNobjectdstw() / (float)1.6),lose.getNobjectdsty() + (lose.getNobjectdsth() / (float)(1.48)), paintScoreCount);
         }
+        root.gui.drawText(canvas, "FPS: " + root.appManager.getFrameRate() + " / " + root.appManager.getFrameRateTarget(), getWidth()/10, getHeight()/15, 0);
         //canvas.drawText(""+scorecoin, win.getNobjectdstx() + (win.getNobjectdstw() / 140 * 100),win.getNobjectdsty()+ (win.getNobjectdsth() / 377 *100),paintCoinCount);
     }
 
@@ -1127,7 +1141,17 @@ public class GameCanvas extends BaseCanvas {
 
             @Override
             public void onClick(DialogInterface dialog, int id) { //Eğer evet butonuna basılırsa
-                System.exit(0);
+                if(!gameControl){
+                    if(!hacivat.isLivecontrol()){
+                        editor.putInt("myWinCount",preferences.getInt("myWinCount",0) + 1);
+                    }
+                    else if(!karagoz.isLivecontrol()){
+                        editor.putInt("myLoseCount",preferences.getInt("myLoseCount",0) + 1);
+                    }
+                    editor.putInt("myGameCount", preferences.getInt("myGameCount", 0) + 1);
+                    editor.putInt("myCoin",gamecoin + scorecoin);
+                    editor.commit();
+                }System.exit(0);
 
 
             }
@@ -1189,12 +1213,20 @@ public class GameCanvas extends BaseCanvas {
         }
         if(!hacivat.isLivecontrol()){
             if(x >= win.getNobjectdstx() + (win.getNobjectdstw() / 6 * 1.75) && x <= win.getNobjectdstx() + (win.getNobjectdstw() / 2 - win.getNobjectdstw() / 24 )&& y >= win.getNobjectdsty() + (win.getNobjectdsth() * 5 / 6) && y <= getHeight() ){
+                editor.putInt("myCoin",gamecoin + scorecoin);
+                editor.commit();
+                editor.putInt("myGameCount", preferences.getInt("myGameCount", 0) + 1);
+                editor.putInt("myWinCount",preferences.getInt("myWinCount",0) + 1);
                 Log.i("Restart","Basılı");
                 GameCanvas mc2 = new GameCanvas(root);
                 root.canvasManager.setCurrentCanvas(mc2);
             }
         }else if(!karagoz.isLivecontrol()){
             if(x >= lose.getNobjectdstx() + (lose.getNobjectdstw() / 6 * 1.75) && x <= lose.getNobjectdstx() + lose.getNobjectdstw() / 2 - lose.getNobjectdstw() / 24 && y >= lose.getNobjectdsty() + (lose.getNobjectdsth() * 5 / 6) && y <= getHeight() ){
+                editor.putInt("myGameCount", preferences.getInt("myGameCount", 0) + 1);
+                editor.putInt("myLoseCount",preferences.getInt("myLoseCount",0) + 1);
+                editor.putInt("myCoin",gamecoin + scorecoin);
+                editor.commit();
                 Log.i("Restart","Basılı");
                 GameCanvas mc2 = new GameCanvas(root);
                 root.canvasManager.setCurrentCanvas(mc2);
@@ -1205,17 +1237,18 @@ public class GameCanvas extends BaseCanvas {
                 root.canvasManager.setCurrentCanvas(mc2);
             }
             if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
+                editor.putInt("myGameCount", preferences.getInt("myGameCount", 0) + 1);
                 MenuCanvas mc1 = new MenuCanvas(root);
                 root.canvasManager.setCurrentCanvas(mc1);
             }
         }
     }
 
-        public void pause() {  }
+
+    public void pause() {  }
 
 
-
-        public void resume() { }
+    public void resume() { }
 
 
         public void reloadTextures() {   }
