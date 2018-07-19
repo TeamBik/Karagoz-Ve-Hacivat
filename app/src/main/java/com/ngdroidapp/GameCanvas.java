@@ -2,6 +2,7 @@ package com.ngdroidapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,7 +19,6 @@ import com.mycompany.myngdroidapp.R;
 public class GameCanvas extends BaseCanvas {
     //Değişkenler
     public MediaPlayer mediaback, mediadefeat,mediafire,mediaapplause, mediafruitcol, mediajump,mediatime;
-
     public static int thundereffectline = 0, thundereffectRow = 0;
     public static int fruiteffectLine = 0, fruiteffectRow = 0;
     public static int iceeffectLine = 0, iceeffectRow = 0;
@@ -1175,14 +1175,17 @@ public class GameCanvas extends BaseCanvas {
             root.canvasManager.setCurrentCanvas(mc2);
         }
         if (x >= jump.getNobjectdstx() && x <= jump.getNobjectdstx() + jump.getNobjectdstw() && y >= jump.getNobjectdsty() && y <= jump.getNobjectdsty() + jump.getNobjectdsth()) {
-            karagoz.setJumpcontrol(true);
-            jumpmusic();
-            animControlKaragoz = true;
+           if(!karagoz.isJumpcontrol()){
+               karagoz.setJumpcontrol(true);
+               jumpmusic();
+               animControlKaragoz = true;
+           }
         }
         if (x >= fire.getNobjectdstx() && x <= fire.getNobjectdstx() + fire.getNobjectdstw() && y >= fire.getNobjectdsty() && y <= fire.getNobjectdsty() + fire.getNobjectdsth()) {
-            karagoz.setShoutcountrol(true);
-           if(karagoz.isShoutControl())
-           {firemusic();}
+            if(!karagoz.isShoutControl()){
+                karagoz.setShoutcountrol(true);
+                firemusic();
+            }
         }
         if(!hacivat.isLivecontrol()){
             if(x >= win.getNobjectdstx() + (win.getNobjectdstw() / 6 * 1.75) && x <= win.getNobjectdstx() + (win.getNobjectdstw() / 2 - win.getNobjectdstw() / 24 )&& y >= win.getNobjectdsty() + (win.getNobjectdsth() * 5 / 6) && y <= getHeight() ){
