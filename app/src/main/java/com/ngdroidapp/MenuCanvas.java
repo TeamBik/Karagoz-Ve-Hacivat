@@ -6,9 +6,17 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.mycompany.myngdroidapp.R;
+import com.gamelab.karagozhacivat.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import istanbul.gamelab.ngdroid.base.BaseActivity;
 import istanbul.gamelab.ngdroid.base.BaseCanvas;
@@ -18,6 +26,9 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 
 public class MenuCanvas extends BaseCanvas {
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
     Nobject arkaplan,playbutton,backbutton;
     Character karagoz,hacivat;
     private MediaPlayer mediatitle = MediaPlayer.create(root.activity, R.raw.title);
@@ -29,17 +40,17 @@ public class MenuCanvas extends BaseCanvas {
         super(ngApp);
     }
 
-
     public void setup() {
+        resetRoom();
+        mAuth = FirebaseAuth.getInstance();
         arkaplan = new Nobject();
         karagoz = new Character();
         hacivat = new Character();
         backbutton = new Nobject();
-
+        setupFirebase();
         setupKaragoz();
         setupHacivat();
         sharedPreference();
-
         setupPlayButton();
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root, "karagoz.png"));
@@ -48,9 +59,23 @@ public class MenuCanvas extends BaseCanvas {
         backbutton.setNobject(Utils.loadImage(root, "backbutton.png"));
     }
 
+    public void setupFirebase(){
+
+    }
     public void sharedPreference(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(root.activity);
-        if(preferences.contains("myCoin")){
+        if(root.activity.getFirebaseUserStatistic() != null){
+            gameCoin = root.activity.getFirebaseUserStatistic().getMyCoin();
+            gameCount =root.activity.getFirebaseUserStatistic().getMyGameCount();
+            winCount = root.activity.getFirebaseUserStatistic().getMyWinCount();
+            loseCount = root.activity.getFirebaseUserStatistic().getMyLoseCount();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("myCoin", root.activity.getFirebaseUserStatistic().getMyCoin());
+            editor.putInt("myGameCount", root.activity.getFirebaseUserStatistic().getMyGameCount());
+            editor.putInt("myWinCount", root.activity.getFirebaseUserStatistic().getMyWinCount());
+            editor.putInt("myLoseCount", root.activity.getFirebaseUserStatistic().getMyLoseCount());
+            editor.commit();
+        }else if(preferences.contains("myCoin")){
             gameCoin = preferences.getInt("myCoin",0);
             gameCount = preferences.getInt("myGameCount",0);
             winCount = preferences.getInt("myWinCount",0);
@@ -58,6 +83,8 @@ public class MenuCanvas extends BaseCanvas {
         }else {
             gameCoin = 0;
             gameCount = 0;
+            winCount = 0;
+            loseCount = 0;
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt("myCoin", gameCoin);
             editor.putInt("myGameCount", gameCount);
@@ -65,8 +92,12 @@ public class MenuCanvas extends BaseCanvas {
             editor.putInt("myLoseCount", loseCount);
             editor.commit();
         }
-
-
+        GameStatistic gameStatistic = new GameStatistic();
+        gameStatistic.setMyCoin(gameCoin);
+        gameStatistic.setMyGameCount(gameCount);
+        gameStatistic.setMyWinCount(winCount);
+        gameStatistic.setMyLoseCount(loseCount);
+        root.activity.setFirebaseUserStatistic(gameStatistic);
     }
 
     public void setupKaragoz(){
@@ -96,9 +127,14 @@ public class MenuCanvas extends BaseCanvas {
         hacivat.setJumpcontrol(false);
         hacivat.setShoutcountrol(false);
     }
-
+    public void resetRoom(){
+        root.activity.setIsRoomId(null);
+        root.activity.setIsRoom(false);
+        root.activity.setOtherPlayerData(null);
+    }
     public void update() {
         Log.i("Coin:",""+gameCoin);
+
         titlemusic();
     }
     public void setupPlayButton(){
@@ -197,7 +233,7 @@ public class MenuCanvas extends BaseCanvas {
         touchdowny = y;
         if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
                 playbutton.setNobjectsrcx(0);
-                GameCanvas mc = new GameCanvas(root);
+                GameCanvasMultiPlayer mc = new GameCanvasMultiPlayer(root);
                 root.canvasManager.setCurrentCanvas(mc);
         }
         if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {

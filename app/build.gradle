@@ -12,7 +12,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "com.mycompany.myngdroidapp"
+        applicationId "com.gamelab.karagozhacivat"
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
@@ -31,13 +31,20 @@ android {
                     //output.outputFile.name.replace("app-release", "export/MyNgdroidApp")
 
                 }
-                }
             }
         }
     }
+}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //    testCompile 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:support-media-compat:27.1.1'
+    implementation 'com.android.support:animated-vector-drawable:27.1.1'
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-database:11.8.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

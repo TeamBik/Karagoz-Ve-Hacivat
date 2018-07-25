@@ -1,7 +1,10 @@
-package com.mycompany.myngdroidapp;
+package com.mycompany.karagozhacivat;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import istanbul.gamelab.ngdroid.base.BaseActivity;
 import istanbul.gamelab.ngdroid.core.AppManager;
@@ -10,6 +13,7 @@ import istanbul.gamelab.ngdroid.util.Log;
 public class GameActivity extends BaseActivity {
 
     private static final String TAG = GameActivity.class.getSimpleName();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,5 +33,15 @@ public class GameActivity extends BaseActivity {
     public void onActivityResult(int request, int response, Intent data) {
         super.onActivityResult(request, response, data);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+
+    }
+
+
+
 
 }
