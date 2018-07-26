@@ -3,9 +3,6 @@ package com.mycompany.karagozhacivat;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import istanbul.gamelab.ngdroid.base.BaseActivity;
 import istanbul.gamelab.ngdroid.core.AppManager;
 import istanbul.gamelab.ngdroid.util.Log;

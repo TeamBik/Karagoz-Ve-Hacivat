@@ -1,7 +1,5 @@
 package com.ngdroidapp;
 
-import android.content.res.Resources;
-
 import istanbul.gamelab.ngdroid.util.Utils;
 
 public class Animations {

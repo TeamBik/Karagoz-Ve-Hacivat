@@ -2,8 +2,9 @@ package com.ngdroidapp;
 
 public class Skills
 {
-    public boolean BigAttack(Nobject obje,Boolean status)
+    public boolean BigAttack(Character obje,Boolean status)
     {   int Big;
+
 
         if(status)
         {
@@ -18,7 +19,8 @@ public class Skills
         obje.setNobjectdsth(Big);
         }
 
-        return BigAttack(obje,status);
+
+        return false;
 
     }
     public boolean Ice(Character character,Boolean status)
@@ -27,7 +29,7 @@ public class Skills
         {
         character.setJumpcontrol(false);
         }
-        return Ice(character,status);
+        return status;
 
     }
 
@@ -41,7 +43,7 @@ public class Skills
            health -= 5;
            character.setHealth(health);
        }
-       return Poison(character,status);
+       return status;
     }
 
 }

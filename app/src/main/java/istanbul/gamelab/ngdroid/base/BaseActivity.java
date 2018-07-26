@@ -10,8 +10,6 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import istanbul.gamelab.ngdroid.core.AppManager;
-import istanbul.gamelab.ngdroid.util.Log;
 import com.gamelab.karagozhacivat.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ngdroidapp.GameStatistic;
 import com.ngdroidapp.PlayerData;
+
+import istanbul.gamelab.ngdroid.core.AppManager;
+import istanbul.gamelab.ngdroid.util.Log;
 
 public class BaseActivity extends Activity {
     private FirebaseUser user;
@@ -136,8 +137,9 @@ public class BaseActivity extends Activity {
         }
     }
     public void setFirebaseUserStatistic(GameStatistic gameStatistic){
-        databaseReference.child("Users").child(getUser().getUid()).child("statistic").setValue(gameStatistic);
-    }
+        if(getUser()!=null) {
+            databaseReference.child("Users").child(getUser().getUid()).child("statistic").setValue(gameStatistic);
+        } }
     public GameStatistic getFirebaseUserStatistic(){
         try {
             databaseReference.child("Users").child(getUser().getUid()).child("statistic").addValueEventListener(new ValueEventListener() {

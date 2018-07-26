@@ -9,7 +9,9 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
+
 import com.gamelab.karagozhacivat.R;
+
 import java.util.Random;
 
 import istanbul.gamelab.ngdroid.base.BaseCanvas;
@@ -19,6 +21,7 @@ import istanbul.gamelab.ngdroid.util.Utils;
 
 public class GameCanvas extends BaseCanvas {
     //Değişkenler
+    public Skills skil=new Skills();
     public MediaPlayer mediaback, mediadefeat,mediafire,mediaapplause, mediafruitcol, mediajump,mediatime;
     public static int thundereffectline = 0, thundereffectRow = 0;
     public static int fruiteffectLine = 0, fruiteffectRow = 0;
@@ -45,9 +48,9 @@ public class GameCanvas extends BaseCanvas {
     private  SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private boolean multiplayermode;
+    private int timerkaragoz=90,timerhacivat=90;
 
     public void setup() {
-
         karagoz = new Character();
         arkaplan = new Nobject();
         backbutton = new Nobject();
@@ -393,41 +396,7 @@ public class GameCanvas extends BaseCanvas {
         super(ngApp);
     }
 
-
-
-    public  Random random=new Random();
-    public int next=0;
-   // public int select[][]=new int[][];
-
-/*
-    public void AI() {
-        next++;
-
-
-        if (karagoz.isShoutControl()) {
-            select[next][1]=1;
-        }
-        else{select[next][1]=0;}
-
-
-        if (karagoz.isJumpcontrol()) {
-            select[next][2]=1;
-        }
-        else{select[next][2]=0;}
-
-        if(!karagoz.isJumpcontrol() && !karagoz.isShoutControl())
-        {
-            select[next][0]=0;
-        }
-
-
-
-
-
-    }
-*/
     public void update(){
-
         timerControl();
         startingTimeCountDown();
         thunderEffect();
@@ -435,6 +404,7 @@ public class GameCanvas extends BaseCanvas {
         losekontrol();
         timeScroll();
         iceEffect();
+        Skil();
         if (gameControl) {
             if(!multiplayermode){
             splashEffect();
@@ -448,8 +418,13 @@ public class GameCanvas extends BaseCanvas {
             aiPlayer(hacivat, animHacivat);
             }
 
+
+
+
+
+
             Log.i("GameCanvas", "Oyun Devam Ediyor");
-        }//else if(time == 0)pause();
+        }
 
     }
 
@@ -569,6 +544,76 @@ public class GameCanvas extends BaseCanvas {
         root.gui.drawText(canvas, "FPS: " + root.appManager.getFrameRate() + " / " + root.appManager.getFrameRateTarget(), getWidth()/10, getHeight()/15, 0);
         //canvas.drawText(""+scorecoin, win.getNobjectdstx() + (win.getNobjectdstw() / 140 * 100),win.getNobjectdsty()+ (win.getNobjectdsth() / 377 *100),paintCoinCount);
     }
+
+
+
+    //SKİLLER
+    public void Skil() {
+        /////////////
+        if (skil.Poison(karagoz, true)) {
+            if (((timerkaragoz == 30) || (timerkaragoz == 60) || (timerkaragoz == 90))) {
+                skil.Poison(karagoz, true);
+                timerkaragoz--;
+            }
+            else if (timerkaragoz == 0) {
+                skil.Poison(karagoz, false);
+                timerkaragoz = 90;
+            }
+
+        }
+        if (skil.Poison(hacivat, true)) {
+            if (((timerhacivat == 30) || (timerhacivat == 60) || (timerhacivat == 90))) {
+                skil.Poison(hacivat, true);
+                timerhacivat--;
+            }
+            else if (timerhacivat == 0) {
+                skil.Poison(hacivat, false);
+                timerhacivat = 90;
+            }
+
+        }
+        //////////////
+        else if (skil.Ice(karagoz, true)) {
+
+            if (timerkaragoz != 0) {
+                skil.Ice(karagoz, true);
+                timerkaragoz--;
+            }
+            else if (timerkaragoz == 0) {
+                skil.Ice(karagoz, false);
+                timerkaragoz = 90;
+            }
+
+        }
+
+        else if (skil.Ice(hacivat, true)) {
+
+            if (timerhacivat != 0) {
+                skil.Ice(hacivat, true);
+                timerkaragoz--;
+            }
+            else if (timerhacivat == 0) {
+                skil.Ice(hacivat, false);
+                timerhacivat = 90;
+            }
+            timerhacivat--;
+        }
+        ///////////////
+        else if (skil.BigAttack(karagoz, true)) {
+            if (!hacivat.isShoutControl()) {
+                skil.BigAttack(karagoz, true);
+                skil.BigAttack(karagoz, false);
+            }
+        } else if (skil.BigAttack(hacivat, true)) {
+            if (!hacivat.isShoutControl()) {
+                skil.BigAttack(hacivat, true);
+                skil.BigAttack(hacivat, false);
+            }
+        }
+        /////////////////
+    }
+
+
 
     public void setScore() {
         scoredamage = karagoz.getDamagecount();
