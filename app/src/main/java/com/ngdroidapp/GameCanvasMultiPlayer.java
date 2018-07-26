@@ -39,7 +39,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
     private boolean gameControl = true, splashEffectControl = false, animControlHacivat, animControlKaragoz;
     private Character karagoz, hacivat;
     private Animations animKaragoz, animHacivat, animations;
-    private Nobject arkaplan, backbutton, restart, fire, jump, bomb, win, lose,iceeffect,fruiteffect,thundereffect;
+    private Nobject arkaplan, backbutton, restart, fire, jump, bomb, win, lose,iceeffect,fruiteffect,thundereffect,cursorhand;
     private Nobject blackbarHacivat, blackbarKaragoz, greenbarKaragoz, greenbarHacivat, startintimeImage;
     private FruitObject obje1, obje2;
     private int splashrow = 0, splashline = 0;
@@ -68,6 +68,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
         restart = new Nobject();
         fire = new Nobject();
         jump = new Nobject();
+        cursorhand = new Nobject();
         greenbarKaragoz = new Nobject();
         greenbarHacivat = new Nobject();
         gameControl = false;
@@ -127,6 +128,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
     //RESİMLERİN TANINMASI
     public void pictures()
     {
+        cursorhand.setNobject(Utils.loadImage(root,"cursorhand.png"));
         iceeffect.setNobject(Utils.loadImage(root, "ice.png"));
         thundereffect.setNobject(Utils.loadImage(root, "light.png"));
         fruiteffect.setNobject(Utils.loadImage(root, "fruiteffect.png"));
@@ -646,6 +648,16 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
         }*/
         //Oyun başlamadıysa ve zaman 1800 ise başlangıc sğresi ekranda gözükecek
         if (!gameControl && time == 1800) {
+            if(playerData.getWhichcharacter() == 1){
+                cursorhand.setNobjectsource(0,0,563,900);
+                cursorhand.setNobjectdestination(karagoz.getNobjectdstx() + 30 ,karagoz.getNobjectdsty() - 128,80,128);
+                canvas.drawBitmap(cursorhand.getNobject(),cursorhand.getNobjectsource(),cursorhand.getNobjectdestination(),null);
+            }else {
+                cursorhand.setNobjectsource(0,0,563,900);
+                cursorhand.setNobjectdestination(hacivat.getNobjectdstx() + 30,hacivat.getNobjectdsty() - 128,80,128);
+                canvas.drawBitmap(cursorhand.getNobject(),cursorhand.getNobjectsource(),cursorhand.getNobjectdestination(),null);
+
+            }
             startintimeImage.setNobjectsource(startintimeImage.getNobjectsrcx(), startintimeImage.getNobjectsrcy(), startintimeImage.getNobjectsrcw(), startintimeImage.getNobjectsrch());
             startintimeImage.setNobjectdestination(startintimeImage.getNobjectdstx(), startintimeImage.getNobjectdsty(), startintimeImage.getNobjectdstw(), startintimeImage.getNobjectdsth());
             canvas.drawBitmap(startintimeImage.getNobject(), startintimeImage.getNobjectsource(), startintimeImage.getNobjectdestination(), null);
