@@ -39,7 +39,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
     private boolean gameControl = true, splashEffectControl = false, animControlHacivat, animControlKaragoz;
     private Character karagoz, hacivat;
     private Animations animKaragoz, animHacivat, animations;
-    private Nobject arkaplan, backbutton, restart, fire, jump, bomb, win, lose,iceeffect,fruiteffect,thundereffect,cursorhand;
+    private Nobject arkaplan, backbutton, restart, fire, jump, bomb, win, lose,iceeffect,fruiteffect,thundereffect,cursorhand,waitingplayer;
     private Nobject blackbarHacivat, blackbarKaragoz, greenbarKaragoz, greenbarHacivat, startintimeImage;
     private FruitObject obje1, obje2;
     private int splashrow = 0, splashline = 0;
@@ -61,6 +61,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
     private PlayerData playerData,otherPlayerData;
     private final int fbhacivat = 0 ,fbkaragoz = 1;
     private int updateframecount = 0;
+    private int waitingcount = 15, waitingline = 0;
     public void setup() {
         karagoz = new Character();
         arkaplan = new Nobject();
@@ -68,6 +69,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
         restart = new Nobject();
         fire = new Nobject();
         jump = new Nobject();
+        waitingplayer = new Nobject();
         cursorhand = new Nobject();
         greenbarKaragoz = new Nobject();
         greenbarHacivat = new Nobject();
@@ -96,6 +98,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
         setupstartingImage();
         setupPlayerData();
         setupFirebaseData();
+        setupWaitingPlayer();
         startingtime = 120;
         scorehit = 0;
         scoredamage = 0;
@@ -128,6 +131,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
     //RESİMLERİN TANINMASI
     public void pictures()
     {
+        waitingplayer.setNobject(Utils.loadImage(root,"waitingplayer.png"));
         cursorhand.setNobject(Utils.loadImage(root,"cursorhand.png"));
         iceeffect.setNobject(Utils.loadImage(root, "ice.png"));
         thundereffect.setNobject(Utils.loadImage(root, "light.png"));
@@ -348,7 +352,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
         startintimeImage = new Nobject();
         startintimeImage.setNobjectsrcw(250);
         startintimeImage.setNobjectsrch(350);
-        startintimeImage.setNobjectsrcx(0);
+        startintimeImage.setNobjectsrcx(500);
         startintimeImage.setNobjectsrcy(0);
         startintimeImage.setNobjectdstw(250);
         startintimeImage.setNobjectdsth(350);
@@ -407,6 +411,17 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
         iceeffect.setNobjectdsth(128);
         iceeffect.setNobjectdsty((obje2.getNobjectdsty()));
         iceeffect.setNobjectdstx((obje2.getNobjectdstx()));
+    }
+
+    public void setupWaitingPlayer(){
+        waitingplayer.setNobjectsrcw(600);
+        waitingplayer.setNobjectsrch(110);
+        waitingplayer.setNobjectsrcx(0);
+        waitingplayer.setNobjectsrcy(0);
+        waitingplayer.setNobjectdstw(600);
+        waitingplayer.setNobjectdsth(110);
+        waitingplayer.setNobjectdstx(getWidth() / 2 - waitingplayer.getNobjectdstw() / 2);
+        waitingplayer.setNobjectdsty(blackbarKaragoz.getNobjectdsty() + blackbarKaragoz.getNobjectdsth() + waitingplayer.getNobjectdsth() / 4);
     }
 
     public void timerControl() {
@@ -516,6 +531,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
         losekontrol();
         timeScroll();
         iceEffect();
+        setWaitingplayer();
         Log.i("Time : ",""+time);
         if(otherPlayerData != null && otherPlayerData.isReady() && time == 1800){
             startingTimeCountDown();
@@ -647,7 +663,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
             canvas.drawBitmap(iceeffect.getNobject(), iceeffect.getNobjectsource(), iceeffect.getNobjectdestination(), null);
         }*/
         //Oyun başlamadıysa ve zaman 1800 ise başlangıc sğresi ekranda gözükecek
-        if (!gameControl && time == 1800) {
+        if (!gameControl && time == 1800 && otherPlayerData != null) {
             if(playerData.getWhichcharacter() == 1){
                 cursorhand.setNobjectsource(0,0,563,900);
                 cursorhand.setNobjectdestination(karagoz.getNobjectdstx() + 30 ,karagoz.getNobjectdsty() - 128,80,128);
@@ -719,6 +735,11 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
             canvas.drawText("" + scorehit, lose.getNobjectdstx() + (lose.getNobjectdstw() / (float)1.6),lose.getNobjectdsty() + (lose.getNobjectdsth() / (float)(2.52)), paintScoreCount);
             canvas.drawText("" + scoredamage, lose.getNobjectdstx() + (lose.getNobjectdstw() / (float)1.6),lose.getNobjectdsty() + (lose.getNobjectdsth() / (float)(1.87)), paintScoreCount);
             canvas.drawText("" + scoremiss, lose.getNobjectdstx() + (lose.getNobjectdstw() / (float)1.6),lose.getNobjectdsty() + (lose.getNobjectdsth() / (float)(1.48)), paintScoreCount);
+        }
+        if(!gameControl && time == 1800 && otherPlayerData ==null){
+            waitingplayer.setNobjectsource(waitingplayer.getNobjectsrcx(), waitingplayer.getNobjectsrcy(), waitingplayer.getNobjectsrcw(), waitingplayer.getNobjectsrch());
+            waitingplayer.setNobjectdestination(waitingplayer.getNobjectdstx(), waitingplayer.getNobjectdsty(), waitingplayer.getNobjectdstw(), waitingplayer.getNobjectdsth());
+            canvas.drawBitmap(waitingplayer.getNobject(), waitingplayer.getNobjectsource(), waitingplayer.getNobjectdestination(),null);
         }
         root.gui.drawText(canvas, "FPS: " + root.appManager.getFrameRate() + " / " + root.appManager.getFrameRateTarget(), getWidth()/10, getHeight()/15, 0);
         //canvas.drawText(""+scorecoin, win.getNobjectdstx() + (win.getNobjectdstw() / 140 * 100),win.getNobjectdsty()+ (win.getNobjectdsth() / 377 *100),paintCoinCount);
@@ -1023,6 +1044,19 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
         }
     }
 
+    public void setWaitingplayer(){
+        if(gameControl == false && time ==1800 && otherPlayerData ==null) {
+            waitingcount--;
+            if (waitingcount <= 0) {
+                waitingcount = 15;
+                waitingline++;
+                if (waitingline > 1) {
+                    waitingline = 0;
+                }
+            }
+            waitingplayer.setNobjectsrcy(waitingline * waitingplayer.getNobjectsrch());
+        }
+    }
 
     //Obje1 i sahibi olan karakterin eline konumlandırır
     public void setObje1SetBase () {

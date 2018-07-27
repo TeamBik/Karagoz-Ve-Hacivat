@@ -553,23 +553,23 @@ public class GameCanvas extends BaseCanvas {
         if (skil.Poison(karagoz, true)) {
             if (((timerkaragoz == 30) || (timerkaragoz == 60) || (timerkaragoz == 90))) {
                 skil.Poison(karagoz, true);
-                timerkaragoz--;
             }
             else if (timerkaragoz == 0) {
                 skil.Poison(karagoz, false);
                 timerkaragoz = 90;
             }
+            timerkaragoz--;
 
         }
         if (skil.Poison(hacivat, true)) {
             if (((timerhacivat == 30) || (timerhacivat == 60) || (timerhacivat == 90))) {
                 skil.Poison(hacivat, true);
-                timerhacivat--;
             }
             else if (timerhacivat == 0) {
                 skil.Poison(hacivat, false);
                 timerhacivat = 90;
             }
+            timerhacivat--;
 
         }
         //////////////
@@ -598,9 +598,10 @@ public class GameCanvas extends BaseCanvas {
             }
             timerhacivat--;
         }
+
         ///////////////
         else if (skil.BigAttack(karagoz, true)) {
-            if (!hacivat.isShoutControl()) {
+            if (!karagoz.isShoutControl()) {
                 skil.BigAttack(karagoz, true);
                 skil.BigAttack(karagoz, false);
             }
@@ -642,7 +643,7 @@ public class GameCanvas extends BaseCanvas {
         }
     }
     //ÇARPIŞMA EFEKTİ
-        public void splashEffect () {
+            public void splashEffect () {
             if (animations.FruitCollision(animHacivat.getObject(), animKaragoz.getObject())) {
                 fruitcollisionmusic();
                 splashEffectControl = true;
