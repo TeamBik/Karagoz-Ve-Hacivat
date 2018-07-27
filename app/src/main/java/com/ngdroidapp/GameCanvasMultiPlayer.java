@@ -903,10 +903,8 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
 
     //ARKAPLAN MUZİĞİ
     private void backgroundmusic () {
-
-        if(mediaback.isPlaying()){}
-        mediaback.start();
-
+        if(!mediaback.isPlaying()){
+        mediaback.start();}
     }
 
     //ZIPLAMA MUZİĞİ

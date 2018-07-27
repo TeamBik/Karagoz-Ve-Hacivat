@@ -404,7 +404,7 @@ public class GameCanvas extends BaseCanvas {
         losekontrol();
         timeScroll();
         iceEffect();
-        Skil();
+       // Skil();
         if (gameControl) {
             if(!multiplayermode){
             splashEffect();
@@ -417,12 +417,6 @@ public class GameCanvas extends BaseCanvas {
             else if (!splashEffectControl) setObje1SetBase();
             aiPlayer(hacivat, animHacivat);
             }
-
-
-
-
-
-
             Log.i("GameCanvas", "Oyun Devam Ediyor");
         }
 
@@ -771,10 +765,8 @@ public class GameCanvas extends BaseCanvas {
 
         //ARKAPLAN MUZİĞİ
         private void backgroundmusic () {
-
-            if(mediaback.isPlaying()){}
-            mediaback.start();
-
+            if(!mediaback.isPlaying()){
+            mediaback.start();}
         }
 
         //ZIPLAMA MUZİĞİ

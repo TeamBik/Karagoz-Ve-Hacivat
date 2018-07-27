@@ -29,7 +29,7 @@ public class MenuCanvas extends BaseCanvas {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    Nobject arkaplan,playbutton,backbutton;
+    Nobject arkaplan,playbutton,backbutton, menu;
     Character karagoz,hacivat;
     private MediaPlayer mediatitle = MediaPlayer.create(root.activity, R.raw.title);
     private int gameCoin, gameCount, winCount, loseCount;
@@ -47,16 +47,19 @@ public class MenuCanvas extends BaseCanvas {
         karagoz = new Character();
         hacivat = new Character();
         backbutton = new Nobject();
+        menu=new Nobject();
         setupFirebase();
         setupKaragoz();
         setupHacivat();
         sharedPreference();
         setupPlayButton();
+        setupMenu();
         arkaplan.setNobject(Utils.loadImage(root, "arkaplan.png"));
         karagoz.setNobject(Utils.loadImage(root, "karagoz.png"));
         hacivat.setNobject(Utils.loadImage(root, "hacivat.png"));
         playbutton.setNobject(Utils.loadImage(root, "playbutton.png"));
         backbutton.setNobject(Utils.loadImage(root, "backbutton.png"));
+        menu.setNobject(Utils.loadImage(root,"menu.png"));
     }
 
     public void setupFirebase(){
@@ -127,11 +130,22 @@ public class MenuCanvas extends BaseCanvas {
         hacivat.setJumpcontrol(false);
         hacivat.setShoutcountrol(false);
     }
+    public void setupMenu(){
+        menu.setNobjectsrcw(353);
+        menu.setNobjectsrch(437);
+        menu.setNobjectsrcx(0);
+        menu.setNobjectsrcy(0);
+        menu.setNobjectdstw(353 * 2);
+        menu.setNobjectdsth(437 * 2);
+        menu.setNobjectdstx(getWidth() / 2 - menu.getNobjectdstw() / 2);
+        menu.setNobjectdsty(getHeight() / 2 - menu.getNobjectdsth() / 2);
+    }
     public void resetRoom(){
         root.activity.setIsRoomId(null);
         root.activity.setIsRoom(false);
         root.activity.setOtherPlayerData(null);
     }
+
     public void update() {
         Log.i("Coin:",""+gameCoin);
 
@@ -163,9 +177,13 @@ public class MenuCanvas extends BaseCanvas {
         hacivat.setNobjectdestination(hacivat.getNobjectdstx(),hacivat.getNobjectdsty(),hacivat.getNobjectdstw(),hacivat.getNobjectdsth());
         canvas.drawBitmap(hacivat.getNobject(), hacivat.getNobjectsource(), hacivat.getNobjectdestination(), null);
 
-        playbutton.setNobjectsource(playbutton.getNobjectsrcx(),playbutton.getNobjectsrcy(),playbutton.getNobjectsrcw(),playbutton.getNobjectsrch());
+       /* playbutton.setNobjectsource(playbutton.getNobjectsrcx(),playbutton.getNobjectsrcy(),playbutton.getNobjectsrcw(),playbutton.getNobjectsrch());
         playbutton.setNobjectdestination(playbutton.getNobjectdstx(),playbutton.getNobjectdsty(),playbutton.getNobjectdstw(),playbutton.getNobjectdsth());
         canvas.drawBitmap(playbutton.getNobject(), playbutton.getNobjectsource(), playbutton.getNobjectdestination(), null);
+        */
+        menu.setNobjectsource(menu.getNobjectsrcx(), menu.getNobjectsrcy(), menu.getNobjectsrcw(), menu.getNobjectsrch());
+        menu.setNobjectdestination(menu.getNobjectdstx(), menu.getNobjectdsty(), menu.getNobjectdstw(), menu.getNobjectdsth());
+        canvas.drawBitmap(menu.getNobject(), menu.getNobjectsource(), menu.getNobjectdestination(),null);
 
         backbutton.setNobjectsource(0,0,256,256);
         backbutton.setNobjectdestination(getWidth()-backbutton.getNobjectdstw(),0,256,256);
@@ -194,9 +212,11 @@ public class MenuCanvas extends BaseCanvas {
     public void touchDown(int x, int y, int id) {
         touchdownx = x;
         touchdowny = y;
-        if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
+        /*if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
            playbutton.setNobjectsrcx(300);
-        }
+        }*/
+
+
         if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(root.activity);
         builder1.setTitle("Oyundan çıkılsın mı?").setCancelable(false).setPositiveButton("Evet", new DialogInterface.OnClickListener() {
@@ -227,15 +247,30 @@ public class MenuCanvas extends BaseCanvas {
             playbutton.setNobjectsrcx(300);
         }else playbutton.setNobjectsrcx(0);
 
-    }public void touchUp(int x, int y, int id) {
+    }
+    public void touchUp(int x, int y, int id) {
 
         touchdownx = x;
         touchdowny = y;
-        if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
+       /* if (x >= playbutton.getNobjectdstx() && x <= playbutton.getNobjectdstx() + playbutton.getNobjectdstw() && y >= playbutton.getNobjectdsty() && y <= playbutton.getNobjectdsty() + playbutton.getNobjectdsth()) {
                 playbutton.setNobjectsrcx(0);
                 GameCanvasMultiPlayer mc = new GameCanvasMultiPlayer(root);
                 root.canvasManager.setCurrentCanvas(mc);
+        }*/
+
+        if(x >= menu.getNobjectdstx() + menu.getNobjectdstw() / 7.06 && x <=  menu.getNobjectdstx() + menu.getNobjectdstw() / 2 && y >= menu.getNobjectdsty() + menu.getNobjectdsth() / 9.71 && y <= menu.getNobjectdsty() + menu.getNobjectdsth() / 4.6 ){
+            GameCanvas mc = new GameCanvas(root);
+            root.canvasManager.setCurrentCanvas(mc);
         }
+        if(x >= menu.getNobjectdstx() + menu.getNobjectdstw() / 2 && x <=  menu.getNobjectdstx() + menu.getNobjectdstw() / 1.11 && y >= menu.getNobjectdsty() + menu.getNobjectdsth() / 9.71 && y <= menu.getNobjectdsty() + menu.getNobjectdsth() / 4.6 ){
+            GameCanvasMultiPlayer mc = new GameCanvasMultiPlayer(root);
+            root.canvasManager.setCurrentCanvas(mc);
+        }
+        if(x >= menu.getNobjectdstx() + menu.getNobjectdstw() / 7.06 && x <=  menu.getNobjectdstx() + menu.getNobjectdstw() / 1.11 && y >= menu.getNobjectdsty() + menu.getNobjectdsth() / 1.27 && y <= menu.getNobjectdsty() + menu.getNobjectdsth() / 1.10 ){
+            root.activity.finish();
+            System.exit(0);
+        }
+
         if (x >= backbutton.getNobjectdstx() && x <= backbutton.getNobjectdstx() + backbutton.getNobjectdstw() && y >= backbutton.getNobjectdsty() && y <= backbutton.getNobjectdsty() + backbutton.getNobjectdsth()) {
 
             AlertDialog.Builder builder1 = new AlertDialog.Builder(root.activity);
