@@ -62,6 +62,9 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
     private final int fbhacivat = 0 ,fbkaragoz = 1;
     private int updateframecount = 0;
     private int waitingcount = 15, waitingline = 0;
+    private int choosentimeObje2 = 30;
+    private int choosentimeObje1 = 30;
+
     public void setup() {
         karagoz = new Character();
         arkaplan = new Nobject();
@@ -541,10 +544,8 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
             if(!multiplayermode){
                 splashEffect();
                 gameData();
-
                // aiPlayer(hacivat, animHacivat);
             }
-
             Log.i("GameCanvas", "Oyun Devam Ediyor");
         }//else if(time == 0)pause();
         if(roomId != null)databaseReference.child(roomId).child(root.activity.getUser().getUid()).setValue(playerData);
@@ -597,7 +598,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
             }
             else if (!splashEffectControl){
                 setObje2SetBase();
-            }
+           }
             if (hacivat.isJumpcontrol()) {
                 playerData.setJumpcontrol(true);
                 hacivatJump();
@@ -773,8 +774,7 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
     }
     //ÇARPIŞMA EFEKTİ
     public void splashEffect () {
-        if (animations.FruitCollision(animHacivat.getObject(), animKaragoz.getObject())) {
-
+        if (animations.FruitCollision(animHacivat.getObject(), animKaragoz.getObject()) && otherPlayerData.getChoosenfruit() == playerData.getChoosenfruit()) {
             fruitcollisionmusic();
             splashEffectControl = true;
             hacivat.setShoutcountrol(false);
@@ -788,7 +788,6 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
                 splashline = 0;
                 splashrow = 0;
                 splashEffectControl = false;
-
                 if (Utils.checkCollision(animKaragoz.getObject().getNobjectdestination(), karagoz.getNobjectdestination()))
                     damageKaragoz();
                 else if (Utils.checkCollision(animHacivat.getObject().getNobjectdestination(), hacivat.getNobjectdestination()))
@@ -1058,11 +1057,32 @@ public class GameCanvasMultiPlayer extends BaseCanvas{
 
     //Obje1 i sahibi olan karakterin eline konumlandırır
     public void setObje1SetBase () {
+        choosentimeObje1--;
+        if(choosentimeObje1 <= 0) {
+            choosentimeObje1 = 30;
+            if(playerData.getWhichcharacter() == 0){
+                playerData.setChoosenfruit(randFruitHacivat.nextInt(7));
+                chooseFruitHacivat(playerData.getChoosenfruit());
+            }else {
+                chooseFruitKaragoz(otherPlayerData.getChoosenfruit());
+            }
+        }
+
         obje1.setNobjectdsty(hacivat.getNobjectdsty() + hacivat.getNobjectdsth() / 4 + 10);
         obje1.setNobjectdstx(hacivat.getNobjectdstx() + hacivat.getNobjectdstw() - 20);
     }
     //Obje2 i sahibi olan karakterin eline konumlandırır
     public void setObje2SetBase () {
+        choosentimeObje2--;
+        if(choosentimeObje2 <= 0) {
+            choosentimeObje2 = 30;
+        if(playerData.getWhichcharacter() == 1){
+            playerData.setChoosenfruit(randFruitKaragoz.nextInt(7));
+            chooseFruitKaragoz(playerData.getChoosenfruit());
+        }else {
+            chooseFruitHacivat(otherPlayerData.getChoosenfruit());
+        }
+        }
         obje2.setNobjectdsty(karagoz.getNobjectdsty() + karagoz.getNobjectdsth() / 4);
         obje2.setNobjectdstx(karagoz.getNobjectdstx() - obje2.getNobjectdstw() + 20);
     }
